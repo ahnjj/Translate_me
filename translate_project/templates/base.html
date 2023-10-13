@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>base page</title>
+    <link rel="stylesheet" href = "{% static '/css/common.css' %}">
+    <script src = "{% static 'js/jquery-3.7.1.min.js' %}"></script>
+    <script src = "{% static 'js/common.js' %}"></script>    
+</head>
+<body class="{% if user.is_authenticated %}logged-in{% else %}logged-out{% endif %}">
+    <div id="wrap">
+        {% include "nvbar.html" %}
+        <hr>
+        {% block content %}
+        {% endblock content %}
+    </div>
+    
+</body>
+</html>
