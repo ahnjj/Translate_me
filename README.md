@@ -26,6 +26,7 @@
       > django
       > mysqlclient
       > django_bootstrap5
+      > pillow
 
 #### 기능별 앱
     > translate_app : index 
