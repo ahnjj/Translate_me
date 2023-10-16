@@ -22,11 +22,12 @@
 
     > index페이지 bootstrap 적용
 
-    > pip install list
+    > pip install list (window 기준)
       > django
       > mysqlclient
       > django_bootstrap5
       > pillow
+      > pip install -r requirements.txt
 
 #### 기능별 앱
     > translate_app : index 
