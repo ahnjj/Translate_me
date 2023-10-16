@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h3> 게시판 수정 </h3>
+    <form method ="post">
+        {% csrf_token %}
+        <table id="form_tbl">
+        {{form}}
+        </table> <br>
+        <button id="form_btn" type="submit"> 수정 </button>
+    </form>
+
+{% endblock content %}
