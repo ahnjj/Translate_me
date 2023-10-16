@@ -1,4 +1,5 @@
 {% load static %}
+{% load django_bootstrap5 %}
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
@@ -15,13 +16,28 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'bootstrap-5.3.2-dist/css/bootstrap.min.css'  %}" />
+    <script src="{% static 'bootstrap-5.3.2-dist/js/bootstrap.min.js' %}"></script>
     <script src = "{% static 'js/jquery-3.7.1.min.js' %}"></script>
     <script src = "{% static 'js/Scripts.js' %}"></script>
+    {% bootstrap_css %}
 </head>
 <body id="page-top">
+
     <div>
         {% include "nvbar.html" %}
         <hr>
+
+
+    <!--알림 메세지창-->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
         {% block content %}
         {% endblock content %}
     </div>
