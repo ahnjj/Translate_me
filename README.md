@@ -19,3 +19,5 @@
     > static 폴더 생성
       > css, js 생성
       > jquery는 사용해본 버전인 3.7.1 (필요시 변경 가능)
+
+    > index페이지 bootstrap 적용
