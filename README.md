@@ -22,6 +22,10 @@
 
     > index페이지 bootstrap 적용
 
+    > pip install list
+      > django
+      > mysqlclient
+      > 
 
 #### 기능별 앱
     > translate_app : index 
