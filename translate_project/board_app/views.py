@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from django.core import serializers
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from .forms import BoardForm
 
 # Create your views here.
 def board_list(request):
