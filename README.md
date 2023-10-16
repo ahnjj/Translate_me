@@ -21,3 +21,15 @@
       > jquery는 사용해본 버전인 3.7.1 (필요시 변경 가능)
 
     > index페이지 bootstrap 적용
+
+
+#### 기능별 앱
+    > translate_app : index 
+
+    > board_app : 게시판
+
+    > vocavulary_app : 단어장 
+
+    > users_app : 유저 관리
+
+    > 검색 기능은 필요시 app 생성, 아니면 translate_app에 구현
