@@ -1,31 +1,16 @@
-<nav>
-    <ul>
 
-        <li><a href="{% url 'index' %}">Home</a></li>
-        <li class="dropdown">
-            <a href="#">유저</a>
-            <ul class="dropdown-content">
-                <li>이름</li>
-                <li>학습언어</li>
-                <li>레벨</li>
-            </ul>
-        </li>
-        <li class="dropdown">
-            <a href="#">커뮤니티</a>
-            <ul class="dropdown-content">
-                <li>자유게시판</li>
-            </ul>
-        </li>
-        <li class="dropdown">
-            <a href="#">게임</a>
-            <ul class="dropdown-content">
-                <li>기본 단어장</li>
-                <li>퀴즈/테스트</li>
-                <li>플래시카드</li>
-            </ul>
-        </li>
-        <li><a href="#">로그인</a></li>
-        <li><a href="#">회원 가입</a></li>
-
-    </ul>
-</nav>
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="{% url 'index' %}">어플리케이션 이름</a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto my-2 my-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="#"><h5>유저</h5></a></li>
+                        <li class="nav-item"><a class="nav-link" href="#"><h5>커뮤니티</h5></a></li>
+                        <li class="nav-item"><a class="nav-link" href="#"><h5>게임</h5></a></li>
+                        <li class="nav-item"><a class="nav-link" href="#"><h5>로그인</h5></a></li>
+                        <li class="nav-item"><a class="nav-link" href="#"><h5>회원가입</h5></a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>

@@ -1,6 +1,43 @@
 {% extends 'base.html' %}
 
 {% block content %}
-        <h2>Index page</h2>
-        언어 학습 사이트<br>
+<header class="masthead">
+        <div class="container px-4 px-lg-5 h-100">
+            <div class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
+                <div class="col-lg-8 align-self-end">
+                    <h1 class="text-white font-weight-bold">000에 오신 것을 <br> 환영합니다~</h1>
+                    <hr class="divider" />
+                </div>
+                <div class="col-lg-8 align-self-baseline">
+                    <input type="text" class="form-control" placeholder="단어를 검색하세요~ (영어, 일본어, 중국어가 출력됩니다.)" aria-label="Recipient's username" aria-describedby="basic-addon2">                    
+                    <br>
+                    <div class="input-group-append">
+                        <a href="#about"><button class="btn btn-primary btn-xl" type="button">검색</button></a>
+                    </div>    
+                </div>
+            </div>
+        </div>
+    </header>
+     <section class="page-section bg-primary" id="about">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h4 class="text-white mt-0">단어장, 커뮤니티, 게임 기능을 <br> 사용하고 싶으신 분들은 로그인을 해주세요</h4>
+                    <hr class="divider divider-light" />
+                    <h4 class="text-white mt-0">검색 내용 : 크리스마스 트리</h4>
+                    <hr class="divider divider-light" />
+                    <p class="text-white-75 mb-4">한국어 정의 : 크리스마스 때에 별, 종, 전구 등 여러 가지 장식으로 꾸미는 나무.</p>
+                    <hr class="divider divider-light" />
+                    <p class="text-white-75 mb-4 text-start">번역 언어: 영어 <br> 번역 단어: Christmas tree <br>
+                        번역 정의: A tree decorated with various ornaments such as stars, bells, light bulbs, etc. during the Christmas holidays.<br></p>
+                    <hr class="divider divider-light" />
+                    <p class="text-white-75 mb-4 text-start ">번역 언어: 일본어 <br> 번역 단어: クリスマスツリー <br>
+                        번역 정의: クリスマスのとき、星飾り・鐘・豆電球などの様々な飾りで装飾して立てる木。<br></p>
+                    <hr class="divider divider-light" />
+                    <p class="text-white-75 mb-4 text-start">번역 언어: 중국어 <br> 번역 단어: 圣诞树 <br>
+                        번역 정의: 圣诞节时用的，以星星、铃铛、灯泡等各种装饰品装饰的树。<br></p>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock content %}

@@ -37,7 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'translate_app'
+    'translate_app', # 기본 앱
+    'users_app', # 유저관리 앱
+    'vocabulary_app', # 단어장 앱
+    'board_app' # 게시판 앱
+    # 딕셔너리앱은 기본앱에서 처리해도 되고 필요시 앱 추가 필요
 ]
 
 MIDDLEWARE = [
