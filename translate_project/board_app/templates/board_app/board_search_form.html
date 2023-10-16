@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block content %}
+    <h3> 게시판 검색 </h3>
+    <form id='bdSearchFrm' method ="post" action="{% url 'board_search' %}">
+        {% csrf_token %}
+        <select name="type">
+            <option value=""> 검색조건 선택 </option>
+            <option value="board_title"> 게시물 이름 </option>
+            <option value="board_main_text"> 게시물 내용 </option>
+        </select>
+        <input type="text" name="keyword" id="keyword">
+        <input type="submit" value="검색">
+    </form><br><br>
+
+
+<div id="searchResultBox"></div>
+{% endblock content %}
