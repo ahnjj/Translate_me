@@ -40,3 +40,6 @@ Pipfile.lock
 # Poetry
 pyproject.toml
 poetry.lock
+# Environments
+venv/
+env/
