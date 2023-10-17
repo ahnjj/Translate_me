@@ -34,7 +34,7 @@
 
     > 검색 기능은 필요시 app 생성, 아니면 translate_app에 구현
 
-#### 브랜치명 (ghtkim_board) - 팀원 김근형 (2023-10-16 17:43)
+#### 브랜치명 (ghkim_board) - 팀원 김근형 (2023-10-16 17:43)
     > board_app
     
     >> templates\board_app
@@ -62,3 +62,67 @@
     >> templates
     >>> nvbar.html
 
+
+#### 브랜치명 (ghkim_board) - 팀원 김근형 (2023-10-17 20:33)
+    > board_app
+    >> templates \ board_app
+    >>> board_detail.html
+        - 코드 작성
+        - 부트스트랩을 통해 테이블, 버튼 디자인
+    >>> board_form.html
+        - 코드 작성
+    >>> board_list.html
+        - 코드 작성
+        - 부트스트랩을 통해 테이블, 버튼 디자인
+    >> forms.py
+        - 유저 정보를 전달하도록 내용(init, save) 추가
+    >> models.py
+        - 유저가 전달안되는 문제 해결을 위해 변경 (user columns)
+    >> views.py
+        - 로그인 유저와 게시물 작성 유저 일치 여부에 따라 수정, 삭제 버튼이 나타나거나 나타나지 않도록 설정
+        -- board_insert에 대하여 로그인 후에 게시물 등록하도록 수정
+        -- board_update, board_delete 에 대하여 로그인하고 게시물 작성 유저와 현재 로그인 유저가 같아야지만,
+           수정, 삭제 버튼이 나타나도록 내용 수정
+
+    > MySQL
+    >> CREATE TABLE board (
+        board_id INT AUTO_INCREMENT PRIMARY KEY,
+        board_title VARCHAR(100),
+        board_main_txt LONGTEXT,
+        category_id VARCHAR(10),
+        language_id VARCHAR(10),
+        user_id BIGINT,
+        reg_date DATETIME,
+        lst_chg_date DATETIME,
+        CONSTRAINT board_language
+        FOREIGN KEY (language_id) REFERENCES language_code (language_id),
+        CONSTRAINT board_users_app
+        FOREIGN KEY (user_id) REFERENCES users_app_user (id), 
+        CONSTRAINT board_category
+        FOREIGN KEY (category_id) REFERENCES category (category_id)
+      );
+    >>> 위의 board 테이블 수정 (사유: 로그인 정보가 user_info가 아닌 users_app_user와 연결됨) 
+        - 수정 내용 : user_id columns을 위해 외래키를 user_info가 아닌 users_app_user테이블로 받아왔음
+
+    >> CREATE TABLE board_comment(
+        comment_id int auto_increment,
+        board_id int,
+        user_id BIGINT,
+        comment_text varchar(200),
+        reg_date datetime,
+        lst_chg_date datetime,
+        primary key(comment_id, board_id, user_id),
+        CONSTRAINT board_comment_users_app
+        FOREIGN KEY (user_id)
+        REFERENCES users_app_user (id),
+        constraint board_comment_board
+        foreign key (board_id)
+        references board (board_id)
+      );
+    >>> 위의 board_comment 테이블 수정 (사유: 로그인 정보가 user_info가 아닌 users_app_user와 연결됨) 
+        - 수정 내용 : user_id columns을 위해 외래키를 user_info가 아닌 users_app_user테이블로 받아왔음
+        !!! 주의 : 내일 2023년 10월 18일 comment 작업시 제대로 작동하는지 확인 필요 !!!
+
+    > 2023년 10월 18일 예정 작업
+    >> 1_게시물 comment을 포함하여 게시판의 모든 작업 완료
+    >> 2_게임 관련하여 여러가지 정보 찾아보고 빠른 완료가 가능한 작업부터 신속하게 진행
