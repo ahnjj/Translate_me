@@ -5,7 +5,9 @@
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto my-2 my-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="#"><h5>유저</h5></a></li>
+                        <li class="nav-item"><a class="nav-link" href="#"><h5>유저</h5></a>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'vocabulary_list' %}">단어장</a></li>
+                        </li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'board_list' %}"><h5>커뮤니티</h5></a></li>
                         <li class="nav-item"><a class="nav-link" href="#"><h5>게임</h5></a></li>
                         {% if user.is_authenticated %}
