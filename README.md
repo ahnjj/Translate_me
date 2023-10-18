@@ -26,6 +26,7 @@
       > mysqlclient
       > django_bootstrap5
       > pillow
+      > bs4
       > pip install -r requirements.txt
 
 #### 기능별 앱
@@ -67,6 +68,24 @@
     >> templates
     >>> nvbar.html
 
+#### 브랜치명 (jsh) - 팀원 장승헌 (2023-10-17 16:30)
+    > 깃 로그명 : translate_app modify 001
+    > translate_app 폴더 기준으로 표시
+
+    >> 생성
+    >>> templates/translate_app/result.html : 기존 index.html의 section에 해당하는 부분을 따로 html로 빼내어 검색결과를 표시하는 기능을 추가
+
+    >>> naver_dict_search.py : 네이버에서 검색하여 크롤링한 결과를 반환해주는 기능들 추가 / 미완성!
+
+    >>> ../static/js/index_search.js : 검색한 단어를 ajax로 요청하여 결과를 받는 기능 구현
+
+
+    >> 수정
+    >>> templates/translate_app/index.html : 위의 result.html에 해당하는 부분만큼이 생략되었고 검색란에 form태그를 추가하여 검색 기능 활성화
+
+    >>> urls.py : 검색기능 path 추가
+
+    >>> views.py : 검색기능 함수(index_search) 추가
 
 #### 브랜치명 (ghkim_board) - 팀원 김근형 (2023-10-17 20:33)
     > board_app
