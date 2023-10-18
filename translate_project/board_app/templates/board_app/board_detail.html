@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h3 class="text-center"> 게시물 상세 조회 </h3>
+    <table id="bd_detail" class="table">
+        <thead class="thead-dark">
+            <tr> 
+                <th scope="col" class="text-center">게시번호</th>
+                <th scope="col" class="text-center">제목</th>
+                <th scope="col" class="text-center">카테고리</th>
+                <th scope="col" class="text-center">언어</th>
+                <th scope="col" class="text-center">작성자</th>
+                <th scope="col" class="text-center">작성일</th>
+                <th scope="col" class="text-center">수정일</th>
+            </tr>
+            <tr>
+                <td class="text-center" scope="row"> {{board.board_id}} </td>
+                <td class="text-center" scope="row"> {{board.board_title}} </td>
+                <td class="text-center" scope="row"> {{board.category}} </td>
+                <td class="text-center" scope="row"> {{board.language}} </td>
+                <td class="text-center" scope="row"> {{board.user}} </td>
+                <td class="text-center" scope="row"> {{board.reg_date|date:"Y년 m월 d일 P"}} </td>
+                <td class="text-center" scope="row"> {{board.lst_chg_date|date:"Y년 m월 d일 P"}} </td>
+            </tr>
+        <tr>
+            <th scope="col" class="text-center" colspan="7">내용</th>
+        </tr>
+        <tr>
+            <td class="text-center align-middle" scope="row" colspan="7" style="height: 150px;"> {{board.board_main_txt}} </td>
+        </tr>
+        <tr>
+            <td class="text-center" scope="row"></td>
+            <td class="text-center" scope="row"></td>
+            <td class="text-center" scope="row"></td>
+            <td class="text-center" scope="row"></td>
+            <td class="text-center" scope="row"></td>
+            <td class="text-center" scope="row">{% if user.is_authenticated and board.user == user %}<a href="{% url 'board_update' board.board_id %}"> <button type="button" class="btn btn-info">수정</button>{% endif %}</td>
+            <td class="text-center" scope="row">{% if user.is_authenticated and board.user == user %}<a href="{% url 'board_delete' board.board_id %}" onclick="return confirm('삭제하시겠습니까?')"> <button type="button" class="btn btn-danger">삭제</button>{% endif %}</td>
+        </tr>
+    </table>
+        <h4 class="text-center">댓글</h4>
+    <div class="comments">
+        {% for comment in comments %}
+            <div class="comment">
+                <p><strong>{{ comment.user }}</strong> - {{ comment.created_date|date:"Y년 m월 d일 P" }}</p>
+                <p>{{ comment.text }}</p>
+            </div>
+        {% endfor %}
+
+        <!-- Form for adding a new comment -->
+        {% if user.is_authenticated %}
+            <h5>새 댓글 작성</h5>
+            <form method="post" action="{% url 'add_comment' board.board_id %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="id_text">댓글 내용:</label>
+                    <textarea class="form-control" id="id_text" name="text" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">댓글 작성</button>
+            </form>
+        {% else %}
+            <p>댓글을 작성하려면 로그인이 필요합니다.</p>
+        {% endif %}
+    </div>
+
+{% endblock content %}
+
+

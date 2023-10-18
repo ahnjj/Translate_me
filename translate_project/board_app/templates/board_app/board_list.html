@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>게시판 정보 조회</h2>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <td colspan="9" style="text-align: right;"> <a href="{% url 'board_insert' %}"> <button type="button" class="btn btn-primary">게시물 등록</button></td>
+            </tr>
+            <tr> 
+                <th scope="col" class="text-center">게시번호</th>
+                <th scope="col" class="text-center">제목</th>
+                <th scope="col" class="text-center">카테고리</th>
+                <th scope="col" class="text-center">언어</th>
+                <th scope="col" class="text-center">작성자</th>
+                <th scope="col" class="text-center">작성일</th>
+                <th scope="col" class="text-center">수정일</th>
+                <th scope="col" class="text-center">{% if user.is_authenticated %}수정{% endif %}</th>
+                <th scope="col" class="text-center">{% if user.is_authenticated %}삭제{% endif %}</th>
+            </tr>
+        </thead>
+        <tbody>
+       {% for bd in boards %}
+            <tr class="align-middle">
+                <td class="text-center" scope="row"><a href="{% url 'board_detail' bd.board_id %}"> {{bd.board_id}} </td>
+                <td class="text-center" scope="row"> {{bd.board_title}} </td>
+                <td class="text-center" scope="row"> {{bd.category}} </td>
+                <td class="text-center" scope="row"> {{bd.language}} </td>
+                <td class="text-center" scope="row"> {{bd.user.username}} </td>
+                <td class="text-center" scope="row"> {{bd.reg_date|date:"Y년 m월 d일 P"}} </td>
+                <td class="text-center" scope="row"> {{bd.lst_chg_date|date:"Y년 m월 d일 P"}} </td>
+                <td class="text-center" scope="row">{% if user.is_authenticated and bd.user == user %}<a href="{% url 'board_update' bd.board_id %}"> <button type="button" class="btn btn-info">수정</button>{% endif %}</td>
+                <td class="text-center" scope="row">{% if user.is_authenticated and bd.user == user %}<a href="{% url 'board_delete' bd.board_id %}" onclick="return confirm('삭제하시겠습니까?')"> <button type="button" class="btn btn-danger">삭제</button>{% endif %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}
