@@ -1,0 +1,24 @@
+{% if query_result %}
+<h4 class="text-white mt-0">{{ query_result.query }}</h4>
+<hr class="divider divider-light" />
+<p class="text-white-75 mb-4">{% if query_result.ko.word %} 한국어 단어 : {{ query_result.ko.word }}<br> {% endif %} 한국어 정의 : {{ query_result.ko.mean }} </p>
+{% for result in query_result.result %}
+<hr class="divider divider-light" />
+<p class="text-white-75 mb-4 text-start">번역 언어 : {{ result.lang }} <br> 번역 단어 : {{ result.word }} <br> 번역 정의 : {{ result.mean }} <br></p>
+{% endfor %}
+{% else %}
+<h4 class="text-white mt-0">단어장, 커뮤니티, 게임 기능을 <br> 사용하고 싶으신 분들은 로그인을 해주세요</h4>
+<hr class="divider divider-light" />
+<h4 class="text-white mt-0">검색 내용 : 크리스마스 트리</h4>
+<hr class="divider divider-light" />
+<p class="text-white-75 mb-4">한국어 정의 : 크리스마스 때에 별, 종, 전구 등 여러 가지 장식으로 꾸미는 나무.</p>
+<hr class="divider divider-light" />
+<p class="text-white-75 mb-4 text-start">번역 언어: 영어 <br> 번역 단어: Christmas tree <br>
+                        번역 정의: A tree decorated with various ornaments such as stars, bells, light bulbs, etc. during the Christmas holidays.<br></p>
+<hr class="divider divider-light" />
+<p class="text-white-75 mb-4 text-start ">번역 언어: 일본어 <br> 번역 단어: クリスマスツリー <br>
+                        번역 정의: クリスマスのとき、星飾り・鐘・豆電球などの様々な飾りで装飾して立てる木。<br></p>
+<hr class="divider divider-light" />
+<p class="text-white-75 mb-4 text-start">번역 언어: 중국어 <br> 번역 단어: 圣诞树 <br>
+                        번역 정의: 圣诞节时用的，以星星、铃铛、灯泡等各种装饰品装饰的树。<br></p>
+{% endif %}
