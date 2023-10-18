@@ -13,7 +13,6 @@
 
     > template 아래 base.html, nvbar.html 생성
       > nvbar에 회의때 나온 메뉴목록 써놓기만 한 상태 
-      > 번잡해서 드롭다운으로 넣어놓음
       > 유저 메뉴는 로그인안하면 안보이는 상태(static/js/common.js)
 
     > static 폴더 생성
@@ -22,6 +21,12 @@
 
     > index페이지 bootstrap 적용
 
+    > pip install list (window 기준)
+      > django
+      > mysqlclient
+      > django_bootstrap5
+      > pillow
+      > pip install -r requirements.txt
 
 #### 기능별 앱
     > translate_app : index 

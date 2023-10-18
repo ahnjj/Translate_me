@@ -1,3 +1,36 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django-related
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+
+# Visual Studio Code
+.vscode/
+
+# PyCharm
+.idea/
+
+# Sublime Text
+.sublime-project
+.sublime-workspace
+
+# macOS
+.DS_Store
+
+# Thumbnails
+_Thumbnails/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Environments
 venv/
 env/
 

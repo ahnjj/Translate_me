@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 써드파티 앱
+    'django_bootstrap5',
+    # local 앱
     'translate_app', # 기본 앱
     'users_app', # 유저관리 앱
     'vocabulary_app', # 단어장 앱
@@ -134,3 +137,8 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# user 만들면서 추가한 부분
+AUTH_USER_MODEL = "users_app.User"
+LOGIN_REDIRECT_URL = '/'
