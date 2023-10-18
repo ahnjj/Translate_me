@@ -1,10 +1,17 @@
 {% if query_result %}
 <h4 class="text-white mt-0">{{ query_result.query }}</h4>
+{% if query_result.ko %}
 <hr class="divider divider-light" />
-<p class="text-white-75 mb-4">{% if query_result.ko.word %} 한국어 단어 : {{ query_result.ko.word }}<br> {% endif %} 한국어 정의 : {{ query_result.ko.mean }} </p>
+<h5 class="text-white mt-0">한국어 정의</h5>
+<ol>
+{% for mean in query_result.ko %}
+<li class="text-white-75 mb-4 text-start">{{ mean }}</li>
+{% endfor %}
+</ol>
+{% endif %}
 {% for result in query_result.result %}
 <hr class="divider divider-light" />
-<p class="text-white-75 mb-4 text-start">번역 언어 : {{ result.lang }} <br> 번역 단어 : {{ result.word }} <br> 번역 정의 : {{ result.mean }} <br></p>
+<p class="text-white-75 mb-4 text-start">추천 번역 언어 : {{ result.lang }} <br>추천 번역 단어 : {{ result.word }} <br></p>
 {% endfor %}
 {% else %}
 <h4 class="text-white mt-0">단어장, 커뮤니티, 게임 기능을 <br> 사용하고 싶으신 분들은 로그인을 해주세요</h4>
