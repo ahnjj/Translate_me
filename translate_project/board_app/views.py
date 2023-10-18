@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from django.core import serializers
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import BoardForm
+from .forms import BoardForm, BoardCommentForm
 
 # Create your views here.
 def board_list(request):
@@ -51,8 +51,8 @@ def board_update(request, board_id):
 
 @login_required    
 def board_delete(request, board_id):
+    board = get_object_or_404(Board, pk=board_id)
     if board.user == request.user:    
-        board = get_object_or_404(Board, pk=board_id)
         board.delete()
         return redirect('board_list')
     else:
@@ -80,3 +80,13 @@ def board_search(request):
         return JsonResponse({'reload_all':False, 'bd_list_json':bd_list_json})
     else:
         return render(request, 'board_app/board_search_form.html')
+    
+
+def add_comment(request, board_id):
+    if request.method == 'POST':
+        form = BoardCommentForm(request.POST, user=request.user, board_id=board_id)
+        if form.is_valid():
+            comment = form.save()
+            # ...
+    else:
+        form = BoardCommentForm(user=request.user, board_id=board_id)
