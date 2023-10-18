@@ -22,7 +22,6 @@ class Language_Code(models.Model):
 
     def __str__(self):
         return self.language_name 
-    # /+ '('+self.pubno+')'
 
     class Meta:
         managed = False
