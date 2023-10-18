@@ -26,6 +26,7 @@
       > mysqlclient
       > django_bootstrap5
       > pillow
+      > bs4
       > pip install -r requirements.txt
 
 #### 기능별 앱
