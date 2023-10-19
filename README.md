@@ -152,10 +152,34 @@
     >> 2_게임 관련하여 여러가지 정보 찾아보고 빠른 완료가 가능한 작업부터 신속하게 진행
 
 
-    #### 브랜치명 (ghkim_board) - 팀원 김근형 (2023-10-18 13:18)
+#### 브랜치명 (ghkim_board) - 팀원 김근형 (2023-10-18 13:18)
     ! 하단의 작업은 nvbar가 페이지 출력시 바로 보이지 않는 것을 해결하기 위해 수정하였습니다.
     > templates 
     >> nvbar.html
     > static
     >> css
     >>> styles.css
+
+#### 브랜치명 (ghkim_board) - 팀원 김근형 (2023-10-19 22:19)
+    ! 금일은 게시물 검색, 댓글 목록과 작성 기능을 추가하기 위해 작업하였습니다.
+    > static \ js
+    >>> board_search.js
+    >>>> 검색시 출력이 잘 안되는 사항 수정 
+    >>>>> 카테고리, 언어가 숫자로 출력되는 것 수정 필요
+
+    > board_app
+    >> templates \ board_app
+    >>> board_detail.html
+    >>>> 댓글 목록 및 작성 가능하도록 코드 추가
+
+    >> forms.py
+    >>> BoardCommentForm 작성
+    
+    >> models.py
+    >>> BoardComment 변경
+    
+    >> urls.py
+    >>> board_comment url 추가
+
+    >> views.py
+    >>> board_detail에 댓글 작성할 수 있도록 추가
