@@ -9,11 +9,20 @@
 {% endfor %}
 </ol>
 {% endif %}
+<div class="container">
 {% for result in query_result.result %}
-<hr class="divider divider-light" />
-<p class="text-white-75 mb-1 text-start">추천 번역 언어 : {{ result.lang }} <br></p>
-<p class="text-white-75 mb-1 text-start">추천 번역 단어 : {{ result.word }} <br></p>
+    <hr class="divider divider-light" />
+    <div class="row align-items-start">
+        <div class="col-lg-10">
+            <p class="text-white-75 mb-1 text-start">추천 번역 언어 : {{ result.lang }} <br></p>
+            <p class="text-white-75 mb-1 text-start">추천 번역 단어 : {{ result.word }} <br></p>
+        </div>
+        <div class="col">
+            <button type="button" name="{{ result.lang_e }}" class="btn btn-secondary btn-xl">저장</button>
+        </div>
+    </div>
 {% endfor %}
+</div>
 {% else %}
 <h4 class="text-white mt-0">단어장, 커뮤니티, 게임 기능을 <br> 사용하고 싶으신 분들은 로그인을 해주세요</h4>
 <hr class="divider divider-light" />

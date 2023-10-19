@@ -126,6 +126,6 @@ def query_search(query, dict_list):
                                 for s in means:
                                     string += pron(str(s), ls) + ", "
                                 string = bs4.BeautifulSoup(string[:-2], 'html.parser').text
-                            query_result['result'].append({'lang':dict_name[ls], 'word':string})
+                            query_result['result'].append({'lang':dict_name[ls], 'word':string, 'lang_e':ls})
         return query_result
         
