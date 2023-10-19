@@ -14,7 +14,8 @@ class User(AbstractUser):
     
     class Level(models.TextChoices):
         BEGINNER = "beginner"
-        ADVANCED = "advanced"
+        ADVANCED = "advanced" # 누적 단어 점수 200이상
+        EXPERT = "expert" # 누적 단어 점수 500이상
 
     # 기본 유저에 아이디/패스워드/이메일
     # profile도 한번에 유저에서 처리

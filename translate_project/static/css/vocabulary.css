@@ -1,0 +1,73 @@
+/* 단어장 테이블 스타일링 */
+#voca_list {
+    width: 100%;
+    border-collapse: collapse; /* 테이블 셀 간격 없애기 */
+    margin-top: 20px; /* 테이블 위 여백 설정 */
+}
+
+#voca_list th, #voca_list td {
+    padding: 10px;
+    border: 1px solid #ddd; /* 셀 테두리 설정 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+}
+
+#voca_list th {
+    background-color: #007bff; /* 테이블 헤더 배경색 변경 */
+    color: #fff; /* 테이블 헤더 텍스트 색상 변경 */
+}
+
+#voca_list tr:nth-child(even) {
+    background-color: #f2f2f2; /* 짝수 행 배경색 변경 */
+}
+
+/* 단어 수정, 학습완료, 삭제 버튼 스타일링 */
+#voca_list .btn {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* "단어 등록" 버튼 스타일링 */
+#voca_list_div .btn-register {
+    float: right; /* 오른쪽으로 이동 */
+    margin-top: 20px; /* 위 여백 설정 */
+    border: 1px solid #007bff; /* 버튼 테두리 설정 */
+    border-radius: 4px; /* 버튼 모서리 둥글게 설정 */
+    padding: 5px 10px; /* 버튼 내부 여백 설정 */
+    background-color: transparent; /* 배경색 투명으로 설정 */
+    color: #007bff; /* 버튼 텍스트 색상 설정 */
+    text-decoration: none; /* 텍스트에 밑줄 제거 */
+}
+
+#voca_list_div .btn-register:hover {
+    background-color: #007bff; /* 호버 시 배경색 변경 */
+    color: #fff; /* 호버 시 텍스트 색상 변경 */
+}
+
+/* 단어 등록, 수정 폼 스타일링 */
+#voca-form {
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f2f2f2;
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+#voca_form .btn-register {
+    float: right; /* 오른쪽으로 이동 */
+    margin-top: 20px; /* 위 여백 설정 */
+    border: 1px solid #007bff; /* 버튼 테두리 설정 */
+    border-radius: 4px; /* 버튼 모서리 둥글게 설정 */
+    padding: 5px 10px; /* 버튼 내부 여백 설정 */
+    background-color: transparent; /* 배경색 투명으로 설정 */
+    color: #007bff; /* 버튼 텍스트 색상 설정 */
+    text-decoration: none; /* 텍스트에 밑줄 제거 */
+}
+
+#voca_form .btn-register:hover {
+    background-color: #007bff; /* 호버 시 배경색 변경 */
+    color: #fff; /* 호버 시 텍스트 색상 변경 */
+}

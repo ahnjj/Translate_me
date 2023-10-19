@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+        <div id ='container'>
+                <div class="row">
+                        <div class="col-sm-6 offset-sm-3" id="voca_list_div">
+                            <form method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <input type="file" name="excel_file">
+                                <button type="submit">파일 업로드</button>
+                            </form>
+                        </div>
+                </div>
+        </div>
+{% endblock content %}
+
+
+

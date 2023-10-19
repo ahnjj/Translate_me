@@ -10,14 +10,13 @@ class Vocabulary(models.Model):
     train_yn = models.BooleanField(db_column='train_yn')
     reg_date = models.DateField(db_column='reg_date')
     id = models.BigIntegerField()
-    # id = models.ForeignKey('users_app_user', models.DO_NOTHING, db_column='id')  # Field name made lowercase.
-    language_id = models.ForeignKey('language_code', models.DO_NOTHING, db_column='language_id')  # Field name made lowercase.
+    language_id = models.ForeignKey('Language_code', models.DO_NOTHING, db_column='language_id')  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'vocabulary'
 
-class Language_Code(models.Model):
+class Language_code(models.Model):
     language_id = models.CharField(db_column='language_id', primary_key=True, max_length=10)  # Field name made lowercase.
     language_name = models.CharField(db_column='language_name', max_length=30)  # Field name made lowercase.
 

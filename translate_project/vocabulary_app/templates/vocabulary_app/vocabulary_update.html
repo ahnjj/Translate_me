@@ -3,14 +3,14 @@
         <div id ='container'>
                 <div class="row">
                         <div class="col-sm-6 offset-sm-3">
-                            <h2>신규 단어 등록</h2>
+                            <h2>단어 수정</h2>
 
-                            <form method="POST"  id="voca-form">
+                            <form method="POST" id="voca-form">
                                 {% csrf_token %}
                                 <table id="form_tbl">
                                     {{ form }}
                                 </table><br><br>
-                                <button id="form_btn" type="submit">등록</button>
+                                <button id="form_btn" type="submit">수정</button>
                             </form>
                         </div>
                     </div>
