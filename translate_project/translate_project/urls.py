@@ -22,5 +22,6 @@ urlpatterns = [
     path('accounts/',include('users_app.urls')),
     path('',include('translate_app.urls')),
     path('',include('vocabulary_app.urls')),
-    path('',include('board_app.urls'))   
+    path('',include('board_app.urls')),   
+    path('roleplay/',include('roleplay_game_app.urls')),   
 ]
