@@ -38,31 +38,25 @@
             <td class="text-center" scope="row">{% if user.is_authenticated and board.user == user %}<a href="{% url 'board_delete' board.board_id %}" onclick="return confirm('삭제하시겠습니까?')"> <button type="button" class="btn btn-danger">삭제</button>{% endif %}</td>
         </tr>
     </table>
-        <h4 class="text-center">댓글</h4>
-    <div class="comments">
+    <h2>댓글</h2>
+    <ul>
         {% for comment in comments %}
-            <div class="comment">
-                <p><strong>{{ comment.user }}</strong> - {{ comment.created_date|date:"Y년 m월 d일 P" }}</p>
-                <p>{{ comment.text }}</p>
-            </div>
+            <li>
+                <strong>{{ comment.user.username }}</strong> (작성일: {{ comment.reg_date|date:"Y년 m월 d일 P" }})<br>
+                {{ comment.comment_text }}
+            </li>
         {% endfor %}
-
-        <!-- Form for adding a new comment -->
-        {% if user.is_authenticated %}
-            <h5>새 댓글 작성</h5>
-            <form method="post" action="{% url 'add_comment' board.board_id %}">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label for="id_text">댓글 내용:</label>
-                    <textarea class="form-control" id="id_text" name="text" rows="3" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">댓글 작성</button>
-            </form>
-        {% else %}
-            <p>댓글을 작성하려면 로그인이 필요합니다.</p>
-        {% endif %}
-    </div>
-
+    </ul>
+    {% if user.is_authenticated %}
+    <h3>댓글 작성</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">댓글 작성</button>
+    </form>
+    {% else %}
+    <p> 댓글 작성을 위해 로그인해주세요 </p>
+    {% endif %}
 {% endblock content %}
 
 

@@ -33,26 +33,10 @@ class BoardForm(forms.ModelForm):
         return instance    
     
 class BoardCommentForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user', None)
-        board_id = kwargs.pop('board_id', None)
-        super(BoardCommentForm, self).__init__(*args, **kwargs)
-        self.user = user
-        self.fields['board_id'] = forms.IntegerField(widget=forms.HiddenInput, initial=board_id)
-
     class Meta:
         model = BoardComment
-        fields = (
-            'comment_text',
-        )
+        exclude = ('board', 'user')
+        fields = ('comment_text',)  
         labels = {
-            'comment_text':'댓글',
+            'comment_text': '댓글 내용',
         }
-
-
-    def save(self, commit=True):
-        instance = super(BoardCommentForm, self).save(commit=False)
-        instance.user = self.user 
-        if commit:
-            instance.save()
-        return instance    
