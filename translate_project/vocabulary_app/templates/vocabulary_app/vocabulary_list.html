@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+        <div id ='container'>
+                <div class="row">
+                        <div class="col-sm-6 offset-sm-3">
+                                <h2>단어장</h2>
+                                <table id="voca_list">
+                                        <tr>
+                                                <th>단어</th>
+                                                <th>뜻</th>
+                                                <th>언어</th>
+                                                <th>학습완료</th>
+                                                <th>삭제</th>
+                                        </tr>
+                                        {% for word in words %}
+                                        <tr>
+                                                <td>{{ word.vocabulary_name }}</td> 
+                                                <td>{{ word.vocabulary_meaning }}</td>
+                                                <td>{{ word.language_id }}</td>
+                                                <!-- <td><a href="#"><button class="btn">학습완료</button></a></td> -->
+                                                <td><a href="{% url 'vocabulary_train' word.vocabulary_id %}"
+                                                        onclick="return confirm('이 단어의 학습을 완료합니까 ?')">
+                                                        <button class="btn">학습완료</button></a></td>
+                                                <td><a href="{% url 'vocabulary_delete' word.vocabulary_id %}"
+                                                        onclick="return confirm('단어를 삭제하시겠습니까 ?')">
+                                                        <button class="btn">삭제</button></a></td>
+                                        </tr>
+                                        {% endfor %}
+                                </table>
+                                <a href="{% url 'vocabulary_insert' %}"><button class='btn'>단어 등록</button></a>
+                        </div>
+                    </div>
+        </div>
+{% endblock content %}
