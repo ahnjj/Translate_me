@@ -9,7 +9,8 @@ def index(request):
 
 def index_search(request):
     if request.method == "POST":
-        query = request.POST['query'] 
+        query = request.POST['query']
+        print(request.POST)
         query_result = QueryDict('', mutable=True)
         query_result.update(online_dict_search.query_search(query))
         return render(request, "translate_app/result.html", {'query_result': query_result})

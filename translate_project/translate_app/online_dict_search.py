@@ -2,9 +2,8 @@ from urllib.parse import quote
 import requests
 import bs4
 
-def not_found(q):
-    print("'"+q+"'에 해당하는 결과를 찾을 수 없습니다")
 
+# 각 문자의 UNICODE값을 분석하여 언어를 구분하는 함수들이다
 def is_sp(q):
     n = ord(q)
     if n==0x20:
@@ -46,6 +45,20 @@ def is_ja(q):
     else:
         return False
 
+
+# 다음 사전 사이트에서 한자의 발음 기호를 나타내는 태그를 다른 특수구분자로 변경해두는 기능이다
+# 가독성이나 추후 발음기능의 추가를 위해 만들었다
+def pron(st, ls):
+    if ls == 'word jp':
+        stt = st.replace("<daum:ruby>", "@jj$").replace("</daum:ruby>", "$jj@")
+    elif ls == 'word ch':
+        stt = st.replace('<daum:pinyin style="display:none">', "@cc$").replace("</daum:pinyin>", "$cc@")
+    else:
+        stt = st 
+    return stt
+
+
+# 본격적인 사전 크롤링 함수이다
 def query_search(query):
     query = query.strip()
     if query=="":
@@ -92,26 +105,27 @@ def query_search(query):
             else:
                 if card['data-tiara-layer'] in dict_list:
                     means = card.find('ul', {'class':'list_search'}).findAll('span', {'class':'txt_search'})
+
+                if card['data-tiara-layer'] == 'word kor': # 한글의 경우 검색란 최상단에 따로 표시하기 위해 구분한다
                     if len(means) == 1:
                         mean = [means[0].text]
                     else:
                         mean = []
-                        for string in means:
-                            mean.append(string.text)
-                        print(mean)
-                if card['data-tiara-layer'] == 'word kor':
+                        for cont in means:
+                            mean.append(cont.text)
                     query_result['ko'] = mean
                 else:
                     for ls in dict_list[1:]:
-                        if dict_if[ls] and card['data-tiara-layer'] == ls:
-                            print("실행됨")
-                            if len(mean) == 1:
-                                string = mean[0]
+                        if dict_if[ls] and card['data-tiara-layer'] == ls: # 다른 언어는 한국어 검색결과 밑으로 리스트 형식으로 나온다
+                            # string형식에서 발음기호 태그를 변경하기 때문에 변경 후에는 다시 html파싱을 통해 나머지 태그들을 제거해준다
+                            if len(means) == 1:
+                                string = pron(str(means[0]), ls)
+                                string = bs4.BeautifulSoup(string, 'html.parser').text
                             else:
                                 string = ""
-                                for s in mean:
-                                    string += s + ", "
-                                string = string[:-2]
+                                for s in means:
+                                    string += pron(str(s), ls) + ", "
+                                string = bs4.BeautifulSoup(string[:-2], 'html.parser').text
                             query_result['result'].append({'lang':dict_name[ls], 'word':string})
         return query_result
         
