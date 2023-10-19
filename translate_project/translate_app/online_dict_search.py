@@ -59,7 +59,7 @@ def pron(st, ls):
 
 
 # 본격적인 사전 크롤링 함수이다
-def query_search(query):
+def query_search(query, dict_list):
     query = query.strip()
     if query=="":
         return {"query" : "검색어를 입력하세요."}
@@ -80,7 +80,7 @@ def query_search(query):
         if not (ko_def or en_def or cc_def or ja_def):
             return {"query" : "'" + query + "'에 대한 검색어를 찾을 수 없습니다."}
         
-        dict_list = ['word kor', 'word eng', 'word ch', 'word jp']
+        # dict_list = ['word kor', 'word eng', 'word ch', 'word jp']
         dict_if = {'word kor':ko_def, 'word eng':en_def, 'word ch':cc_def, 'word jp':cc_def or ja_def}
         dict_name = {'word kor':'한국어','word eng':'영어', 'word ch':'중국어', 'word jp':'일본어'}
         
@@ -106,7 +106,7 @@ def query_search(query):
                 if card['data-tiara-layer'] in dict_list:
                     means = card.find('ul', {'class':'list_search'}).findAll('span', {'class':'txt_search'})
 
-                if card['data-tiara-layer'] == 'word kor': # 한글의 경우 검색란 최상단에 따로 표시하기 위해 구분한다
+                if card['data-tiara-layer'] == 'word kor' and ('word kor' in dict_list): # 한글의 경우 검색란 최상단에 따로 표시하기 위해 구분한다
                     if len(means) == 1:
                         mean = [means[0].text]
                     else:
@@ -115,8 +115,8 @@ def query_search(query):
                             mean.append(cont.text)
                     query_result['ko'] = mean
                 else:
-                    for ls in dict_list[1:]:
-                        if dict_if[ls] and card['data-tiara-layer'] == ls: # 다른 언어는 한국어 검색결과 밑으로 리스트 형식으로 나온다
+                    for ls in dict_list:
+                        if dict_if[ls] and card['data-tiara-layer'] == ls and ls != 'word kor': # 다른 언어는 한국어 검색결과 밑으로 리스트 형식으로 나온다
                             # string형식에서 발음기호 태그를 변경하기 때문에 변경 후에는 다시 html파싱을 통해 나머지 태그들을 제거해준다
                             if len(means) == 1:
                                 string = pron(str(means[0]), ls)

@@ -5,13 +5,14 @@
 <h5 class="text-white mt-0">한국어 정의</h5>
 <ol>
 {% for mean in query_result.ko %}
-<li class="text-white-75 mb-4 text-start">{{ mean }}</li>
+<li class="text-white-75 mb-1 text-start">{{ mean }}</li>
 {% endfor %}
 </ol>
 {% endif %}
 {% for result in query_result.result %}
 <hr class="divider divider-light" />
-<p class="text-white-75 mb-4 text-start">추천 번역 언어 : {{ result.lang }} <br>추천 번역 단어 : {{ result.word }} <br></p>
+<p class="text-white-75 mb-1 text-start">추천 번역 언어 : {{ result.lang }} <br></p>
+<p class="text-white-75 mb-1 text-start">추천 번역 단어 : {{ result.word }} <br></p>
 {% endfor %}
 {% else %}
 <h4 class="text-white mt-0">단어장, 커뮤니티, 게임 기능을 <br> 사용하고 싶으신 분들은 로그인을 해주세요</h4>
