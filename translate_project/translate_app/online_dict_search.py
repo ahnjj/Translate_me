@@ -51,12 +51,10 @@ def query_search(query):
     if query=="":
         return {"query" : "검색어를 입력하세요."}
     else:
-        ko_def, en_def, cc_def, jp_def = [True for i in range(4)]
+        ko_def, en_def, cc_def, ja_def = [True for i in range(4)]
         for l in query:
-            if is_sp(l):
+            if is_sp(l) or is_ko(l):
                 pass
-            elif is_ko(l):
-                en_def, ja_def, cc_def = (False for i in range(3))
             elif is_en(l):
                 ko_def, ja_def, cc_def = [False for i in range(3)]
             elif is_cc(l):
@@ -70,7 +68,7 @@ def query_search(query):
             return {"query" : "'" + query + "'에 대한 검색어를 찾을 수 없습니다."}
         
         dict_list = ['word kor', 'word eng', 'word ch', 'word jp']
-        dict_if = {'word eng':en_def, 'word ch':cc_def, 'word jp':cc_def or ja_def}
+        dict_if = {'word kor':ko_def, 'word eng':en_def, 'word ch':cc_def, 'word jp':cc_def or ja_def}
         dict_name = {'word kor':'한국어','word eng':'영어', 'word ch':'중국어', 'word jp':'일본어'}
         
         # 사이트 크롤링
@@ -81,63 +79,39 @@ def query_search(query):
         response = requests.post(url, headers=header)
         html = response.text
         bs_obj = bs4.BeautifulSoup(html, 'html.parser')
-        cards = bs_obj.findAll('div', {'class':'card_word'}) # 언어사전별 검색 결과
+        cards = bs_obj.findAll('div', {'class':'card_word'}) # 언어사전별 검색 결과및 그 외의 것들
         # tit = cards[0].find('div', {'class':'wrap_tit'}) # 첫 번째 언어사전 명
         # item = cards[0].find('ul', {'class':'list_search'}) # 첫 번째 언어사전의 첫 번째 검색 결과
         # means = item.findAll('span', {'class':'txt_search'}) # 위의 첫 검색 결과의 뜻
 
-        if ko_def:
-            for card in cards:
-                try:
-                    card['data-tiara-layer']
-                except:
-                    pass
-                else:
-                    if card['data-tiara-layer'] in dict_list:
-                        means = card.find('ul', {'class':'list_search'}).findAll('span', {'class':'txt_search'})
-                        if len(means) == 1:
-                            mean = [means[0].text]
-                        else:
-                            mean = []
-                            for string in means:
-                                mean.append(string.text)
-                    
-                    if card['data-tiara-layer'] == 'word kor':
-                        query_result['ko'] = mean
-                    elif card['data-tiara-layer'] == 'word eng':
-                        query_result['result'].append({'lang':'영어', 'word':mean})
-                    elif card['data-tiara-layer'] == 'word ch':
-                        query_result['result'].append({'lang':'중국어', 'word':mean})
-                    elif card['data-tiara-layer'] == 'word jp':
-                        query_result['result'].append({'lang':'일본어', 'word':mean})
-        else:
-            for card in cards:
-                try:
-                    card['data-tiara-layer']
-                except:
-                    pass
-                else:
-                    if card['data-tiara-layer'] in dict_list:
-                        means = card.find('ul', {'class':'list_search'}).findAll('span', {'class':'txt_search'})
-                        if len(means) == 1:
-                            mean = [means[0].text]
-                        else:
-                            mean = []
-                            for string in means:
-                                mean.append(string.text)
-                        # if len(means) == 1:
-                        #     mean = means[0].text
-                        # else:
-                        #     mean = ""
-                        #     for string in means:
-                        #         mean += string.text + ", "
-                        #     mean = mean[:-2]
-                    if card['data-tiara-layer'] == 'word kor':
-                        query_result['ko'] = mean
+        for card in cards:
+            try:
+                card['data-tiara-layer'] # 언어사전을 나타내는 속성값 / dict_list에 있다
+            except:
+                pass
+            else:
+                if card['data-tiara-layer'] in dict_list:
+                    means = card.find('ul', {'class':'list_search'}).findAll('span', {'class':'txt_search'})
+                    if len(means) == 1:
+                        mean = [means[0].text]
                     else:
-                        for ls in dict_list[1:]:
-                            if dict_if[ls] and card['data-tiara-layer'] == ls:
-                                query_result['result'].append({'lang':dict_name[ls], 'word':mean})
-
+                        mean = []
+                        for string in means:
+                            mean.append(string.text)
+                        print(mean)
+                if card['data-tiara-layer'] == 'word kor':
+                    query_result['ko'] = mean
+                else:
+                    for ls in dict_list[1:]:
+                        if dict_if[ls] and card['data-tiara-layer'] == ls:
+                            print("실행됨")
+                            if len(mean) == 1:
+                                string = mean[0]
+                            else:
+                                string = ""
+                                for s in mean:
+                                    string += s + ", "
+                                string = string[:-2]
+                            query_result['result'].append({'lang':dict_name[ls], 'word':string})
         return query_result
         
