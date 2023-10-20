@@ -39,7 +39,7 @@
       > pip install uvicorn
       > pip install channels
 
-      requirments.txt 못 읽을경우
+      requirements.txt에 있는 목록 전체설치
       > pip install -r requirements.txt
 
 #### 기능별 앱
