@@ -6,6 +6,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto">
+                
                 <li class="nav-item mx-0 mx-lg-1">
                     <a class="nav-link py-3 px-0 px-lg-3 text-white" href="#">
                         <h5>유저</h5>
@@ -17,8 +18,8 @@
                     </a>
                 </li>
                 <li class="nav-item mx-0 mx-lg-1">
-                    <a class="nav-link py-3 px-0 px-lg-3 text-white" href="#">
-                        <h5>게임</h5>
+                    <a class="nav-link py-3 px-0 px-lg-3 text-white" href="{% url 'role_playing_room_list'%}">
+                        <h5>상황극</h5>
                     </a>
                 </li>
                 {% if user.is_authenticated %}

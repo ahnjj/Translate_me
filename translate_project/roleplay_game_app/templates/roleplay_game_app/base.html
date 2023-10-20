@@ -1,5 +1,5 @@
-
-{% load django_bootstrap5 %}
+{% extends 'base.html' %}
+{% comment %} {% load django_bootstrap5 %} {% endcomment %}
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -9,14 +9,14 @@
               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title> 상황극 </title>
-        {% bootstrap_css %}
-        {% bootstrap_javascript %}
+        {% comment %} {% bootstrap_css %} {% endcomment %}
+        {% comment %} {% bootstrap_javascript %} {% endcomment %}
         {% block extra-css %}{% endblock %}
-    </head>
+    </head> 
     <body>
         <div class="container">
             <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-                <a href="/"
+                <a href="{% url 'role_playing_room_list' %}"
                    class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
                     <span class="fs-4"> 상황극 </span>
                 </a>

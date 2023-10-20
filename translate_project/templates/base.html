@@ -26,7 +26,8 @@
     <script src="{% static 'js/board_search.js' %}"></script>
 
     {% bootstrap_javascript %}
-    {% bootstrap_css %}
+    {% bootstrap_css %} 
+    {% block extra-css %}{% endblock %}    <!--roleplay앱 추가css용-->
     <style>
         body {
             width: 95%;
