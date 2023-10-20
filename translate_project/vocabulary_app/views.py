@@ -2,20 +2,10 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import *
 from vocabulary_app.forms import Vocabulary_Form
-from django.contrib.auth import get_user_model
 from django.http import HttpResponse, JsonResponse
 from datetime import date
 import pandas as pd
-
-# Create your views here.
-def vocabulary_list(request):
-    # 전체 데이터 셀렉트
-    words = Vocabulary.objects.all()
-    user = request.user
-    # select from vocabulary where id=$user.id and train='false'
-    words = Vocabulary.objects.filter(id=user.id, train_yn=False)
-
-    return render(request, 'vocabulary_app/vocabulary_list.html', {'words':words})
+from django.core.paginator import Paginator
 
 def vocabulary_insert(request):
     # 요청이 포스트인지 확인하고
@@ -122,3 +112,24 @@ def upload_excel(request):
 
 
     return render(request, 'vocabulary_app/upload_excel.html')
+
+# Create your views here.
+def vocabulary_list(request):
+    # 전체 데이터 셀렉트
+    words = Vocabulary.objects.all()
+    user = request.user
+    # select from vocabulary where id=$user.id and train='false'
+    words = Vocabulary.objects.filter(id=user.id, train_yn=False)
+
+    items_per_page = 20  # 예: 10개씩 보여주기
+
+    # Paginator 객체를 생성합니다.
+    paginator = Paginator(words, items_per_page)
+
+    # 요청된 페이지 번호를 가져옵니다.
+    page_number = request.GET.get('page')
+
+    # 해당 페이지의 단어 목록을 가져옵니다.
+    words = paginator.get_page(page_number)
+
+    return render(request, 'vocabulary_app/vocabulary_list.html', {'words': words})

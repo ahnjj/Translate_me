@@ -3,6 +3,17 @@
         <div id ='container'>
                 <div class="row">
                         <div class="col-sm-6 offset-sm-3" id="voca_list_div">
+                                <h1>엑셀 파일 작성요령</h1>
+                                        <p>아래 버튼을 클릭하여 엑셀 파일을 추가하세요. 엑셀 파일 작성요령은 다음과 같습니다:</p>
+                                        <ul>
+                                                <li>4개의 행이 필요합니다</li>
+                                                <li>vocabulary_name, vocabulary_meaning, vocabulary_level, language_name</li>
+                                                <li>각각 단어명, 단어의 의미, 단어의 수준, 언어 값이 들어갑니다</li>
+                                                <li>언어는 korean, english, japanese, chinese 4가지 옵션중 선택하시면 됩니다.</li>
+                                                <li>각 행에는 필요한 데이터를 정확하게 입력하세요.</li>
+                                                <li>데이터의 형식과 열의 제목을 정확하게 확인하세요.</li>
+                                                <li>엑셀 파일은 .xlsx 형식으로 저장되어야 합니다.</li>
+                                        </ul>
                             <form method="POST" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <input type="file" name="excel_file">
