@@ -118,28 +118,43 @@ def query_search(query, dict_list, search_lang):
                 pass
             else:
                 if card['data-tiara-layer'] in dict_list:
-                    # query_refs = card.findAll('span', {'class':'txt_emph1'})
-                    means = card.findAll('ul', {'class':'list_search'}).findAll('span', {'class':'txt_search'})
-                if card['data-tiara-layer'] == 'word kor' and ('word kor' in dict_list): # 한글의 경우 검색란 최상단에 따로 표시하기 위해 구분한다
-                    if len(means) == 1:
-                        mean = [means[0].text]
-                    else:
-                        mean = []
-                        for cont in means:
-                            mean.append(cont.text)
-                    query_result['ko'] = mean
-                else:
-                    for ls in dict_list:
-                        if dict_if[ls] and card['data-tiara-layer'] == ls and ls != 'word kor': # 다른 언어는 한국어 검색결과 밑으로 리스트 형식으로 나온다
-                            # string형식에서 발음기호 태그를 변경하기 때문에 변경 후에는 다시 html파싱을 통해 나머지 태그들을 제거해준다
-                            if len(means) == 1:
-                                string = pron(str(means[0]), ls)
-                                string = bs4.BeautifulSoup(string, 'html.parser').text
-                            else:
-                                string = ""
-                                for s in means:
-                                    string += pron(str(s), ls) + ", "
-                                string = bs4.BeautifulSoup(string[:-2], 'html.parser').text
-                            query_result['result'].append({'lang':dict_name[ls], 'lang_e':ls[5:], 'word':string})
+                    ls = card['data-tiara-layer']
+                    query_refs = card.findAll('a', {'class':'txt_cleansch'}) + card.findAll('a', {'class':'txt_searchword'})
+                    means_groups = card.findAll('ul', {'class':'list_search'})
+                    words_list = []
+                    n = 0
+                    for query_ref, means_group in zip(query_refs, means_groups):
+                        n += 1
+                        print(query_ref)
+                        query_ref = query_ref.text.replace('1', '').replace('2', '')
+                        means_group = means_group.findAll('span', {'class':'txt_search'})
+                        means = []
+                        means_by_string = ""
+                        for cont in means_group:
+                            by_string = bs4.BeautifulSoup(pron(str(cont), ls), 'html.parser').text
+                            means.append(by_string)
+                            means_by_string += by_string + ", "
+                        words_list.append({"query_ref": query_ref, "means_by_string": means_by_string[:-2], "means": means})
+                        if n == 10:
+                            break
+                    query_result['result'].append({'lang': dict_name[ls], 'lang_e': ls[5:], 'words': words_list})
+                # else:
+                #     for ls in dict_list:
+                #         if dict_if[ls] and card['data-tiara-layer'] == ls:
+                #             # string형식에서 발음기호 태그를 변경하기 때문에 변경 후에는 다시 html파싱을 통해 나머지 태그들을 제거해준다
+                #             for i in range(2):
+                #                 if (len(query_refs) == 1 or len(means_groups) == 1) and i == 1:
+                #                     continue
+
+
+                #             if len(means) == 1:
+                #                 string = pron(str(means[0]), ls)
+                #                 string = bs4.BeautifulSoup(string, 'html.parser').text
+                #             else:
+                #                 string = ""
+                #                 for s in means:
+                #                     string += pron(str(s), ls) + ", "
+                #                 string = bs4.BeautifulSoup(string[:-2], 'html.parser').text
+                #             query_result['result'].append({'lang':dict_name[ls], 'lang_e':ls[5:], 'words':string})
         return query_result
         
