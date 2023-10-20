@@ -62,7 +62,7 @@ def pron(st, ls):
 def query_search(query, dict_list, search_lang):
     query = query.strip()
     if query=="":
-        return {"query" : "검색어를 입력하세요."}
+        return {"query_present" : "검색어를 입력하세요."}
     else:
         ko_def, en_def, cc_def, ja_def = [True for i in range(4)]
         for l in query:
@@ -79,7 +79,7 @@ def query_search(query, dict_list, search_lang):
                 break
 
         if not (ko_def or en_def or cc_def or ja_def):
-            return {"query" : "'" + query + "'에 대한 검색어를 찾을 수 없습니다."}
+            return {"query_present" : "'" + query + "'에 대한 검색어를 찾을 수 없습니다."}
         
         if ((search_lang == 'word all') or
             (ko_def and search_lang == 'word kor') or
@@ -88,14 +88,18 @@ def query_search(query, dict_list, search_lang):
             (cc_def and (search_lang == 'word ch' or search_lang == 'word jp'))):
             pass
         else:
-            return {"query" : "언어설정이 올바르지 않습니다."}
+            return {"query_present" : "검색 언어 설정이 올바르지 않습니다."}
         
         # dict_list = ['word kor', 'word eng', 'word ch', 'word jp']
         dict_if = {'word kor':ko_def, 'word eng':en_def, 'word ch':cc_def, 'word jp':cc_def or ja_def}
         dict_name = {'word kor':'한국어','word eng':'영어', 'word ch':'중국어', 'word jp':'일본어'}
         
         # 사이트 크롤링
-        query_result = {'query': "검색 내용 : " + query, 'result':[]} # 결과 설정
+        query_result = {"query": query, "query_present": "검색 내용 : " + query, 'result':[]} # 결과 설정
+        if ko_def:
+            query_result["query_lang"] = "kor"
+        else:
+            query_result["query_lang"] = "not_kor"
         daum_dict_url = "https://dic.daum.net/search.do?q="
         url = daum_dict_url + quote(query)
         header = {'user-agent':'Mozilla/5'}
@@ -114,8 +118,8 @@ def query_search(query, dict_list, search_lang):
                 pass
             else:
                 if card['data-tiara-layer'] in dict_list:
-                    means = card.find('ul', {'class':'list_search'}).findAll('span', {'class':'txt_search'})
-
+                    # query_refs = card.findAll('span', {'class':'txt_emph1'})
+                    means = card.findAll('ul', {'class':'list_search'}).findAll('span', {'class':'txt_search'})
                 if card['data-tiara-layer'] == 'word kor' and ('word kor' in dict_list): # 한글의 경우 검색란 최상단에 따로 표시하기 위해 구분한다
                     if len(means) == 1:
                         mean = [means[0].text]
@@ -136,6 +140,6 @@ def query_search(query, dict_list, search_lang):
                                 for s in means:
                                     string += pron(str(s), ls) + ", "
                                 string = bs4.BeautifulSoup(string[:-2], 'html.parser').text
-                            query_result['result'].append({'lang':dict_name[ls], 'word':string, 'lang_e':ls})
+                            query_result['result'].append({'lang':dict_name[ls], 'lang_e':ls[5:], 'word':string})
         return query_result
         

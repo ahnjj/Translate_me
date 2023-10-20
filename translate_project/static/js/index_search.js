@@ -84,8 +84,6 @@ $(document).ready(function(){
             };
         };
     });
-
-    
     $("#index_search").on('submit', function(){
         event.preventDefault();
         let input_data = $(this).serialize();
