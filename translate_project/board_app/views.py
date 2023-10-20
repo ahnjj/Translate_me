@@ -1,6 +1,6 @@
 import json
 from django.shortcuts import get_object_or_404, render, redirect
-from .models import Board
+from .models import Board, BoardComment
 from django.db.models import Q
 from django.http import JsonResponse
 from django.core import serializers
@@ -14,8 +14,21 @@ def board_list(request):
     return render(request, 'board_app/board_list.html', {'boards':boards, 'user': request.user})
 
 def board_detail(request, board_id):
-    board = get_object_or_404(Board, pk=board_id)
-    return render(request, 'board_app/board_detail.html', {'board':board, 'user': request.user})
+    board = get_object_or_404(Board, board_id=board_id)
+    comments = board.comments.all()
+    
+    if request.method == "POST":
+        form = BoardCommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.board = board
+            comment.user = request.user
+            comment.save()
+            return redirect('board_detail', board_id=board_id)
+    else:
+        form = BoardCommentForm()
+    
+    return render(request, 'board_app/board_detail.html', {'board': board, 'comments': comments, 'form': form})
 
 @login_required
 def board_insert(request):
@@ -81,12 +94,3 @@ def board_search(request):
     else:
         return render(request, 'board_app/board_search_form.html')
     
-
-def add_comment(request, board_id):
-    if request.method == 'POST':
-        form = BoardCommentForm(request.POST, user=request.user, board_id=board_id)
-        if form.is_valid():
-            comment = form.save()
-            # ...
-    else:
-        form = BoardCommentForm(user=request.user, board_id=board_id)

@@ -1,0 +1,256 @@
+{% extends "roleplay_game_app/base.html" %}
+
+{% block extra-css %}
+<style>
+    #chat-message-list {
+        padding: 0;
+        list-style: none;
+    }
+    .chat-message .message {
+        background-color: #3b3b3d;
+        color: #e1e1e1;
+        border-radius: 0.8em;
+        padding: 0.4em;
+        margin: 0.4em 0;
+        display: inline-block;
+        white-space: pre-wrap;
+    }
+
+    .chat-message.me {
+        text-align: right;
+    }
+    .chat-message.me .message {
+        background-color: #1f8cff;
+        color: #fff;
+        text-align: left;
+    }
+    .chat-message .say{
+        display: inline-block;
+        font-size: .8em;
+        margin-top: -0.4em;
+        margin-left: 0.2em;
+        cursor: pointer;
+    }
+    .chat-message .stopsay{
+        display: inline-block;
+        font-size: .8em;
+        margin-top: -0.4em;
+        margin-left: 0.2em;
+        cursor: pointer;
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    [{{ roleplayingroom.get_language_display }}
+                    {{ roleplayingroom.get_level_display }}]
+                    {{ roleplayingroom.situation }}
+                    ({{ roleplayingroom.gpt_role }}와 {{ roleplayingroom.my_role }}의 대화)
+                </div>
+                <div class="card-body">
+                    <ul id="chat-message-list">
+                        {# FIXME: 샘플 채팅 메세지 #}
+                       <li class="chat-message">
+                            <span class="message">주어진 상황과 역할에 맞게 대화해보세요! </span>
+                        </li>
+                        <li class="chat-message">
+                            <span class="message">도우미의 말 의미가 궁금할 때는 : "한국어로 말해줘" </span>
+                        </li>
+                        <li class="chat-message">
+                            <span class="message">여러분의 답변에 문법적 오류가 있으면 도우미가 교정해드립니다! </span>
+                        </li>
+                         {% comment %} 
+                        <li class="chat-message me">
+                            <span class="message">Yes, I would like a grande Americano with an extra shot of expresso and a splash of almond milk, please.</span>
+                        </li>
+                        <li class="chat-message">
+                            <span class="message">Of course, that soulds like a great choice. Would you like any pastries or snacks to go with your coffee today?</span>
+                        </li> {% endcomment %}
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <div class="d-grid gap-2 mb-2">
+                        <button class="btn btn-primary" id="auto-play-button">
+                            도우미의 말 자동 읽어주기
+                        </button>
+                    </div>
+                    </div>
+                    <select id="voice-list" class="form-select mb-2"></select>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-secondary" id="recommend-button">추천받기</button>
+                        <form id="message-form" class="d-flex gap-1 flex-grow-1">
+                            <input type="text"
+                                   name="message"
+                                   placeholder="메시지를 입력하세요."
+                                   class="form-control flex-grow-1" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="my-3">
+        <a href="{% url 'role_playing_room_edit' roleplayingroom.pk %}"
+           class="btn btn-primary">수정</a>
+        <a href="{% url 'role_playing_room_delete' roleplayingroom.pk %}"
+           class="btn btn-danger">삭제</a>
+    </div>
+{% endblock %}
+
+{% block script %}
+
+{{ roleplayingroom.pk|json_script:"room-pk" }}
+{{ roleplayingroom.language|json_script:"room-language" }}
+
+<script>
+
+    // 대화창 화면에 대화 하나씩 추가하는 함수
+    function addMessage(message, isMe) {
+        const messageList = document.getElementById("chat-message-list");
+        const messageElement = document.createElement("li");
+        messageElement.className = "chat-message" + (isMe ? " me" : "");
+        // 대화 메세지
+        // 대화 메세지 읽어주기 기능
+        messageElement.innerHTML = `
+            <span class="message">${message}</span>
+            <span class="say">읽어주기</span>   
+            <span class="stopsay">읽기멈춤</span> 
+        `;
+        messageList.appendChild(messageElement);
+        messageList.scrollTop = messageList.scrollHeight;
+        // 읽어주기 기능
+        messageElement.querySelector(".say").addEventListener("click", ()=>{
+            sayMessage(message);
+        });
+        // 읽어주기 stop 기능
+        messageElement.querySelector(".stopsay").addEventListener("click", ()=>{
+            window.speechSynthesis.cancel();  // 멈춤
+        });
+
+        // ⭐️ 메세지 저장하기 기능
+        //messageElement.querySelector(".savesay").addEventListener("click", ()=>{
+            
+       // });
+
+    }
+    // 읽어주기 함수
+    function sayMessage(message){
+        const voiceListSelect = document.querySelector("#voice-list");
+        const option = voiceListSelect.options[voiceListSelect.selectedIndex];
+        const voiceName = option.value;
+        const voice = window.speechSynthesis.getVoices()
+            .find(voice => voice.name === voiceName);
+        const utterance = new SpeechSynthesisUtterance(message);
+        utterance.voice = voice;
+        utterance.lang = voice.lang;
+
+        // 발화 할수 없는 에러 발생시
+        // 이거하면 멈춤기능을 못씀
+        //utterance.addEventListener("error", (e)=>{
+        //    alert(`error : ${e.error}`);
+        //});
+        window.speechSynthesis.speak(utterance);  // 읽어주기
+    }
+
+// onload되면 바로 실행되는 부분
+(function() {
+    const room_pk = document.querySelector("#room-pk").textContent;
+    const room_language = JSON.parse(document.querySelector('#room-language').textContent);
+    const ws = new WebSocket(`ws://${window.location.host}/ws/chat/${room_pk}/`);
+    let is_auto_play = false;
+
+
+    // 웹소켓에서 발생하는 4가지 이벤트 핸들러 (open/ close/ error/message)
+    ws.onopen = function(e) { console.log("장고 채널스 서버와 웹소켓 연결되었습니다."); };
+    ws.onclose = function(e) { console.log('장고 채널스 서버와 웹소켓 연결이 끊어졌습니다.'); };
+    ws.onerror = function(e) { console.error("장고 채널스 서버와의 웹소켓 연결 중에 오류가 발생했습니다.", e); };
+    // 서버로부터 웹소켓 메시지를 받았을 때 호출되는 함수.
+    ws.onmessage = function(e) {
+        console.group("[onmessage]");
+        // console.log(typeof e.data);
+        // console.log(e.data);
+
+        const message_obj = JSON.parse(e.data);
+        // 도우미의 말 화면에 추가
+        if ( message_obj.type === "assistant-message" ) {
+            const { message } = message_obj;
+            console.log("assistant-message:", message); 
+            // 채팅 UI 에 메세지 추가하는 코드
+            addMessage(message, false);
+            // 자동 음성 재생 기능 (버튼 눌러야지 발동)
+            if(is_auto_play){
+                sayMessage(message);
+            }
+        }
+        // 추천 메세지 화면에 추가
+        else if (message_obj.type === "recommended-message"){
+            const {message} = message_obj;
+            console.log("recommend-message: ", message);
+            document.querySelector("#message-form[name='message']").value = message;
+            recommendButton.disabled = false;
+        }
+        // 에러났을때
+        else if ( message_obj.type === "openai-error" ) {
+            const { message } = message_obj;
+            alert(`Error: ${message}`);
+        }
+        else {
+            console.error("알 수 없는 메시지 타입입니다.", message_obj);
+        }
+        console.groupEnd();
+};
+    // 서버로 메세지 요청 보내기
+    const messageForm = document.getElementById("message-form");
+    messageForm.onsubmit = function(e) {
+        e.preventDefault();
+        const message = e.target.message.value.trim();
+        if(message.length > 0) {
+            // 서버로 웹소켓 메시지를 전송하는 코드.
+            //  서버 단에서 "전달받은 문자열"을 JSON 디코딩하므로
+            //  클라이언트 단에서 JSON 인코딩한 문자열을 웹소켓으로 전달
+            addMessage(message, true);
+            ws.send(JSON.stringify({ type: "user-message", message: message }));
+            e.target.reset();
+        }
+    };
+    // 서버(웹소켓)로 추천 요청 보내기
+    const recommendButton = document.querySelector("#recommend-button");
+    recommendButton.addEventListener("click", () => {
+        recommendButton.disabled = true;
+        ws.send(JSON.stringify({type: "request-recommend-message"})); 
+    });
+
+    // 자동재생 기능 버튼 눌렀을 때
+    // 자동 재생 기능 true로 변경
+    const autoPlayButton = document.querySelector("#auto-play-button");
+    autoPlayButton.addEventListener("click", ()=>{
+        is_auto_play = true;
+        autoPlayButton.remove();
+    });
+
+    // 페이지 처음 로드 되었을 때 사용 가능한 음성 로드되어야함 -> voiceschanged 이벤트 기다림
+    // safari 동작 안됨
+    const synth = window.speechSynthesis;
+
+    synth.onvoiceschanged = () => {
+        const voices = synth.getVoices();  // getvoices 메소드 : 사용 가능한 모든 음성 가져오기
+
+        voices.forEach(({name, lang}) => {
+            if (lang.toLowerCase() === room_language.toLowerCase()){
+                const option = document.createElement("option");
+                option.value = name;
+                option.textContent = name;
+                option.selected = true;  // 디폴트로 마지막 음성 선택
+                document.querySelector("#voice-list").appendChild(option);
+            }
+        })
+    }
+
+})();
+</script>
+{% endblock %}

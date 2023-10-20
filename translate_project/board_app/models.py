@@ -18,9 +18,9 @@ class Board(models.Model):
 
 
 class BoardComment(models.Model):
-    comment_id = models.AutoField(primary_key=True)        
-    board = models.ForeignKey(Board, models.DO_NOTHING)     
-    user = models.ForeignKey(User, models.DO_NOTHING)
+    comment_id = models.AutoField(primary_key=True)
+    board = models.ForeignKey(Board, models.CASCADE, blank=True, null=True, related_name='comments')
+    user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
     comment_text = models.CharField(max_length=200, blank=True, null=True)
     reg_date = models.DateTimeField(auto_now_add=True)  
     lst_chg_date = models.DateTimeField(auto_now=True)
@@ -28,7 +28,10 @@ class BoardComment(models.Model):
     class Meta:
         managed = False
         db_table = 'board_comment'
-        unique_together = (('comment_id', 'board', 'user'),)
+
+    def __str__(self):
+        return self.comment_text
+
 
 class Category(models.Model):
     category_id = models.CharField(primary_key=True, max_length=10)
