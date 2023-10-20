@@ -21,12 +21,25 @@
 
     > index페이지 bootstrap 적용
 
-    > pip install list (window 기준)
-      > django
-      > mysqlclient
-      > django_bootstrap5
-      > pillow
-      > bs4
+    > venv 설치목록 (window 기준)
+      10/16
+      > pip install django
+      > pip install mysqlclient
+      > pip install django_bootstrap5
+      > pip install pillow
+
+      10/18
+      > pip install bs4
+
+      10/19
+      > pip install openpyxl
+      > pip install django-environ
+      > pip install daphne
+      > pip install requests
+      > pip install uvicorn
+      > pip install channels
+
+      requirments.txt 못 읽을경우
       > pip install -r requirements.txt
 
 #### 기능별 앱
