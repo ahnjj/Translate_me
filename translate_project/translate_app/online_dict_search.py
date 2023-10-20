@@ -59,7 +59,7 @@ def pron(st, ls):
 
 
 # 본격적인 사전 크롤링 함수이다
-def query_search(query, dict_list):
+def query_search(query, dict_list, search_lang):
     query = query.strip()
     if query=="":
         return {"query" : "검색어를 입력하세요."}
@@ -77,8 +77,18 @@ def query_search(query, dict_list):
             else:
                 ko_def, en_def, ja_def, cc_def = (False for i in range(4))
                 break
+
         if not (ko_def or en_def or cc_def or ja_def):
             return {"query" : "'" + query + "'에 대한 검색어를 찾을 수 없습니다."}
+        
+        if ((search_lang == 'word all') or
+            (ko_def and search_lang == 'word kor') or
+            (en_def and search_lang == 'word eng') or
+            (ja_def and search_lang == 'word jp') or
+            (cc_def and (search_lang == 'word ch' or search_lang == 'word jp'))):
+            pass
+        else:
+            return {"query" : "언어설정이 올바르지 않습니다."}
         
         # dict_list = ['word kor', 'word eng', 'word ch', 'word jp']
         dict_if = {'word kor':ko_def, 'word eng':en_def, 'word ch':cc_def, 'word jp':cc_def or ja_def}

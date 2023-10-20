@@ -1,4 +1,91 @@
 $(document).ready(function(){
+    $("#all_search").on("click", function(){
+        if ($(this).is(":checked")) {
+            $("#all_result").prop("checked", true);
+            $("#kor_result").prop("checked", true);
+            $("#eng_result").prop("checked", true);
+            $("#eng_result").prop("disabled", false);
+            $("#jp_result").prop("checked", true);
+            $("#jp_result").prop("disabled", false);
+            $("#ch_result").prop("checked", true);
+            $("#ch_result").prop("disabled", false);
+        };
+    });
+    $("#kor_search").on("click" ,function(){
+        if ($(this).is(":checked")) {
+            $("#all_result").prop("checked", true);
+            $("#kor_result").prop("checked", true);
+            $("#eng_result").prop("checked", true);
+            $("#eng_result").prop("disabled", false);
+            $("#jp_result").prop("checked", true);
+            $("#jp_result").prop("disabled", false);
+            $("#ch_result").prop("checked", true);
+            $("#ch_result").prop("disabled", false);
+        };
+    });
+    $("#eng_search").on("click", function(){
+        if ($(this).is(":checked")) {
+            $("#all_result").prop("checked", true);
+            $("#kor_result").prop("checked", true);
+            $("#eng_result").prop("checked", true);
+            $("#eng_result").prop("disabled", false);
+            $("#jp_result").prop("checked", false);
+            $("#jp_result").prop("disabled", true);
+            $("#ch_result").prop("checked", false);
+            $("#ch_result").prop("disabled", true);
+        };
+    });
+    $("#jp_search").on("click", function(){
+        if ($(this).is(":checked")) {
+            $("#all_result").prop("checked", true);
+            $("#kor_result").prop("checked", true);
+            $("#eng_result").prop("checked", false);
+            $("#eng_result").prop("disabled", true);
+            $("#jp_result").prop("checked", true);
+            $("#jp_result").prop("disabled", false);
+            $("#ch_result").prop("checked", false);
+            $("#ch_result").prop("disabled", true);
+        };
+    });
+    $("#ch_search").on("click", function(){
+        if ($(this).is(":checked")) {
+            $("#all_result").prop("checked", true);
+            $("#kor_result").prop("checked", true);
+            $("#eng_result").prop("checked", false);
+            $("#eng_result").prop("disabled", true);
+            $("#jp_result").prop("checked", false);
+            $("#jp_result").prop("disabled", true);
+            $("#ch_result").prop("checked", true);
+            $("#ch_result").prop("disabled", false);
+        };
+    });
+    $("#all_result").on("click", function(){
+        if ($(this).is(":checked")) {
+            $("#kor_result").prop("checked", true);
+            if (!$("#eng_result").is(":disabled")){
+                $("#eng_result").prop("checked", true);
+            };
+            if (!$("#jp_result").is(":disabled")){
+                $("#jp_result").prop("checked", true);
+            };
+            if (!$("#ch_result").is(":disabled")){
+                $("#ch_result").prop("checked", true);
+            };
+        } else {
+            $("#kor_result").prop("checked", false);
+            if (!$("#eng_result").is(":disabled")){
+                $("#eng_result").prop("checked", false);
+            };
+            if (!$("#jp_result").is(":disabled")){
+                $("#jp_result").prop("checked", false);
+            };
+            if (!$("#ch_result").is(":disabled")){
+                $("#ch_result").prop("checked", false);
+            };
+        };
+    });
+
+    
     $("#index_search").on('submit', function(){
         event.preventDefault();
         let input_data = $(this).serialize();

@@ -166,3 +166,15 @@
         > 사용자가 단어장에 추가 가능
         > 단어장페이지에서 단어 학습완료, 삭제 가능
 
+#### 브랜치명 (jsh) - 팀원 장승헌 (2023-10-20 10:10)
+    > 깃 로그명 : translate_app modify 006
+
+    >> index 페이지에서의 사전 검색기능 1차 완성
+
+    >> 수정
+    >>> static/js/index_search.js
+    >>> translate_app/templates/translate_app/index.html
+    >>> translate_app/templates/translate_app/result.html
+    >>> translate_app/online_dict_search.py
+    >>> translate_app/views.py
+    >>> templates/base.html : bootstrap 관련 스크립트를 bundle파일로 변경
