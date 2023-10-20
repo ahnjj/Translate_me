@@ -34,5 +34,5 @@ mysqlclient
 # pillow- 이미지처리
 pillow
 
-# excel 읽어오기 
+# excel  
 openpyxl

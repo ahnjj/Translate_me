@@ -21,7 +21,8 @@ def vocabulary_insert(request):
 
             user = request.user
             voca.train_yn = False
-            voca.id = user.id
+            id = Users_app_user.objects.get(id = user.id)
+            voca.id = id
             voca.reg_date = current_date.strftime("%Y-%m-%d")
 
             voca.save()
