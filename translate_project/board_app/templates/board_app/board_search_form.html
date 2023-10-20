@@ -1,19 +1,31 @@
 {% extends 'base.html' %}
-{% load humanize %}
 
 {% block content %}
-    <h3> 게시판 검색 </h3>
-    <form id='bdSearchFrm' method ="post" action="{% url 'board_search' %}">
+    <h3 class="mt-4">게시판 검색</h3>
+    <form id='bdSearchFrm' method="post" action="{% url 'board_search' %}" class="mt-3">
         {% csrf_token %}
-        <select name="type">
-            <option value=""> 검색조건 선택 </option>
-            <option value="board_title"> 게시물 이름 </option>
-            <option value="board_main_text"> 게시물 내용 </option>
-        </select>
-        <input type="text" name="keyword" id="keyword">
-        <input type="submit" value="검색">
-    </form><br><br>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <select name="type" class="form-select" id="searchType">
+                        <option value="">검색조건 선택</option>
+                        <option value="board_title">게시물 이름</option>
+                        <option value="board_main_text">게시물 내용</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <input type="text" name="keyword" class="form-control" id="keyword" placeholder="검색어를 입력하세요">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-primary">검색</button>
+            </div>
+        </div>
+    </form>
 
-
-<div id="searchResultBox"></div>
+    <div id="searchResultBox" class="mt-4">
+        <!-- 여기에 검색 결과 테이블을 추가하세요. JavaScript로 동적으로 추가됩니다. -->
+    </div>
 {% endblock content %}
