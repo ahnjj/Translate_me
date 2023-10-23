@@ -1,7 +1,7 @@
 $(document).ready(function(){
-    $("#all_search").on("click", function(){
+    $("#search_all").on("click", function(){
         if ($(this).is(":checked")) {
-            $("#all_result").prop("checked", true);
+            $("#result_all").prop("checked", true);
             $("#kor_result").prop("checked", true);
             $("#eng_result").prop("checked", true);
             $("#eng_result").prop("disabled", false);
@@ -13,7 +13,7 @@ $(document).ready(function(){
     });
     $("#kor_search").on("click" ,function(){
         if ($(this).is(":checked")) {
-            $("#all_result").prop("checked", true);
+            $("#result_all").prop("checked", true);
             $("#kor_result").prop("checked", true);
             $("#eng_result").prop("checked", true);
             $("#eng_result").prop("disabled", false);
@@ -25,7 +25,7 @@ $(document).ready(function(){
     });
     $("#eng_search").on("click", function(){
         if ($(this).is(":checked")) {
-            $("#all_result").prop("checked", true);
+            $("#result_all").prop("checked", true);
             $("#kor_result").prop("checked", true);
             $("#eng_result").prop("checked", true);
             $("#eng_result").prop("disabled", false);
@@ -37,7 +37,7 @@ $(document).ready(function(){
     });
     $("#jp_search").on("click", function(){
         if ($(this).is(":checked")) {
-            $("#all_result").prop("checked", true);
+            $("#result_all").prop("checked", true);
             $("#kor_result").prop("checked", true);
             $("#eng_result").prop("checked", false);
             $("#eng_result").prop("disabled", true);
@@ -49,7 +49,7 @@ $(document).ready(function(){
     });
     $("#ch_search").on("click", function(){
         if ($(this).is(":checked")) {
-            $("#all_result").prop("checked", true);
+            $("#result_all").prop("checked", true);
             $("#kor_result").prop("checked", true);
             $("#eng_result").prop("checked", false);
             $("#eng_result").prop("disabled", true);
@@ -59,7 +59,7 @@ $(document).ready(function(){
             $("#ch_result").prop("disabled", false);
         };
     });
-    $("#all_result").on("click", function(){
+    $("#result_all").on("click", function(){
         if ($(this).is(":checked")) {
             $("#kor_result").prop("checked", true);
             if (!$("#eng_result").is(":disabled")){
@@ -82,6 +82,16 @@ $(document).ready(function(){
             if (!$("#ch_result").is(":disabled")){
                 $("#ch_result").prop("checked", false);
             };
+        };
+    });
+    $("input[id$='_result']").on("click", function(){
+        if (($("#kor_result").is(":disabled")||$("#kor_result").is(":checked"))&&
+            ($("#eng_result").is(":disabled")||$("#eng_result").is(":checked"))&&
+            ($("#jp_result").is(":disabled")||$("#jp_result").is(":checked"))&&
+            ($("#ch_result").is(":disabled")||$("#ch_result").is(":checked"))){
+            $("#result_all").prop("checked", true);
+        } else {
+            $("#result_all").prop("checked", false);
         };
     });
     $("#index_search").on('submit', function(){
