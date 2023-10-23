@@ -250,6 +250,7 @@ def vocabulary_test(request):
 
             return render(request, 'vocabulary_app/vocabulary_test.html')
 
+
 def vocabulary_update_from_search(request):
     if request.method == "POST" and request.user.is_authenticated:
         if request.POST["lang"] == "kor":
