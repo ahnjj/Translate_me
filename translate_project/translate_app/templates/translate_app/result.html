@@ -1,22 +1,13 @@
 {% if query_result %}
 <h3 class="text-white mt-0">{{ query_result.query_present }}</h4>
-<!-- {% if query_result.ko %}
-<hr class="divider divider-light" />
-<h5 class="text-white mt-0">한국어 정의</h5>
-<ol>
-{% for mean in query_result.ko %}
-<li class="text-white-75 mb-1 text-start">{{ mean }}</li>
-{% endfor %}
-</ol>
-{% endif %} -->
 <div class="container">
 {% for result in query_result.result %}
     <hr class="divider divider-light" />
-    <h4 class="text-white mt-3">{{ result.lang }} 검색 결과</h5>
+    <h4 class="text-white">{{ result.lang }} 검색 결과</h5>
     {% for word in result.words %}
     <hr class="text-white">
     <div class="row align-items-center">
-        <div class="col-lg-10">
+        <div class="col">
             <h5 class="text-white mx-4 mt-2 text-start">{{ word.query_ref }}</h5>
             <ul class="text-white-75 mb-1 text-start">
                 {% for mean in word.means %}
@@ -25,10 +16,10 @@
             </ul>
         </div>
         {% if result.lang_e != 'kor' %}
-        <div class="col ">
+        <div class="col-sm-2">
             <form action="{% url 'vocabulary_insert_from_search' %}" class="to_voca_form" method="post">
                 {% csrf_token %}
-                <input type="text" name="is_from_search" value="y" hidden> <!-- 검색란에서 온 정보를 알리는 속성 -->
+                <input type="text" name="is_from_search" value="y" hidden> <!-- 검색란에서 보낸 값인지를 체크하기 위한 정보 -->
                 <input type="text" name="query_lang" value="{{ word.query_ref_lang }}" hidden>
                 <input type="text" name="query" value="{{ word.query_ref }}" hidden>
                 <input type="text" name="lang" value="{{ result.lang_e }}" hidden>
@@ -42,11 +33,11 @@
 {% endfor %}
 </div>
 {% else %}
-<h4 class="text-white mt-0">단어장, 커뮤니티, 게임 기능을 <br> 사용하고 싶으신 분들은 로그인을 해주세요</h4>
+<h3 class="text-white mt-0">단어장, 커뮤니티, 게임 기능을 <br> 사용하고 싶으신 분들은 로그인을 해주세요</h4>
 <hr class="divider divider-light" />
-<h4 class="text-white mt-0">검색 내용 : 크리스마스 트리</h4>
+<h3 class="text-white mt-0">검색 내용 : 크리스마스 트리</h4>
 <hr class="divider divider-light" />
-<h5 class="text-white mt-0">한국어 정의</h5>
+<h4 class="text-white mt-0">한국어 정의</h5>
 <p class="text-white-75 mb-4">크리스마스 때에 별, 종, 전구 등 여러 가지 장식으로 꾸미는 나무.</p>
 <hr class="divider divider-light" />
 <p class="text-white-75 mb-4 text-start">번역 언어: 영어 <br>번역 단어: Christmas tree <br></p>
