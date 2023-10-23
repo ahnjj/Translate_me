@@ -104,13 +104,13 @@ $(document).ready(function(){
             url: 'http://127.0.0.1:8000/search/',
             success: function(result){
                 // 성공시 가져온 result를 가지고 수행할 명령
-                $('#result_box').html(result)
+                $('#result_box').html(result);
                 let offset = $("#result_box").offset();
                 $("html, body").animate({scrollTop: offset.top-120}, 400);
             },
             error: function(){
                 // 오류 발생하면 실행할 명령
-                alert('검색 오류 발생')
+                alert('검색 오류 발생!')
             },
             complete: function(){
 
