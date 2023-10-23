@@ -141,7 +141,7 @@ def vocabulary_insert_from_search(request):
         try:
             request.POST["is_from_search"]
         except:
-            vocabulary_insert(request)
+            return vocabulary_insert(request)
         else:
             if request.POST["lang"] == "kor":
                 language_id = 1
