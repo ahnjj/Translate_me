@@ -1,6 +1,21 @@
 {% extends "roleplay_game_app/base.html" %}
 
 {% block content %}
+{% comment %} <div class="container">
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+        <a href="{% url 'role_playing_room_list' %}"
+           class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+            <span class="fs-4"> 상황극 </span>
+        </a>
+
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a href="{% url 'role_playing_room_new' %}" class="nav-link active">새 상황 만들기</a>
+            </li>
+        </ul>
+    </header>
+</div> {% endcomment %}
+<div class="container">
 <table class="table table-hover table-bordered">
     <thead>
         <tr class="text-center">
@@ -36,4 +51,5 @@
         {% endfor %}
     </tbody>
 </table>
+</div>
 {% endblock %}

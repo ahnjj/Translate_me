@@ -1,5 +1,4 @@
 {% extends "roleplay_game_app/base.html" %}
-
 {% block extra-css %}
 <style>
     #chat-message-list {
@@ -38,7 +37,6 @@
         margin-left: 0.2em;
         cursor: pointer;
     }
-
 </style>
 {% endblock %}
 
@@ -64,13 +62,28 @@
                         <li class="chat-message">
                             <span class="message">여러분의 답변에 문법적 오류가 있으면 도우미가 교정해드립니다! </span>
                         </li>
-                         {% comment %} 
-                        <li class="chat-message me">
-                            <span class="message">Yes, I would like a grande Americano with an extra shot of expresso and a splash of almond milk, please.</span>
-                        </li>
+                         {% if roleplayingroom.language == 'en-US' %} 
                         <li class="chat-message">
-                            <span class="message">Of course, that soulds like a great choice. Would you like any pastries or snacks to go with your coffee today?</span>
-                        </li> {% endcomment %}
+                            <span class="message">Let's start the conversation!</span>
+                        </li>
+                        <li class="chat-message me">
+                            <span class="message">Hi Nice to meet you!</span>
+                        </li>
+                        {% elif roleplayingroom.language == 'ja-JP' %}
+                        <li class="chat-message">
+                            <span class="message">会話を始めましょう！</span>
+                        </li>
+                        <li class="chat-message me">
+                            <span class="message">こんにちは。</span>
+                        </li>
+                        {% elif roleplayingroom.language == 'zh-CN' %}
+                        <li class="chat-message">
+                            <span class="message">让我们开始对话吧</span>
+                        </li>
+                        <li class="chat-message me">
+                            <span class="message">你好</span>
+                        </li>
+                        {% endif %}
                     </ul>
                 </div>
                 <div class="card-footer">
@@ -78,7 +91,6 @@
                         <button class="btn btn-primary" id="auto-play-button">
                             도우미의 말 자동 읽어주기
                         </button>
-                    </div>
                     </div>
                     <select id="voice-list" class="form-select mb-2"></select>
                     <div class="d-flex gap-2">
@@ -89,6 +101,13 @@
                                    placeholder="메시지를 입력하세요."
                                    class="form-control flex-grow-1" />
                         </form>
+                        <button class="btn btn-danger" id="record">
+                            <div class="icon">
+                                <ion-icon name="mic-outline"></ion-icon>
+                                <!-- <img src="bars.svg" alt="" /> -->
+                            </div>
+                            <!-- <p>Start Listening</p> -->
+                        </button>
                     </div>
                 </div>
             </div>
@@ -99,63 +118,89 @@
            class="btn btn-primary">수정</a>
         <a href="{% url 'role_playing_room_delete' roleplayingroom.pk %}"
            class="btn btn-danger">삭제</a>
+        <button class="btn btn-secondary" id="download">대화 파일로 저장</button>
     </div>
 {% endblock %}
 
 {% block script %}
-
 {{ roleplayingroom.pk|json_script:"room-pk" }}
 {{ roleplayingroom.language|json_script:"room-language" }}
 
+
 <script>
+// 대화창 화면에 대화 하나씩 추가하는 함수
+function addMessage(message, isMe) {
+    const messageList = document.getElementById("chat-message-list");
+    const messageElement = document.createElement("li");
+    messageElement.className = "chat-message" + (isMe ? " me" : "");
+    // 대화 메세지
+    // 대화 메세지 읽어주기 기능
+    messageElement.innerHTML = `
+        <span class="message">${message}</span>
+        <span class="say">읽어주기</span>   
+        <span class="stopsay">읽기멈춤</span> 
+    `;
+    messageList.appendChild(messageElement);
+    messageList.scrollTop = messageList.scrollHeight;
+    // 읽어주기 기능
+    messageElement.querySelector(".say").addEventListener("click", ()=>{
+        sayMessage(message);
+    });
+    // 읽어주기 stop 기능
+    messageElement.querySelector(".stopsay").addEventListener("click", ()=>{
+        window.speechSynthesis.cancel();  // 멈춤
+    });
 
-    // 대화창 화면에 대화 하나씩 추가하는 함수
-    function addMessage(message, isMe) {
-        const messageList = document.getElementById("chat-message-list");
-        const messageElement = document.createElement("li");
-        messageElement.className = "chat-message" + (isMe ? " me" : "");
-        // 대화 메세지
-        // 대화 메세지 읽어주기 기능
-        messageElement.innerHTML = `
-            <span class="message">${message}</span>
-            <span class="say">읽어주기</span>   
-            <span class="stopsay">읽기멈춤</span> 
-        `;
-        messageList.appendChild(messageElement);
-        messageList.scrollTop = messageList.scrollHeight;
-        // 읽어주기 기능
-        messageElement.querySelector(".say").addEventListener("click", ()=>{
-            sayMessage(message);
-        });
-        // 읽어주기 stop 기능
-        messageElement.querySelector(".stopsay").addEventListener("click", ()=>{
-            window.speechSynthesis.cancel();  // 멈춤
-        });
+    // ⭐️ 메세지 저장하기 기능
+    //messageElement.querySelector(".savesay").addEventListener("click", ()=>{
+        
+    // });
 
-        // ⭐️ 메세지 저장하기 기능
-        //messageElement.querySelector(".savesay").addEventListener("click", ()=>{
-            
-       // });
+}
+// 읽어주기 함수
+function sayMessage(message){
+    const voiceListSelect = document.querySelector("#voice-list");
+    const option = voiceListSelect.options[voiceListSelect.selectedIndex];
+    const voiceName = option.value;
+    const voice = window.speechSynthesis.getVoices()
+        .find(voice => voice.name === voiceName);
+    const utterance = new SpeechSynthesisUtterance(message);
+    utterance.voice = voice;
+    utterance.lang = voice.lang;
 
+    // 발화 할수 없는 에러 발생시
+    // 이거하면 멈춤기능을 못씀
+    //utterance.addEventListener("error", (e)=>{
+    //    alert(`error : ${e.error}`);
+    //});
+    window.speechSynthesis.speak(utterance);  // 읽어주기
+}
+
+// 대화내역 다운로드 함수
+function download() {
+    const allTexts = [];
+    const allMessages = document.querySelectorAll("span.message");
+    // 앞에 설명 부분은 파일에 들어가지 않도록
+    for (let i=3; i<allMessages.length; i++){
+        text = allMessages[i].innerText;
+        allTexts.push(text);
     }
-    // 읽어주기 함수
-    function sayMessage(message){
-        const voiceListSelect = document.querySelector("#voice-list");
-        const option = voiceListSelect.options[voiceListSelect.selectedIndex];
-        const voiceName = option.value;
-        const voice = window.speechSynthesis.getVoices()
-            .find(voice => voice.name === voiceName);
-        const utterance = new SpeechSynthesisUtterance(message);
-        utterance.voice = voice;
-        utterance.lang = voice.lang;
+    downloadText = allTexts.join('\n');
+    console.log(downloadText);
+    const filename = "roleplay.txt";
+    const element = document.createElement("a");
+    element.setAttribute(
+        "href",
+        "data:text/plain;charset=utf-8," + encodeURIComponent(downloadText)
+    );
+    element.setAttribute("download", filename);
+    element.style.display = "none";
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
 
-        // 발화 할수 없는 에러 발생시
-        // 이거하면 멈춤기능을 못씀
-        //utterance.addEventListener("error", (e)=>{
-        //    alert(`error : ${e.error}`);
-        //});
-        window.speechSynthesis.speak(utterance);  // 읽어주기
-    }
+}
+ 
 
 // onload되면 바로 실행되는 부분
 (function() {
@@ -172,9 +217,6 @@
     // 서버로부터 웹소켓 메시지를 받았을 때 호출되는 함수.
     ws.onmessage = function(e) {
         console.group("[onmessage]");
-        // console.log(typeof e.data);
-        // console.log(e.data);
-
         const message_obj = JSON.parse(e.data);
         // 도우미의 말 화면에 추가
         if ( message_obj.type === "assistant-message" ) {
@@ -188,10 +230,10 @@
             }
         }
         // 추천 메세지 화면에 추가
-        else if (message_obj.type === "recommended-message"){
+        else if ( message_obj.type === "recommended-message" ){
             const {message} = message_obj;
-            console.log("recommend-message: ", message);
-            document.querySelector("#message-form[name='message']").value = message;
+            console.log("recommend-message: ", message);  
+            document.querySelector("#message-form [name='message']").value = message;  // 띄어쓰기 주의....안하면 안뜬다.
             recommendButton.disabled = false;
         }
         // 에러났을때
@@ -203,7 +245,8 @@
             console.error("알 수 없는 메시지 타입입니다.", message_obj);
         }
         console.groupEnd();
-};
+    };
+
     // 서버로 메세지 요청 보내기
     const messageForm = document.getElementById("message-form");
     messageForm.onsubmit = function(e) {
@@ -218,6 +261,7 @@
             e.target.reset();
         }
     };
+
     // 서버(웹소켓)로 추천 요청 보내기
     const recommendButton = document.querySelector("#recommend-button");
     recommendButton.addEventListener("click", () => {
@@ -250,6 +294,70 @@
             }
         })
     }
+    // 음성 인식 기능
+    // 채팅방 설정 언어로 음성을 인식해서 텍스트로 변환 후
+    // 내 채팅으로 추가한다.
+     // 🔥record button예쁜 버젼 테스트
+    let recording = false;
+    const recordBtn = document.getElementById("record");
+
+
+    if(!("webkitSpeechRecognition" in window)){
+        alert("마이크 기능은 크롬 브라우저에서만 지원됩니다.");
+    }else{
+        try{
+            const speech = new webkitSpeechRecognition;
+            speech.lang = room_language;  // room_language로 대체
+
+            // start 눌렀을때
+            recordBtn.addEventListener("click", () => {
+                console.log("음성인식 버튼 눌림"); // 테스트
+                if (!recording) {
+                    speech.start();
+                    console.log('음성인식 시작');
+                    recording = true;
+                } else {
+                // stop 눌렀을때
+                    speech.stop();
+                    recording = false;
+                    console.log('음성인식 중지');
+                    // 음성인식 결과 출력
+                    speech.addEventListener("result", (event) =>{
+                        const speechResult = event.results[0][0].transcript;
+                        console.log(speechResult);
+                        // 음성인식 결과를 채팅 UI에 메세지로 추가
+                        // isMe = true (내 발화)
+                        addMessage(speechResult, true); 
+                     });
+                }
+            });
+                
+            // 에러 처리
+            speech.onerror = (event) => {
+                stopRecording();  // 녹음 중지
+
+                if (event.error === "no-speech") {
+                    alert("No speech was detected. Stopping...");
+                } else if (event.error === "audio-capture") {
+                    alert(
+                    "발견된 마이크가 없습니다."
+                    );
+                } else if (event.error === "not-allowed") {
+                    alert("마이크 사용을 허가해주십시오.");
+                } else if (event.error === "aborted") {
+                    alert("Listening Stopped.");
+                } else {
+                    alert("인식 중 에러가 발생했습니다: " + event.error);
+                }   
+            }; 
+            } catch (error) {
+                recording = false;
+                console.log(error);
+            }
+        }
+        // 대화내역 text파일로 다운로드
+    const downloadBtn = document.getElementById("download");
+    downloadBtn.addEventListener("click", download);  // 다운로드 함수 호출
 
 })();
 </script>

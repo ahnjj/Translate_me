@@ -38,7 +38,8 @@ class RolePlayingRoomForm(forms.ModelForm):
         if helper_role and not helper_role_en:
             self.cleaned_data["helper_role_en"] = self._translate(helper_role)
 
-
+    # 정적메소드 지정 안해주면 오류남
+    @staticmethod
     def _translate(origin_text:str) -> str:
         translated = google_translate(origin_text, "auto", "en")
         if not translated:
