@@ -96,10 +96,6 @@ def query_search(query, dict_list, search_lang):
         
         # 사이트 크롤링
         query_result = {"query": query, "query_present": "검색 내용 : " + query, 'result':[]} # 결과 설정
-        if ko_def:
-            query_result["query_lang"] = "kor"
-        else:
-            query_result["query_lang"] = "not_kor"
         daum_dict_url = "https://dic.daum.net/search.do?q="
         url = daum_dict_url + quote(query)
         header = {'user-agent':'Mozilla/5'}
@@ -125,36 +121,25 @@ def query_search(query, dict_list, search_lang):
                     n = 0
                     for query_ref, means_group in zip(query_refs, means_groups):
                         n += 1
-                        print(query_ref)
-                        query_ref = query_ref.text.replace('1', '').replace('2', '')
+                        query_ref = query_ref.text.strip('1234567890')
                         means_group = means_group.findAll('span', {'class':'txt_search'})
                         means = []
                         means_by_string = ""
+                        # 검색단어가 한국어인지 아닌지 정하기
+                        query_ref_lang = "not kor"
+                        for l in query_ref:
+                            if is_ko(l):
+                                query_ref_lang = "kor"
+                                break
+                        
+                        # 검색결과 저장하기
                         for cont in means_group:
                             by_string = bs4.BeautifulSoup(pron(str(cont), ls), 'html.parser').text
                             means.append(by_string)
                             means_by_string += by_string + ", "
-                        words_list.append({"query_ref": query_ref, "means_by_string": means_by_string[:-2], "means": means})
+                        words_list.append({"query_ref": query_ref, "query_ref_lang": query_ref_lang, "means_by_string": means_by_string[:-2], "means": means})
                         if n == 10:
                             break
                     query_result['result'].append({'lang': dict_name[ls], 'lang_e': ls[5:], 'words': words_list})
-                # else:
-                #     for ls in dict_list:
-                #         if dict_if[ls] and card['data-tiara-layer'] == ls:
-                #             # string형식에서 발음기호 태그를 변경하기 때문에 변경 후에는 다시 html파싱을 통해 나머지 태그들을 제거해준다
-                #             for i in range(2):
-                #                 if (len(query_refs) == 1 or len(means_groups) == 1) and i == 1:
-                #                     continue
-
-
-                #             if len(means) == 1:
-                #                 string = pron(str(means[0]), ls)
-                #                 string = bs4.BeautifulSoup(string, 'html.parser').text
-                #             else:
-                #                 string = ""
-                #                 for s in means:
-                #                     string += pron(str(s), ls) + ", "
-                #                 string = bs4.BeautifulSoup(string[:-2], 'html.parser').text
-                #             query_result['result'].append({'lang':dict_name[ls], 'lang_e':ls[5:], 'words':string})
         return query_result
         

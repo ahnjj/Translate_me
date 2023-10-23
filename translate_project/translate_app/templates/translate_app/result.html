@@ -12,11 +12,11 @@
 <div class="container">
 {% for result in query_result.result %}
     <hr class="divider divider-light" />
-    <h5 class="text-white mt-0">{{ result.lang }} 정의</h5>
+    <h5 class="text-white mt-0">{{ result.lang }} 검색 결과</h5>
     {% for word in result.words %}
     <div class="row align-items-start">
         <div class="col-lg-10">
-            <h5 class="text-white mt-0">{{ word.query_ref }}</h5>
+            <h5 class="text-white mt-0 text-start">{{ word.query_ref }}</h5>
             <ul class="text-white-75 mb-1 text-start">
                 {% for mean in word.means %}
                     <li>{{ mean }}</li>
@@ -27,7 +27,7 @@
         <div class="col">
             <form action="{% url 'vocabulary_update_from_search' %}" class="to_voca_form" method="post">
                 {% csrf_token %}
-                <input type="text" name="query_lang" value="{{ query_result.query_lang }}" hidden>
+                <input type="text" name="query_lang" value="{{ word.query_ref_lang }}" hidden>
                 <input type="text" name="query" value="{{ word.query_ref }}" hidden>
                 <input type="text" name="lang" value="{{ result.lang_e }}" hidden>
                 <input type="text" name="word" value="{{ word.means_by_string }}" hidden>
