@@ -151,12 +151,12 @@ def vocabulary_list(request):
     return render(request, 'vocabulary_app/vocabulary_list.html', {'words': words})
 
 def download_excel(request):
-    # 데이터를 가져오는 부분을 수정하여 필요한 데이터를 추출합니다.
+    # 데이터를 가져오는 부분을 수정하여 필요한 데이터를 추출
     # 예를 들어, 모든 단어 데이터를 가져오는 경우:
     user = request.user
     words = Vocabulary.objects.filter(id=user.id, train_yn=False)
     i = 0
-    # 데이터를 DataFrame으로 변환합니다.
+    # 데이터를 DataFrame으로 변환
     data = {
         '단어': [word.vocabulary_name for word in words],
         '뜻': [word.vocabulary_meaning for word in words],
