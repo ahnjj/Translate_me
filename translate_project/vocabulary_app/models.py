@@ -30,6 +30,7 @@ class Language_code(models.Model):
 class Users_app_user(models.Model):
     id = models.BigIntegerField(db_column='id', primary_key=True)
     username = models.CharField(db_column='username', max_length=150)
+    userlevel = models.CharField(db_column='user_level', max_length=10)
 
     # def __str__(self):
     #     return self.username

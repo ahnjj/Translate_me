@@ -10,4 +10,6 @@ urlpatterns = [
     path('vocabulary_delete/<str:vocabulary_id>', views.vocabulary_delete, name='vocabulary_delete'),
     path('vocabulary_train/<str:vocabulary_id>', views.vocabulary_train, name='vocabulary_train'),
     path('upload_excel/', views.upload_excel, name='upload_excel'),
+    path('download_excel/', views.download_excel, name='download_excel'),
+    path('vocabulary_test/', views.vocabulary_test, name='vocabulary_test'),
 ]
