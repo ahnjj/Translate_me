@@ -105,6 +105,8 @@ $(document).ready(function(){
             success: function(result){
                 // 성공시 가져온 result를 가지고 수행할 명령
                 $('#result_box').html(result)
+                let offset = $("#result_box").offset();
+                $("html, body").animate({scrollTop: offset.top}, 400);
             },
             error: function(){
                 // 오류 발생하면 실행할 명령
