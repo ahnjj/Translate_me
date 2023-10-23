@@ -150,7 +150,6 @@ def vocabulary_list(request):
 
     return render(request, 'vocabulary_app/vocabulary_list.html', {'words': words})
 
-<<<<<<< HEAD
 def download_excel(request):
     # 데이터를 가져오는 부분을 수정하여 필요한 데이터를 추출합니다.
     # 예를 들어, 모든 단어 데이터를 가져오는 경우:
