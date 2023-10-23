@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+    path("speedgame/", include("speedgame.urls")),
     path('admin/', admin.site.urls),
     path('accounts/',include('users_app.urls')),
     path('',include('translate_app.urls')),

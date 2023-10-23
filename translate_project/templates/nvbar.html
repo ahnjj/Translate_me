@@ -21,6 +21,11 @@
                         <h5>게임</h5>
                     </a>
                 </li>
+                <li class="nav-item mx-0 mx-lg-1">
+                    <a class="nav-link py-3 px-0 px-lg-3 text-white" href="{% url 'speedgame' %}">
+                        <h5>스피드 단어 게임</h5>
+                    </a>
+                </li>
                 {% if user.is_authenticated %}
                     <li class="nav-item mx-0 mx-lg-1">
                         <a class="nav-link py-3 px-0 px-lg-3 text-white" href="{% url 'vocabulary_list' %}">

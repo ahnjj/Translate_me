@@ -23,7 +23,7 @@ requests
 beautifulsoup4
 
 # 장고 채널스 라이브러리
-channels[daphne]~=4.0.0
+# channels[daphne]~=3.0.1
 
 # 구글번역 크롤링을 통한 음성 생성 라이브러리
 gTTS==2.3.2
@@ -36,3 +36,15 @@ pillow
 
 # excel  
 openpyxl
+
+channels_redis~=2.4.2
+
+redis!=5.0.1
+
+# cors
+django-cors-headers
+
+twisted[http2,tls]
+
+channels==3.0.5 
+daphne==3.0.2

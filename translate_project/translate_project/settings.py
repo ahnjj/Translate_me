@@ -42,7 +42,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'daphne',   # 장고 채널스 라이브러리
+    'channels',
+    'daphne',
+    'speedgame',   # 장고 채널스 라이브러리
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -51,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 써드파티 앱
     'django_bootstrap5',
+    'corsheaders',
     # local 앱
     'translate_app', # 기본 앱
     'users_app', # 유저관리 앱
@@ -69,8 +72,24 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+]
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:6379",
+    "http://127.0.0.1:8000",  # 여기에 프론트엔드 도메인을 추가하세요.
 ]
 
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+
+CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:5500','http://localhost:6379', 'http://127.0.0.1:8000']
+CORS_ALLOW_CREDENTIALS = True
 ROOT_URLCONF = 'translate_project.urls'
 
 TEMPLATES = [
@@ -92,7 +111,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'translate_project.wsgi.application'
 ASGI_APPLICATION = "translate_project.asgi.application"   # 채널스 asgi로 구동하기
-
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -162,3 +188,19 @@ LOGIN_REDIRECT_URL = '/'
 
 # OpenAI API key
 OPENAI_API_KEY = env.str("OPENAI_API_KEY")
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',  # 또는 원하는 로그 레벨로 설정
+    },
+}
+
