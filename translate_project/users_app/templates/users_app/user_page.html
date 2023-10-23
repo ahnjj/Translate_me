@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container" >
+        <div class="row pt-5 pb-5">
+            <div class="col-sm-3" style="text-align: center;">
+                <img src="{{ page_user.avatar.url }}" class="rounded-circle"  style="width: 160px;" />
+            </div>
+            <div class="col-sm-9">
+                {{ page_user.username }} 
+                <a href="{% url "profile_edit" %}" class="btn btn-secondary btn-sm">
+                    Edit Profile
+                </a>
+            </div>
+        </div>
+
+        <div class="card" style="width: 30rem;">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">이름 {{ page_user.first_name }}</li>
+              <li class="list-group-item">성 {{ page_user.last_name }}</li>
+              <li class="list-group-item">학습 언어 {{ page_user.user_language }}</li>
+              <li class="list-group-item">학습 레벨 {{ page_user.user_level }}</li>
+              <li class="list-group-item">이메일 {{ page_user.email }}</li>
+              <a href="{{ page_user.website_url }}" class="card-link">user link</a>
+            </ul>
+          </div>
+    </div>
+    
+{% endblock %}
