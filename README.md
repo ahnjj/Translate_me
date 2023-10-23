@@ -215,3 +215,8 @@
     >>> translate_app/online_dict_search.py
     >>> translate_app/views.py
     >>> templates/base.html : bootstrap 관련 스크립트를 bundle파일로 변경
+
+### 10/23 - vocabulary test update
+    > 단어시험 기능 업데이트
+    > 학습완료한 단어중 랜덤으로 10개 추출(10개가 안될경우 있는거 다 추출)
+    > 뜻 입력하면 db의 값과 비교해 일치율 90% 이상이면 정답아니면 X
