@@ -136,27 +136,32 @@ def vocabulary_list(request):
     return render(request, 'vocabulary_app/vocabulary_list.html', {'words': words})
 
 
-def vocabulary_update_from_search(request):
+def vocabulary_insert_from_search(request):
     if request.method == "POST" and request.user.is_authenticated:
-        if request.POST["lang"] == "kor":
-            language_id = 1
-        elif request.POST["lang"] == "eng":
-            language_id = 2
-        elif request.POST["lang"] == "jp":
-            language_id = 3
-        elif request.POST["lang"] == "ch":
-            language_id = 4
+        try:
+            request.POST["is_from_search"]
+        except:
+            vocabulary_insert(request)
         else:
-            pass
-        if request.POST["query_lang"] == "kor":
-            vocabulary_name = request.POST["word"]
-            vocabulary_meaning = request.POST["query"]
-        else:
-            vocabulary_name = request.POST["query"]
-            vocabulary_meaning = request.POST["word"]
-        qd = QueryDict('', mutable=True)
-        qd.update({"vocabulary_name": vocabulary_name, "vocabulary_meaning": vocabulary_meaning, "vocabulary_level": None, "language_id": language_id})
-        form = Vocabulary_Form(qd)
-        return render(request, 'vocabulary_app/vocabulary_update.html', {'form': form})
+            if request.POST["lang"] == "kor":
+                language_id = 1
+            elif request.POST["lang"] == "eng":
+                language_id = 2
+            elif request.POST["lang"] == "jp":
+                language_id = 3
+            elif request.POST["lang"] == "ch":
+                language_id = 4
+            else:
+                pass
+            if request.POST["query_lang"] == "kor":
+                vocabulary_name = request.POST["word"]
+                vocabulary_meaning = request.POST["query"]
+            else:
+                vocabulary_name = request.POST["query"]
+                vocabulary_meaning = request.POST["word"]
+            qd = QueryDict('', mutable=True)
+            qd.update({"vocabulary_name": vocabulary_name, "vocabulary_meaning": vocabulary_meaning, "vocabulary_level": None, "language_id": language_id})
+            form = Vocabulary_Form(qd)
+            return render(request, 'vocabulary_app/vocabulary_form.html', {'form': form})
     else:
         return redirect("http://127.0.0.1:8000/accounts/login/")

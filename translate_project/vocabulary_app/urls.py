@@ -10,5 +10,5 @@ urlpatterns = [
     path('vocabulary_delete/<str:vocabulary_id>', views.vocabulary_delete, name='vocabulary_delete'),
     path('vocabulary_train/<str:vocabulary_id>', views.vocabulary_train, name='vocabulary_train'),
     path('upload_excel/', views.upload_excel, name='upload_excel'),
-    path('vocabulary_update_from_search/', views.vocabulary_update_from_search, name='vocabulary_update_from_search'),
+    path('vocabulary_insert_from_search/', views.vocabulary_insert_from_search, name='vocabulary_insert_from_search'),
 ]
