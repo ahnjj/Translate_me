@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+        <div id ='container'>
+                <div class="row">
+                        <div class="col-sm-6 offset-sm-3">
+                            <h2>단어 수정</h2>
+
+                            <form method="POST" id="voca-form">
+                                {% csrf_token %}
+                                <table id="form_tbl">
+                                    {{ form }}
+                                </table><br><br>
+                                <button id="form_btn" type="submit">수정</button>
+                            </form>
+                        </div>
+                    </div>
+        </div>
+{% endblock content %}

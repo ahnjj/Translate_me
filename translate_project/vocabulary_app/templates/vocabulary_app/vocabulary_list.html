@@ -2,30 +2,59 @@
 {% block content %}
         <div id ='container'>
                 <div class="row">
-                        <div class="col-sm-6 offset-sm-3">
+                        <div class="col-sm-6 offset-sm-3" id="voca_list_div">
                                 <h2>단어장</h2>
-                                <table id="voca_list">
-                                        <tr>
-                                                <th>단어</th>
-                                                <th>뜻</th>
-                                                <th>학습완료</th>
-                                                <th>삭제</th>
-                                        </tr>
-                                        {% for word in words %}
-                                        <tr>
-                                                <td>{{ word.vocabulary_name }}</td> 
-                                                <td>{{ word.vocabulary_meaning }}</td>
-                                                <!-- <td><a href="#"><button class="btn">학습완료</button></a></td> -->
-                                                <td><a href="{% url 'vocabulary_train' word.vocabulary_id %}"
-                                                        onclick="return confirm('이 단어의 학습을 완료합니까 ?')">
-                                                        <button class="btn">완료</button></a></td>
-                                                <td><a href="{% url 'vocabulary_delete' word.vocabulary_id %}"
-                                                        onclick="return confirm('단어를 삭제하시겠습니까 ?')">
-                                                        <button class="btn">삭제</button></a></td>
-                                        </tr>
-                                        {% endfor %}
-                                </table>
-                                <a href="{% url 'vocabulary_insert' %}"><button class='btn'>단어 등록</button></a>
+                                <div id = "data-container">
+                                        <table id="voca_list">
+                                                <tr>
+                                                        <th>단어</th>
+                                                        <th>뜻</th>
+                                                        <th>언어</th>
+                                                        <th>단어 수정</th>
+                                                        <th>학습완료</th>
+                                                        <th>삭제</th>
+                                                </tr>
+                                                {% for word in words %}
+                                                <tr>
+                                                        <td>{{ word.vocabulary_name }}</td> 
+                                                        <td>{{ word.vocabulary_meaning }}</td>
+                                                        <td>{{ word.language_id }}</td>
+                                                        <td><a href="{% url 'vocabulary_update' word.vocabulary_id %}">
+                                                                <button class="btn">단어 수정</button></a></td>
+                                                        <td><a href="{% url 'vocabulary_train' word.vocabulary_id %}"
+                                                                onclick="return confirm('이 단어의 학습을 완료합니까 ?')">
+                                                                <button class="btn">학습완료</button></a></td>
+                                                        <td><a href="{% url 'vocabulary_delete' word.vocabulary_id %}"
+                                                                onclick="return confirm('단어를 삭제하시겠습니까 ?')">
+                                                                <button class="btn">삭제</button></a></td>
+                                                </tr>
+                                                {% endfor %}
+                                        </table>
+                                </div>
+                                <div class="pagination">
+                                        <span class="step-links">
+                                            {% if words.has_previous %}
+                                                <a href="?page=1">&laquo; 처음으로</a>
+                                                <a href="?page={{ words.previous_page_number }}">이전</a>
+                                            {% endif %}
+                                    
+                                            <span class="current-page">
+                                                Page {{ words.number }} of {{ words.paginator.num_pages }}.
+                                            </span>
+                                    
+                                            {% if words.has_next %}
+                                                <a href="?page={{ words.next_page_number }}">다음</a>
+                                                <a href="?page={{ words.paginator.num_pages }}">마지막 &raquo;</a>
+                                            {% endif %}
+                                        </span>
+                                </div>
+                                <a href="{% url 'vocabulary_insert' %}"><button>단어 등록</button></a>
+                                <a href="{% url 'upload_excel' %}"><button>파일로 등록</button></a>
+                                {% if error_message %}
+                                        <div class="alert alert-danger">
+                                        {{ error_message }}
+                                        </div>
+                                {% endif %}
                         </div>
                     </div>
         </div>

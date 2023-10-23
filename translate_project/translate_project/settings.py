@@ -12,8 +12,19 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import db_settings
+from environ import Env
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# 환경변수 관리
+env = Env()
+# .env 경로에 파일이 있으면, 환경변수로서 읽어들임
+env_path: Path = BASE_DIR / '.env'
+if env_path.is_file():
+    # .env 파일에 한글이 포함된 경우도 처리하기 위해 encoding="utf8"을 지정(안그러면 윈도우에서 오류)
+    with env_path.open('rt', encoding='utf-8') as f:
+        env.read_env(f, overwrite=True)
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -31,6 +42,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',   # 장고 채널스 라이브러리
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,7 +55,9 @@ INSTALLED_APPS = [
     'translate_app', # 기본 앱
     'users_app', # 유저관리 앱
     'vocabulary_app', # 단어장 앱
-    'board_app' # 게시판 앱
+    'board_app', # 게시판 앱
+    'game_app',
+    'roleplay_game_app',
     # 딕셔너리앱은 기본앱에서 처리해도 되고 필요시 앱 추가 필요
 ]
 
@@ -77,7 +91,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'translate_project.wsgi.application'
-
+ASGI_APPLICATION = "translate_project.asgi.application"   # 채널스 asgi로 구동하기
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -115,7 +129,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+# 언어코드 변경- 한국어로, 디폴트는 영어
+# LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = env.str("LANGUAGE_CODE", default="en-us")
 
 TIME_ZONE = 'UTC'
 
@@ -142,3 +158,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # user 만들면서 추가한 부분
 AUTH_USER_MODEL = "users_app.User"
 LOGIN_REDIRECT_URL = '/'
+
+
+# OpenAI API key
+OPENAI_API_KEY = env.str("OPENAI_API_KEY")
