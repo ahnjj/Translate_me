@@ -11,7 +11,7 @@
             <h5 class="text-white mx-4 mt-2 text-start">{{ word.query_ref }}</h5>
             <ul class="text-white-75 mb-1 text-start">
                 {% for mean in word.means %}
-                    <li>{{ mean }}</li>
+                    <li>{{ mean.mean }}</li>
                 {% endfor %}
             </ul>
         </div>

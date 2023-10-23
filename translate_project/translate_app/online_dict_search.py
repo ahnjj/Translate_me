@@ -59,6 +59,12 @@ def pron(st, ls):
         stt = st 
     return stt
 
+def drop_cc(st):
+    st.replace("[", "").replace("]", "")
+    for l in st:
+        if is_cc(l):
+            st.replace(l, "")
+
 
 # 본격적인 사전 크롤링 함수이다
 def query_search(query, dict_list, search_lang):
@@ -137,7 +143,7 @@ def query_search(query, dict_list, search_lang):
                         # 검색결과 저장하기
                         for cont in means_group:
                             by_string = bs4.BeautifulSoup(pron(str(cont), ls), 'html.parser').text
-                            means.append(by_string)
+                            means.append({'mean': by_string, 'pron': drop_cc(by_string)})
                             means_by_string += by_string + ", "
                         words_list.append({"query_ref": query_ref, "query_ref_lang": query_ref_lang, "means_by_string": means_by_string[:-2], "means": means})
                         if n == 10:
