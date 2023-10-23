@@ -2,8 +2,9 @@ from django.contrib import messages
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, logout_then_login
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from .forms import SignupForm, ProfileForm
+from django.contrib.auth import get_user_model # 프로필
 
 # 로그인뷰
 login = LoginView.as_view(template_name='users_app/login_form.html') # 기본 장고 로그인 뷰 사용
@@ -36,6 +37,17 @@ def profile_edit(request):
             form.save()
             messages.success(request, '프로필을 수정/저장했습니다.')
             return redirect('profile_edit')
+            # return redirect('user_page')
     else:
         form = ProfileForm(instance=request.user)
     return render(request, "users_app/profile_edit_form.html", {'form':form})
+
+# 프로필 뷰
+def user_page(request, username):
+    """
+    프로필 기본정보
+    """
+    page_user = get_object_or_404(get_user_model(), username=username, is_active=True)
+    return render(request, "users_app/user_page.html", {
+        "page_user": page_user,
+    })

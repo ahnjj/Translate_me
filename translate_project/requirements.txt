@@ -36,3 +36,6 @@ pillow
 
 # excel  
 openpyxl
+
+# 프로필 기본 이미지
+django-pydenticon

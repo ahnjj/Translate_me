@@ -46,7 +46,7 @@ class RolePlayingRoom(models.Model):
         max_length=100, blank=True, verbose_name="내 역할(영문)",
         help_text="여기에 입력하신 대로 도우미에게 여러분의 역할을 알려줍니다. 비워두시면 자동으로 번역되니 걱정마세요!"
     )
-    helper_role = models.CharField(max_length=100, verbose_name="도우미 역할(영문)")
+    helper_role = models.CharField(max_length=100, verbose_name="도우미 역할")
     helper_role_en = models.CharField(
         max_length=100, blank=True, verbose_name="도우미 역할(영문)",
         help_text="여기에 입력하신 대로 도우미에게 도우미의 역할을 알려줍니다. 비워두시면 자동으로 번역되니 걱정마세요!"
