@@ -18,3 +18,4 @@ class Vocabulary_Form(forms.ModelForm):
             'vocabulary_level':'단어 난이도',
             'language_id':'단어 종류'
         }
+        

@@ -21,6 +21,7 @@
     <script src="{% static 'js/Scripts.js' %}"></script>
     <script src="{% static 'js/index_search.js' %}"></script>
     <script src="{% static 'js/board_search.js' %}"></script>
+    <script src="{% static 'js/vocabulary_test.js' %}"></script>
 
     
     {% bootstrap_css %}
@@ -50,6 +51,12 @@
         {% block content %}
         {% endblock content %}
     </div>
-    
+    <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="row">
+            <div class="col-12 col-md">
+                <small class="d-block mb-3 text-muted">&copy; 2023.번역해조</small>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

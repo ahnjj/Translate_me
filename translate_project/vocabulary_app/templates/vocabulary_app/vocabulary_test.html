@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+        <div id ='container'>
+                <div class="row">
+                        <div class="col-sm-6 offset-sm-3" id="voca_list_div">
+                                <h2>단어 테스트</h2>
+                                <div id = "data-container">
+                                        <form id="quiz-form" method="POST">
+                                                {% csrf_token %}
+                                                <table id="voca_list">
+                                                        <tr>
+                                                                <th>단어</th>
+                                                                <th>뜻</th>
+                                                                <th>다시 학습</th>
+                                                        </tr>
+                                                        {% for word in words %}
+                                                        <tr>
+                                                                <td>{{word.vocabulary_name}}</td>
+                                                                <td>
+                                                                        <input type="text" class="user-answer" name="user_answers[]" data-vocabulary_id="{{word.vocabulary_id}}">
+                                                                        <span class="result"></span>
+                                                                </td>
+                                                                <td><a href="{% url 'vocabulary_train' word.vocabulary_id %}"
+                                                                        onclick="return confirm('이 단어를 다시 단어장에 추가합니까 ?')">
+                                                                        <button class="btn">다시 학습</button></a></td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                </table>
+                                                <button type="submit" class="testEnd">결과 보기</button>
+                                        </form>
+                                        <div id="result-container"></div>
+                                </div>
+                        </div>
+                    </div>
+        </div>
+{% endblock content %}

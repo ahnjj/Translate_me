@@ -13,6 +13,13 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import db_settings
 from environ import Env
+import collections # 장고 pydenticon 파이썬 3.10버전 이후 지원 안해서 해결방안
+
+# 장고 pydenticon 파이썬 3.10버전 이후 지원 안해서 해결방안
+if not hasattr(collections, 'Callable'):
+	collections.Callable = collections.abc.Callable
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -51,6 +58,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 써드파티 앱
     'django_bootstrap5',
+    'django_pydenticon',  # 프로필 디폴트 이미지
     # local 앱
     'translate_app', # 기본 앱
     'users_app', # 유저관리 앱
