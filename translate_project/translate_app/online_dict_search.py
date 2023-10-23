@@ -50,9 +50,11 @@ def is_ja(q):
 # 가독성이나 추후 발음기능의 추가를 위해 만들었다
 def pron(st, ls):
     if ls == 'word jp':
-        stt = st.replace("<daum:ruby>", "@jj$").replace("</daum:ruby>", "$jj@")
+        # stt = st.replace("<daum:ruby>", "@jj$").replace("</daum:ruby>", "$jj@")
+        stt = st.replace("<daum:ruby>", "[").replace("</daum:ruby>", "]")
     elif ls == 'word ch':
-        stt = st.replace('<daum:pinyin style="display:none">', "@cc$").replace("</daum:pinyin>", "$cc@")
+        # stt = st.replace('<daum:pinyin style="display:none">', "@cc$").replace("</daum:pinyin>", "$cc@")
+        stt = st.replace('<daum:pinyin style="display:none">', "[").replace("</daum:pinyin>", "]")
     else:
         stt = st 
     return stt

@@ -13,4 +13,5 @@ urlpatterns = [
     path('download_excel/', views.download_excel, name='download_excel'),
     path('vocabulary_test/', views.vocabulary_test, name='vocabulary_test'),
     path('vocabulary_update_from_search/', views.vocabulary_update_from_search, name='vocabulary_update_from_search'),
+    path('vocabulary_insert_from_search/', views.vocabulary_insert_from_search, name='vocabulary_insert_from_search'),
 ]
