@@ -1,6 +1,6 @@
 {% if query_result %}
-<h4 class="text-white mt-0">{{ query_result.query }}</h4>
-{% if query_result.ko %}
+<h4 class="text-white mt-0">{{ query_result.query_present }}</h4>
+<!-- {% if query_result.ko %}
 <hr class="divider divider-light" />
 <h5 class="text-white mt-0">한국어 정의</h5>
 <ol>
@@ -8,19 +8,35 @@
 <li class="text-white-75 mb-1 text-start">{{ mean }}</li>
 {% endfor %}
 </ol>
-{% endif %}
+{% endif %} -->
 <div class="container">
 {% for result in query_result.result %}
     <hr class="divider divider-light" />
+    <h5 class="text-white mt-0">{{ result.lang }} 검색 결과</h5>
+    {% for word in result.words %}
     <div class="row align-items-start">
         <div class="col-lg-10">
-            <p class="text-white-75 mb-1 text-start">번역 언어 : {{ result.lang }} <br></p>
-            <p class="text-white-75 mb-1 text-start">번역 단어 : {{ result.word }} <br></p>
+            <h5 class="text-white mt-0 text-start">{{ word.query_ref }}</h5>
+            <ul class="text-white-75 mb-1 text-start">
+                {% for mean in word.means %}
+                    <li>{{ mean }}</li>
+                {% endfor %}
+            </ul>
         </div>
+        {% if result.lang_e != 'kor' %}
         <div class="col">
-            <button type="button" name="{{ result.lang_e }}" class="btn btn-secondary btn-xl">저장</button>
+            <form action="{% url 'vocabulary_update_from_search' %}" class="to_voca_form" method="post">
+                {% csrf_token %}
+                <input type="text" name="query_lang" value="{{ word.query_ref_lang }}" hidden>
+                <input type="text" name="query" value="{{ word.query_ref }}" hidden>
+                <input type="text" name="lang" value="{{ result.lang_e }}" hidden>
+                <input type="text" name="word" value="{{ word.means_by_string }}" hidden>
+                <button type="submit" class="btn btn-secondary btn-xl">저장</button>
+            </form>
         </div>
+        {% endif %}
     </div>
+    {% endfor %}
 {% endfor %}
 </div>
 {% else %}

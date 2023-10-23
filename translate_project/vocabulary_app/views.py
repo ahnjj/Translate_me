@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import *
 from vocabulary_app.forms import Vocabulary_Form
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, QueryDict
 from datetime import date
 import pandas as pd
 from django.core.paginator import Paginator
@@ -134,3 +134,29 @@ def vocabulary_list(request):
     words = paginator.get_page(page_number)
 
     return render(request, 'vocabulary_app/vocabulary_list.html', {'words': words})
+
+
+def vocabulary_update_from_search(request):
+    if request.method == "POST" and request.user.is_authenticated:
+        if request.POST["lang"] == "kor":
+            language_id = 1
+        elif request.POST["lang"] == "eng":
+            language_id = 2
+        elif request.POST["lang"] == "jp":
+            language_id = 3
+        elif request.POST["lang"] == "ch":
+            language_id = 4
+        else:
+            pass
+        if request.POST["query_lang"] == "kor":
+            vocabulary_name = request.POST["word"]
+            vocabulary_meaning = request.POST["query"]
+        else:
+            vocabulary_name = request.POST["query"]
+            vocabulary_meaning = request.POST["word"]
+        qd = QueryDict('', mutable=True)
+        qd.update({"vocabulary_name": vocabulary_name, "vocabulary_meaning": vocabulary_meaning, "vocabulary_level": None, "language_id": language_id})
+        form = Vocabulary_Form(qd)
+        return render(request, 'vocabulary_app/vocabulary_update.html', {'form': form})
+    else:
+        return redirect("http://127.0.0.1:8000/accounts/login/")
