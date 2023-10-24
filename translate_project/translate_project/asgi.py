@@ -6,11 +6,13 @@ It exposes the ASGI callable as a module-level variable named ``application``.
 For more information on this file, see
 https://docs.djangoproject.com/en/4.2/howto/deployment/asgi/
 """
-
+# asgi.py
 import os
 from channels.auth import AuthMiddlewareStack
+
 from channels.routing import ProtocolTypeRouter, URLRouter
 from django.core.asgi import get_asgi_application
+import speedgame.routing
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'translate_project.settings')
 django_asgi_app = get_asgi_application()
@@ -27,3 +29,14 @@ application = ProtocolTypeRouter({
         roleplay_game_app.routing.websocket_urlpatterns
     )),
 })
+
+django_asgi_app2 = get_asgi_application()
+
+application2 = ProtocolTypeRouter(
+    {
+        'http': django_asgi_app2,
+        'websocket': URLRouter(
+            speedgame.routing.websocket_urlpatterns
+        ),
+    }
+)
