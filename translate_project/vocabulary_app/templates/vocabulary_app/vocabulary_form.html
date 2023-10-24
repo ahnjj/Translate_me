@@ -15,4 +15,20 @@
                         </div>
                     </div>
         </div>
+        <script>
+            $(document).ready(function(){
+                let means = $("input[name='vocabulary_name']").attr("value").split(", ");
+                if (means.length != 1){
+                    string = "<select class='form-select' style='width: 50%;'>";
+                    for (i=0; i<means.length; i++){
+                        string += "<option name='vn_select' value='" + means[i] + "'>" + means[i] + "</option>"
+                    };
+                    string += "</select>"
+                    $("#form_tbl > tbody > tr:first-child > td").append(string)
+                };
+                $(document).on("change", "#form_tbl > tbody > tr:first-child > td", function(){
+                    $(this).find('input').attr("value", $(this).find("option:selected").text())
+                });
+            });
+        </script>
 {% endblock content %}
