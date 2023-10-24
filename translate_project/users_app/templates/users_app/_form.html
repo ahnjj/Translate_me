@@ -11,11 +11,9 @@
             <form action="" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 {% bootstrap_form form %}
-                {% comment %} {% buttons %} {% endcomment %}
                     <button type='submit' class='btn btn-primary'>
                         {{ submit_label|default:"submit" }}
                     </button>
-                {% comment %} {% endbuttons %} {% endcomment %}
             </form>
         {% else %}
         {% endif %}

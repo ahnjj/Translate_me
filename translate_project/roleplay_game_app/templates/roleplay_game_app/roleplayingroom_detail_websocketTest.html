@@ -219,17 +219,19 @@ function purchase() {
         } 
 
 // 웹소켓 연결
-// function startWebsocket(ws){
-//     // const ws = new WebSocket(`ws://${window.location.host}/ws/roleplay/${room_pk}/`);
-//  // 웹소켓에서 발생하는 4가지 이벤트 핸들러 (open/ close/ error/message)
-//     ws.onopen = function(e) { console.log("장고 채널스 서버와 웹소켓 연결되었습니다."); };
-//     ws.onclose = function(e) { 
-//         console.log('장고 채널스 서버와 웹소켓 연결이 끊어졌습니다.');
-//         // 끊겼을 때 1초 후 웹소켓을 재연결하는 코드
-//         setTimeout(startWebsocket, 100);  
-//     }; 
-//     ws.onerror = function(e) { console.error("장고 채널스 서버와의 웹소켓 연결 중에 오류가 발생했습니다.", e); };
-// }
+function startWebsocket(ws){
+    // const ws = new WebSocket(`ws://${window.location.host}/ws/roleplay/${room_pk}/`);
+ // 웹소켓에서 발생하는 4가지 이벤트 핸들러 (open/ close/ error/message)
+    ws.onopen = function(e) { console.log("장고 채널스 서버와 웹소켓 연결되었습니다."); };
+    ws.onclose = function(e) { 
+        console.log('장고 채널스 서버와 웹소켓 연결이 끊어졌습니다.');
+        // 끊겼을 때 1초 후 웹소켓을 재연결하는 코드
+        setTimeout(function(){
+            startWebsocket(ws)
+        }, 100); }
+    
+    ws.onerror = function(e) { console.error("장고 채널스 서버와의 웹소켓 연결 중에 오류가 발생했습니다.", e); };
+}
  
 
 // onload되면 바로 실행되는 부분
@@ -244,25 +246,20 @@ function purchase() {
     let maxToken;  // 🔥언어 별로 최대 무료 토큰
 
     if (room_language == 'en-US'){
-        maxToken = 1000;   // 영어 : 약 4~5철자 1토큰 - 실제 배포시 4000토큰 무료이므로 설정 변경
+        maxToken = 100;   // 영어 : 약 4~5철자 1토큰 - 실제 배포시 4000토큰 무료이므로 설정 변경
     } else if (room_language == 'ja-JP'){
-        maxToken = 10;  // 일본어 : 약 1글자 1토큰 테스트용
+        maxToken = 20;  // 일본어 : 약 1글자 1토큰
     } else {
         maxToken = 10;  // 중국어 : 약 0.4글자 1토큰
     }
 
 
     // 웹소켓에서 발생하는 4가지 이벤트 핸들러 (open/ close/ error/message)
-    ws.onopen = function(e) { console.log("장고 채널스 서버와 웹소켓 연결되었습니다."); };
-    ws.onclose = function(e) { 
-        console.log('장고 채널스 서버와 웹소켓 연결이 끊어졌습니다.'); 
-        alert("장고 채널스 서버와 웹소켓 연결이 끊어졌습니다."); 
-        // 재연결 시도
-        // const ws = new WebSocket(`ws://${window.location.host}/ws/roleplay/${room_pk}/`);
-        // ws.onopen = function(e) { console.log("장고 채널스 서버와 웹소켓 재연결되었습니다."); };
-    }; 
-    ws.onerror = function(e) { console.error("장고 채널스 서버와의 웹소켓 연결 중에 오류가 발생했습니다.", e); };
-    
+    // ws.onopen = function(e) { console.log("장고 채널스 서버와 웹소켓 연결되었습니다."); };
+    // ws.onclose = function(e) { console.log('장고 채널스 서버와 웹소켓 연결이 끊어졌습니다.'); }; 
+    // ws.onerror = function(e) { console.error("장고 채널스 서버와의 웹소켓 연결 중에 오류가 발생했습니다.", e); };
+    startWebsocket(ws);
+
     // 서버로부터 웹소켓 메시지를 받았을 때 호출되는 함수.
     ws.onmessage = function(e) {
         console.group("[onmessage]");

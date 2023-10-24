@@ -38,9 +38,9 @@
                 
                         <a class="nav-link py-3 px-0 px-lg-3 text-white" href="{% url 'user_page' user.username %}">
                             {% if user.avatar %}
-                                <img src="{{ user.avatar.url }}" style="width: 24px; height: 24px"/>
+                                <img src="{{ user.avatar.url }}" style="width: 35px; height: 35px"/>
                             {% else %}
-                                <img src="{% url "pydenticon_image" user.username %}" style="width: 30px; height: 30px;"/>
+                                <img src="{% url "pydenticon_image" user.username %}" style="width: 35px; height: 35px;"/>
                             {% endif %}
                         </a>
                     </li>

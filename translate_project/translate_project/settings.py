@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 import db_settings
 from environ import Env
@@ -168,6 +168,7 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = env.str("LANGUAGE_CODE", default="en-us")
 
 TIME_ZONE = 'UTC'
+# TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
@@ -182,6 +183,12 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
+
+
+# 미디어파일 저장 경로
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
