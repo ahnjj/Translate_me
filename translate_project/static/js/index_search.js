@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    const synth = window.speechSynthesis;
     $("#search_all").on("click", function(){
         if ($(this).is(":checked")) {
             $("#result_all").prop("checked", true);
@@ -94,6 +95,12 @@ $(document).ready(function(){
             $("#result_all").prop("checked", false);
         };
     });
+    $(document).on('click', 'li.click_to_voice a', function(){
+        // 읽기 기능 구현
+        const text = $(this).text();
+        const pron_text = $(this).next(this).text();
+        sayMessage(pron_text, text);
+    });
     $("#index_search").on('submit', function(){
         event.preventDefault();
         let input_data = $(this).serialize();
@@ -110,11 +117,71 @@ $(document).ready(function(){
             },
             error: function(){
                 // 오류 발생하면 실행할 명령
-                alert('검색 오류 발생!')
+                alert('검색 오류 발생!');
             },
             complete: function(){
-
+                
             }
         });
     });
 });
+
+function nothing(){
+    event.preventDefault();
+    return false;
+};
+
+function sayMessage(message, text){
+    // 영어 보이스 : Google US English
+    // 중국어 보이스 : Google 普通话（中国大陆）
+    // 일본어 보이스 : Google 日本語
+    if (is_ko(text)){
+        return false
+    } else if (is_ja(text)){
+        voice_name = "Google 日本語"
+    } else if (is_en(message)){
+        voice_name = "Google US English"
+    } else {
+        voice_name = "普通话（中国大陆）"
+    }
+    
+    const synth = window.speechSynthesis;
+    const voice = synth.getVoices().find(voice => voice.name.includes(voice_name));
+    const utterance = new SpeechSynthesisUtterance(message);
+
+    utterance.voice = voice;
+    utterance.lang = voice.lang;
+    window.speechSynthesis.speak(utterance);  // 읽어주기
+};
+
+function is_ko(st){
+    for (i=0; i<st.length; i++){
+        uc = st.charCodeAt(i);
+        if (0xAC00<=uc && 0xD7A3>=uc){
+            return true
+        };
+    };
+    return false;
+};
+
+function is_en(st){
+    for (i=0; i<st.length; i++){
+        uc = st.charCodeAt(i);
+        if ((0x41<=uc && 0x5A>=uc)||
+            (0x61<=uc && 0x7A>=uc)){
+            return true
+        };
+    };
+    return false;
+};
+
+function is_ja(st){
+    for (i=0; i<st.length; i++){
+        uc = st.charCodeAt(i);
+        if ((0x3040<=uc && 0x309F>=uc) ||
+            (0x30A0<=uc && 0x30FF>=uc)){
+            return true
+        };
+    };
+    return false;
+};

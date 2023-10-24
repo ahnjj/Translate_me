@@ -11,7 +11,10 @@
             <h5 class="text-white mx-4 mt-2 text-start">{{ word.query_ref }}</h5>
             <ul class="text-white-75 mb-1 text-start">
                 {% for mean in word.means %}
-                    <li>{{ mean }}</li>
+                    <li class="click_to_voice">
+                        <a href="#" onclick="nothing()" class="text-white-75" style="text-decoration: none;">{{ mean.mean }}</a>
+                        <span hidden>{{ mean.pron }}</span>
+                    </li>
                 {% endfor %}
             </ul>
         </div>

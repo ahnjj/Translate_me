@@ -275,7 +275,7 @@ def vocabulary_insert_from_search(request):
                 vocabulary_name = request.POST["query"]
                 vocabulary_meaning = request.POST["word"]
             qd = QueryDict('', mutable=True)
-            qd.update({"vocabulary_name": vocabulary_name, "vocabulary_meaning": vocabulary_meaning, "vocabulary_level": None, "language_id": language_id})
+            qd.update({"vocabulary_name": vocabulary_name, "vocabulary_meaning": vocabulary_meaning, "vocabulary_level": 3, "language_id": language_id})
             form = Vocabulary_Form(qd)
             return render(request, 'vocabulary_app/vocabulary_form.html', {'form': form})
     else:
