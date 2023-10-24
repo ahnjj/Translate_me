@@ -3,7 +3,9 @@
         <div id ='container'>
                 <div class="row">
                         <div class="col-sm-6 offset-sm-3" id="voca_list_div">
-                                <h2>단어 테스트</h2>
+                                <h2 class="inline-heading">단어 테스트</h2>
+                                <a href="{% url 'result_list' %}"><button>성적 확인</button></a>
+                                <!-- <a href="{% url 'vocabulary_list' %}"><button>단어장</button></a> -->
                                 <div id = "data-container">
                                         <form id="quiz-form" method="POST">
                                                 {% csrf_token %}
@@ -11,7 +13,6 @@
                                                         <tr>
                                                                 <th>단어</th>
                                                                 <th>뜻</th>
-                                                                <th>다시 학습</th>
                                                         </tr>
                                                         {% for word in words %}
                                                         <tr>
@@ -20,15 +21,14 @@
                                                                         <input type="text" class="user-answer" name="user_answers[]" data-vocabulary_id="{{word.vocabulary_id}}">
                                                                         <span class="result"></span>
                                                                 </td>
-                                                                <td><a href="{% url 'vocabulary_train' word.vocabulary_id %}"
-                                                                        onclick="return confirm('이 단어를 다시 단어장에 추가합니까 ?')">
-                                                                        <button class="btn">다시 학습</button></a></td>
+
                                                         </tr>
                                                         {% endfor %}
                                                 </table>
-                                                <button type="submit" class="testEnd">결과 보기</button>
+                                                <div class="button-container" style="text-align: right;">
+                                                        <button type="submit" class="text-end" id="showResultButton">제출</button>
+                                                </div>
                                         </form>
-                                        <div id="result-container"></div>
                                 </div>
                         </div>
                     </div>

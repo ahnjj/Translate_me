@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+        <div id ='container'>
+                <div class="row">
+                        <div class="col-sm-6 offset-sm-3" id="voca_list_div">
+                                <h2 class="inline-heading" style="font-weight: bold">{{user.username}} 성적 확인</h2>
+
+                                <div id = "data-container">
+                                        <table id="voca_list">
+                                                <tr>
+                                                        <th>시험일시</th>
+                                                        <th>점수</th>
+                                                </tr>
+                                                {% for res in result %}
+                                                <tr>
+                                                        <td>{{ res.test_date }}</td> 
+                                                        <td>{{res.user_score}}</td>
+                                                </tr>
+                                                {% endfor %}
+                                        </table>
+                                </div>
+                        </div>
+                    </div>
+        </div>
+{% endblock content %}

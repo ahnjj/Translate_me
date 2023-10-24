@@ -4,12 +4,12 @@ from .models import *
 from vocabulary_app.forms import Vocabulary_Form
 from django.http import HttpResponse, JsonResponse, QueryDict
 from datetime import date
+from datetime import datetime
 import pandas as pd
 from django.core.paginator import Paginator
 import random
 import json
 from urllib.parse import parse_qs
-import difflib
 
 def vocabulary_insert(request):
     # 요청이 포스트인지 확인하고
@@ -55,6 +55,8 @@ def vocabulary_delete(request, vocabulary_id):
 def vocabulary_train(request, vocabulary_id):
     try:
         voca = get_object_or_404(Vocabulary, vocabulary_id=vocabulary_id)
+
+        print(voca.train_yn)
 
         if voca.train_yn == False:
             voca.train_yn = True
@@ -150,6 +152,13 @@ def vocabulary_list(request):
 
     return render(request, 'vocabulary_app/vocabulary_list.html', {'words': words})
 
+def result_list(request):
+    user = request.user
+    result = User_test_result.objects.filter(id=user.id)
+
+    return render(request, 'vocabulary_app/result_list.html', {'result': result})
+
+
 def download_excel(request):
     # 데이터를 가져오는 부분을 수정하여 필요한 데이터를 추출
     # 예를 들어, 모든 단어 데이터를 가져오는 경우:
@@ -179,9 +188,6 @@ def vocabulary_test(request):
     # django 3까진 is_ajax()썼는데 지금 버전에서는 못쓴다함
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
 
-        # POST 요청에서 사용자가 입력한 답을 가져다가 db에 있는답과 얼마나 일치하는치 확인해서 정답여부를 리턴
-        # 일치 90% 이상이면 정답으로 처리
-
         try:
             # 가져온 데이터 처리해서 가공
             request_body = request.body.decode('utf-8')
@@ -198,27 +204,48 @@ def vocabulary_test(request):
                 answer_data[index][field] = val
 
             # 각 답 match율 저장
-            match_ratios = []
+            response_data = {}
+            idx = 0
+            cnt_correct = 0;
 
-            for i in answer_data:
+            for idx, i in enumerate(answer_data):
                 answers = Vocabulary.objects.filter(vocabulary_id=i.get('id'))
                 answer = answers[0].vocabulary_meaning
-                matcher = difflib.SequenceMatcher(None, answer, i.get('answer'))
-                # 정답을 입력 안했을경우
-                if i.get('answer') is None or not i.get('answer'):
-                    match_ratio = 0
-                else:
-                    #db에 저장된 정답과 사용자가 쓴 값 비교
-                    matcher = difflib.SequenceMatcher(None, answer, i.get('answer'))
+                if ',' in answer :
+                    arr = answer.split(',')
+                    for str in arr:
+                        if str.strip() == i.get('answer'):
+                            cnt_correct+=1
+                            response_data[f'result_{idx}'] = '정답'
+                            for idx, ans in enumerate(answers):
+                                if idx == 0:
+                                    ans.vocabulary_level-=1
+                                    ans.save()
+                            break;
+                        else:
+                            response_data[f'result_{idx}'] = '오답'
+                else :
+                    if answer == i.get('answer'):
+                        cnt_correct+=1
+                        response_data[f'result_{idx}'] = '정답'
+                        for idx, ans in enumerate(answers):
+                                if idx == 0:
+                                    ans.vocabulary_level-=1
+                                    ans.save()
+                    else :
+                        response_data[f'result_{idx}'] = '오답'
+                
+            # print('정답 맞춘 비욜',cnt_correct,'/',len(response_data))
 
-                    match_ratio = matcher.ratio()
+            # 테스트결과 db 저장 
+            user = request.user
+            userid = Users_app_user.objects.get(id = user.id)
 
-                match_ratios.append(match_ratio)
-
-            response_data = {}
-
-            for i, match_ratio in enumerate(match_ratios):
-                response_data[f'result_{i}'] = '정답' if match_ratio >= 0.9 else '오답'
+            User_test_result.objects.create(
+                id = userid,
+                user_score = cnt_correct/len(response_data) * 100,
+                test_date = datetime.now()
+            )
 
             return JsonResponse(response_data)
 

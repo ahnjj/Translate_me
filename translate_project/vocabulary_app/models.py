@@ -38,3 +38,13 @@ class Users_app_user(models.Model):
     class Meta:
         managed = False
         db_table = 'users_app_user'
+
+class User_test_result(models.Model):
+    test_id = models.BigIntegerField(db_column='test_id', primary_key=True)
+    id = models.ForeignKey('Users_app_user', models.DO_NOTHING, db_column='id')
+    user_score = models.IntegerField(db_column='user_score')
+    test_date = models.DateTimeField(db_column='test_date')
+
+    class Meta:
+        managed = False
+        db_table = 'user_test_result'

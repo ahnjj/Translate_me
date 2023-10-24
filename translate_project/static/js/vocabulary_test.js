@@ -1,9 +1,14 @@
 $(document).ready(function() {
 
-
     $("#quiz-form").submit(function(event) {
         event.preventDefault(); 
+
+        hide = document.getElementById("showResultButton")
+        hide.style.display = "none"; // "결과 보기" 버튼 한번 누르면숨기기
+
         userAnswers = []
+
+        document.getElementsByClassName
 
         // 사용자가 입력한 값을 가져옵니다.
         $('.user-answer').each(function() {
@@ -12,7 +17,6 @@ $(document).ready(function() {
             userAnswers.push({ id: vocabularyId, answer: answer });
         });
 
-        console.log(userAnswers)
 
         csrftoken = getCookie('csrftoken')
 

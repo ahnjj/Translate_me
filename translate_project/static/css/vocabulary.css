@@ -91,3 +91,8 @@
 .result.incorrect{
     color:red;
 }
+
+.inline-heading {
+    display: inline; /* 블록 레벨 요소를 인라인으로 변경 */
+    margin-right: 10px; /* 요소 사이의 간격을 조절 */
+}

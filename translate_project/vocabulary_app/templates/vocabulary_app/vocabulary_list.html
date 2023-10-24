@@ -3,9 +3,10 @@
         <div id ='container'>
                 <div class="row">
                         <div class="col-sm-6 offset-sm-3" id="voca_list_div">
-                                <h2 style="font-weight: bold">{{user.username}} 단어장</h2>
+                                <h2 class="inline-heading" style="font-weight: bold">{{user.username}} 단어장</h2>
+                                <!-- <a href="{% url 'result_list' %}"><button>성적 확인</button></a> -->
                                 <div class="button_div text-end">
-                                        <a href="{% url 'vocabulary_test' %}" class="btn btn-primary">시험 보기</a>
+                                        <a href="{% url 'vocabulary_test' %}" class="btn btn-primary">테스트 보기</a>
                                         <a href="{% url 'vocabulary_insert' %}" class="btn btn-primary">단어 등록</a>
                                         <a href="{% url 'upload_excel' %}" class="btn btn-primary">파일로 등록</a>
                                         <a href="{% url 'download_excel' %}" class="btn btn-primary">엑셀로 내려받기</a>                            
@@ -15,6 +16,7 @@
                                                 <tr>
                                                         <th>단어</th>
                                                         <th>뜻</th>
+                                                        <!-- <th>제어</th> -->
                                                         <th>언어</th>
                                                         <th>단어 수정</th>
                                                         <th>학습완료</th>
@@ -27,6 +29,8 @@
                                                                 <span style="display: none;">{{ word.vocabulary_meaning }}</span>
                                                                 <button class="toggle-meaning-btn" onclick="toggleMeaning(this)">보기</button>
                                                         </td>
+                                                        <!-- <td class="hidden-meaning"><span style="display: none;">{{ word.vocabulary_meaning }}</span><button style="display: none;">btn</button></td>
+                                                        <td><button class="toggle-meaning-btn" onclick="toggleMeaning(this)">보기</button></td> -->
                                                         <td>{{ word.language_id }}</td>
                                                         <td><a href="{% url 'vocabulary_update' word.vocabulary_id %}">
                                                                 <button class="btn">단어 수정</button></a></td>
