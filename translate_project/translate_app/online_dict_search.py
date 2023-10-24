@@ -59,12 +59,32 @@ def pron(st, ls):
         stt = st 
     return stt
 
+# 문자열 재구성기능
 def drop_cc(st):
-    st.replace("[", "").replace("]", "")
-    for l in st:
+    stt = st.replace("[", "").replace("]", "")
+    for l in stt:
         if is_cc(l):
-            st.replace(l, "")
+            stt = stt.replace(l, "")
+    return stt
 
+def drop_a(st):
+    if st[:2] == "a ":
+        st = st[2:]
+    elif st[:3] == "an ":
+        st = st[3:]
+    return st
+
+def drop_ineq(st):
+    s = st.find("<")
+    e = st.find(">")
+    if s == -1 or e == -1:
+        pass
+    else:
+        if s == 0:
+            st = st[e+1:]
+        else:
+            st = st[:s] + st[e+1:]
+    return st
 
 # 본격적인 사전 크롤링 함수이다
 def query_search(query, dict_list, search_lang):
@@ -143,7 +163,9 @@ def query_search(query, dict_list, search_lang):
                         # 검색결과 저장하기
                         for cont in means_group:
                             by_string = bs4.BeautifulSoup(pron(str(cont), ls), 'html.parser').text
-                            means.append({'mean': by_string, 'pron': drop_cc(by_string)})
+                            if ls[5:] == "eng":
+                                by_string = drop_a(by_string)
+                            means.append({'mean': by_string, 'pron': drop_ineq(drop_cc(by_string)).strip()})
                             means_by_string += by_string + ", "
                         words_list.append({"query_ref": query_ref, "query_ref_lang": query_ref_lang, "means_by_string": means_by_string[:-2], "means": means})
                         if n == 10:

@@ -11,7 +11,10 @@
             <h5 class="text-white mx-4 mt-2 text-start">{{ word.query_ref }}</h5>
             <ul class="text-white-75 mb-1 text-start">
                 {% for mean in word.means %}
-                    <li>{{ mean.mean }}</li>
+                    <li class="click_to_voice">
+                        <a href="#" onclick="nothing()" class="text-white-75" style="text-decoration: none;">{{ mean.mean }}</a>
+                        <span hidden>{{ mean.pron }}</span>
+                    </li>
                 {% endfor %}
             </ul>
         </div>
@@ -47,3 +50,10 @@
 <hr class="divider divider-light" />
 <p class="text-white-75 mb-4 text-start">번역 언어: 중국어 <br>번역 단어: 圣诞树 <br></p>
 {% endif %}
+<script>
+    window.onload = function(){
+        const num = window.speechSynthesis.getVoices().length;
+        console.log(num);
+    }
+    
+</script>

@@ -110,11 +110,35 @@ $(document).ready(function(){
             },
             error: function(){
                 // 오류 발생하면 실행할 명령
-                alert('검색 오류 발생!')
+                alert('검색 오류 발생!');
             },
             complete: function(){
-
+                $(document).on('click', 'li.click_to_voice a', function(){
+                    event.preventDefault();
+                    // 읽기 기능 구현
+                    const pron_text = $(this).next(this).text();
+                    console.log(pron_text);
+                    sayMessage(pron_text)
+                });
             }
         });
     });
 });
+
+function nothing(){
+    event.preventDefault();
+    return false;
+};
+
+function sayMessage(message){
+    // 영어 보이스 : Google US English
+    // 중국어 보이스 : 普通话（中国大陆）
+    // 일본어 보이스 : 
+    const voice = window.speechSynthesis.getVoices().find(voice => voice.name.includes("Google 日本語"));
+
+    const utterance = new SpeechSynthesisUtterance(message);
+
+    utterance.voice = voice;
+    utterance.lang = voice.lang;
+    window.speechSynthesis.speak(utterance);  // 읽어주기
+};
