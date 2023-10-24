@@ -1,18 +1,51 @@
 {% extends 'base.html' %}
 {% block content %}
-        <div id ='container'>
-                <div class="row">
-                        <div class="col-sm-6 offset-sm-3">
-                            <h2>단어 수정</h2>
-
-                            <form method="POST" id="voca-form">
-                                {% csrf_token %}
-                                <table id="form_tbl">
-                                    {{ form }}
-                                </table><br><br>
-                                <button id="form_btn" type="submit">수정</button>
-                            </form>
+    <div class ='container-xl'>
+        <div class="row">
+            <div class="col-md-11 col-lg-8 col-xl-7 col-xxl-6 mx-auto">
+                <h2>단어 수정</h2>
+                <form method="POST"  id="voca-form">
+                    {% csrf_token %}
+                    <div id="form_div" class="container">
+                        <div class="row align-items-start">
+                            <div class="col-4 col-sm-3 col-md-2 text-end my-auto fw-bold">
+                                {{ form.vocabulary_name.label }}
+                            </div>
+                            <div class="col-8 col-sm-7 col-md-4">
+                                {{ form.vocabulary_name }}
+                            </div>
                         </div>
-                    </div>
+                        <br>
+                        <div class="row align-items-start">
+                            <div class="col-4 col-sm-3 col-md-2 text-end my-auto fw-bold">
+                                {{ form.vocabulary_meaning.label }}
+                            </div>
+                            <div class="col-8 col-sm-9 col-md-10">
+                                {{ form.vocabulary_meaning }}
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row align-items-start">
+                            <div class="col-4 col-sm-3 col-md-2 text-end my-auto fw-bold">
+                                {{ form.vocabulary_level.label }}
+                            </div>
+                            <div class="col-4 col-sm-3">
+                                {{ form.vocabulary_level }}
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row align-items-start">
+                            <div class="col-4 col-sm-3 col-md-2 text-end my-auto fw-bold">
+                                {{ form.language_id.label }}
+                            </div>
+                            <div class="col-6 col-sm-4">
+                                {{ form.language_id }}
+                            </div>
+                        </div>
+                    </div><br><br>
+                <button id="form_btn" type="submit" class="btn btn-primary">등록</button>
+                </form>
+            </div>
         </div>
+    </div>
 {% endblock content %}
