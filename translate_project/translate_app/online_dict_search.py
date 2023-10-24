@@ -60,18 +60,29 @@ def pron(st, ls):
     return stt
 
 # 문자열 재구성기능
-def drop_cc(st):
-    stt = st.replace("[", "").replace("]", "")
-    for l in stt:
-        if is_cc(l):
-            stt = stt.replace(l, "")
-    return stt
-
 def drop_a(st):
     if st[:2] == "a ":
         st = st[2:]
     elif st[:3] == "an ":
         st = st[3:]
+    return st
+
+def drop_pron(st):
+    s = []
+    e = []
+    for i in range(len(st)):
+        ri = len(st)-i-1
+        if st[ri] == "[":
+            s.append(ri)
+        elif st[ri] == "]":
+            e.append(ri)
+    for sl, el in zip(s, e):
+        if el == len(st):
+            st = st[:sl]
+        elif sl == 0:
+            st = st[el+1:]
+        else:
+            st = st[:sl] + st[el+1:]
     return st
 
 def drop_ineq(st):
@@ -154,7 +165,7 @@ def query_search(query, dict_list, search_lang):
                         means = []
                         means_by_string = ""
                         # 검색단어가 한국어인지 아닌지 정하기
-                        query_ref_lang = "not kor"
+                        query_ref_lang = "not"
                         for l in query_ref:
                             if is_ko(l):
                                 query_ref_lang = "kor"
@@ -165,7 +176,11 @@ def query_search(query, dict_list, search_lang):
                             by_string = bs4.BeautifulSoup(pron(str(cont), ls), 'html.parser').text
                             if ls[5:] == "eng":
                                 by_string = drop_a(by_string)
-                            means.append({'mean': by_string, 'pron': drop_ineq(drop_cc(by_string)).strip()})
+                            if ls[5:] == "ch" or ls[5:] == "jp":
+                                by_string_p = drop_pron(by_string)
+                            else:
+                                by_string_p = by_string
+                            means.append({'mean': by_string, 'pron': drop_ineq(by_string_p).strip()})
                             means_by_string += by_string + ", "
                         words_list.append({"query_ref": query_ref, "query_ref_lang": query_ref_lang, "means_by_string": means_by_string[:-2], "means": means})
                         if n == 10:
