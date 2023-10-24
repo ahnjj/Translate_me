@@ -1,6 +1,7 @@
+{% load static %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="mainNav">
     <div class="container">
-        <a class="navbar-brand" href="{% url 'index' %}">번역해조</a>
+        <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'image/logo.png' %}"  style="width: 60px;" /></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -15,6 +16,11 @@
                 <li class="nav-item mx-0 mx-lg-1">
                     <a class="nav-link py-3 px-0 px-lg-3 text-white" href="{% url 'role_playing_room_list'%}">
                         <h5>상황극</h5>
+                    </a>
+                </li>
+                <li class="nav-item mx-0 mx-lg-1">
+                    <a class="nav-link py-3 px-0 px-lg-3 text-white" href="{% url 'speedgame' %}">
+                        <h5>스피드 단어 게임</h5>
                     </a>
                 </li>
                 {% if user.is_authenticated %}
