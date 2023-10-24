@@ -9,5 +9,5 @@ urlpatterns = [
     path("signup/", views.signup, name='signup'),
     path("edit/", views.profile_edit, name='profile_edit'),
     re_path(r'^(?P<username>[\w.@+-]+)/$', views.user_page, name='user_page'),# 유저 페이지
-    path('identicon/image/<path:data>', pydenticon_image, name = 'pydenticon_image')
+    path('identicon/image/<path:data>', pydenticon_image, name = 'pydenticon_image'),
 ]
