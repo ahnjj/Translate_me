@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 import db_settings
 from environ import Env
@@ -49,7 +49,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'daphne',   # 장고 채널스 라이브러리
+    'channels',
+    'daphne',
+    'speedgame',   # 장고 채널스 라이브러리
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -59,6 +61,7 @@ INSTALLED_APPS = [
     # 써드파티 앱
     'django_bootstrap5',
     'django_pydenticon',  # 프로필 디폴트 이미지
+    'corsheaders',
     # local 앱
     'translate_app', # 기본 앱
     'users_app', # 유저관리 앱
@@ -77,8 +80,24 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+]
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:6379",
+    "http://127.0.0.1:8000",  # 여기에 프론트엔드 도메인을 추가하세요.
 ]
 
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+
+CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:5500','http://localhost:6379', 'http://127.0.0.1:8000']
+CORS_ALLOW_CREDENTIALS = True
 ROOT_URLCONF = 'translate_project.urls'
 
 TEMPLATES = [
@@ -100,7 +119,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'translate_project.wsgi.application'
 ASGI_APPLICATION = "translate_project.asgi.application"   # 채널스 asgi로 구동하기
-
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -142,6 +168,7 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = env.str("LANGUAGE_CODE", default="en-us")
 
 TIME_ZONE = 'UTC'
+# TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
@@ -157,6 +184,12 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
 
+
+# 미디어파일 저장 경로
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
@@ -170,3 +203,19 @@ LOGIN_REDIRECT_URL = '/'
 
 # OpenAI API key
 OPENAI_API_KEY = env.str("OPENAI_API_KEY")
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',  # 또는 원하는 로그 레벨로 설정
+    },
+}
+

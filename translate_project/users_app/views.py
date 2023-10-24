@@ -5,6 +5,9 @@ from django.contrib.auth.views import LoginView, logout_then_login
 from django.shortcuts import redirect, render, get_object_or_404
 from .forms import SignupForm, ProfileForm
 from django.contrib.auth import get_user_model # 프로필
+import datetime # 날짜
+# from pytz import timezone
+# from django.utils import timezone
 
 # 로그인뷰
 login = LoginView.as_view(template_name='users_app/login_form.html') # 기본 장고 로그인 뷰 사용
@@ -48,6 +51,26 @@ def user_page(request, username):
     프로필 기본정보
     """
     page_user = get_object_or_404(get_user_model(), username=username, is_active=True)
+    today = datetime.datetime.now()
+    # today = datetime.now(timezone('Asia/Seoul')).replace(tzinfo=None)
+    date_join = page_user.date_joined
+    str1 = date_join.strftime("%Y-%m-%d")
+    str2 = today.strftime("%Y-%m-%d")
+
+    d1 = datetime.datetime.strptime(str1, "%Y-%m-%d")
+    d2 = datetime.datetime.strptime(str2, "%Y-%m-%d")
+    diff = d2 - d1
+    d_day = str(diff).split('days')[0]
+
+    # print(date_join.strftime("%Y-%m-%d"))
+    # print(today.strftime("%Y-%m-%d"))
+    # print(date_join.strftime("%Y-%m-%d")-today.strftime("%Y-%m-%d"))
+    # print(date_join-today)
+
+    # dday = datetime.datediff(date_join, today)
+    # dday = date_join - today
+    # print(dday)
+
     return render(request, "users_app/user_page.html", {
-        "page_user": page_user,
+        "page_user": page_user, "d_day":d_day,
     })

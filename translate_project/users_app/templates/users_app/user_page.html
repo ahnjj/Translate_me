@@ -1,29 +1,86 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-    <div class="container" >
-        <div class="row pt-5 pb-5">
-            <div class="col-sm-3" style="text-align: center;">
-                <img src="{{ page_user.avatar.url }}" class="rounded-circle"  style="width: 160px;" />
-            </div>
-            <div class="col-sm-9">
-                {{ page_user.username }} 
-                <a href="{% url "profile_edit" %}" class="btn btn-secondary btn-sm">
-                    Edit Profile
-                </a>
+<div class="border-top pt-5 pb-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 offset-3">
+                {% if user.is_authenticated %}     
+                <div class="row pt-5 pb-5">
+                    <div class="col-sm-3" style="text-align: center;">
+                        {% if user.avatar %}
+                            <img src="{{ page_user.avatar.url }}" class="rounded-circle"  style="width: 200px;" />
+                        {% else %}
+                            <img src="{% url "pydenticon_image" user.username %}"  class="rounded-circle"  style="width: 200px;"/>
+                        {% endif %}
+                    </div>
+                    <div class="col-sm-9" style="text-align: center;"> 
+                        <br><br><br>
+                        <h2>
+                            {{ page_user.username }}
+                            <a href="{% url "profile_edit" %}" class="btn btn-secondary btn-sm">
+                                Edit Profile
+                            </a>
+                        </h2>
+                        <br>
+                        {% comment %} <h5>{{ date_join }} 부터 학습중</h5> {% endcomment %}
+                        <h5>
+                          <img src="{% static 'image/icon-learning.gif' %}" alt="learning-icon" style="width:48px;height:48px;">
+                          {{ d_day }} 일째 열공중
+                        </h5>
+                        {% comment %} <h5>{{ today|date:'Y-m-d' }} 부터 학습중</h5> {% endcomment %}
+                        {% comment %} <h5>{{ today|date:'Y-m-d' - date_join|date:'Y-m-d' }} 부터 학습중</h5> {% endcomment %}
+                      
+                    </div>
+                </div>
+                <table class="table table-hover" >
+                    <thead class="table-info">
+                      <tr>
+                        <th scope="col" colspan="2">항목</th>
+                        <th scope="col">내용</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row" colspan="2">이름(First name)</th>
+                        <td>{{ page_user.first_name }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" colspan="2">성(Last name)</th>
+                        <td>{{ page_user.last_name }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" colspan="2">학습언어 (language)</th>
+                        <td colspan="2">
+                            {% if page_user.user_language == "en-US" %} 영어
+                            {% elif page_user.user_language == 'ja-JP' %} 일본어
+                            {% elif page_user.user_language == 'zh-CN' %} 중국어 
+                            {% endif %}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row" colspan="2">학습레벨(Learning Level)</th>
+                        <td> {{ page_user.user_level }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" colspan="2"> Email</th>
+                        <td> {{ page_user.email }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" colspan="2">개인 웹사이트(wesite)</th>
+                        <td> <a href="{{ page_user.website_url }}" class="card-link">개인 웹사이트</a></td>
+                      </tr>
+                    
+
+                    </tbody>
+                  </table>
+                {% else %}
+                <h2>로그인 후 이용하세요</h2>
+                {% endif %}
             </div>
         </div>
-
-        <div class="card" style="width: 30rem;">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">이름 {{ page_user.first_name }}</li>
-              <li class="list-group-item">성 {{ page_user.last_name }}</li>
-              <li class="list-group-item">학습 언어 {{ page_user.user_language }}</li>
-              <li class="list-group-item">학습 레벨 {{ page_user.user_level }}</li>
-              <li class="list-group-item">이메일 {{ page_user.email }}</li>
-              <a href="{{ page_user.website_url }}" class="card-link">user link</a>
-            </ul>
-          </div>
     </div>
+</div>
     
 {% endblock %}

@@ -1,4 +1,6 @@
 $(document).ready(function() {
+
+
     $("#quiz-form").submit(function(event) {
         event.preventDefault(); 
         userAnswers = []
@@ -52,17 +54,6 @@ $(document).ready(function() {
     });
 
 });
-
-function toggleMeaning(button) {
-    var meaning = button.previousElementSibling; // 뜻 span 요소 선택
-    if (meaning.style.display === "none") {
-        meaning.style.display = "inline"; // 뜻 보이기
-        button.textContent = "숨기기";
-    } else {
-        meaning.style.display = "none"; // 뜻 숨기기
-        button.textContent = "보기";
-    }
-}
 
 function getCookie(name) {
     var cookieValue = null;

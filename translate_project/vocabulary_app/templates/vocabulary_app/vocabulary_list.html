@@ -14,7 +14,7 @@
                                         <table id="voca_list">
                                                 <tr>
                                                         <th>단어</th>
-                                                        <th id="control">뜻</th>
+                                                        <th>뜻</th>
                                                         <th>언어</th>
                                                         <th>단어 수정</th>
                                                         <th>학습완료</th>
@@ -24,8 +24,8 @@
                                                 <tr>
                                                         <td>{{ word.vocabulary_name }}</td> 
                                                         <td class="hidden-meaning">
-                                                                <span>{{ word.vocabulary_meaning }}</span>
-                                                                <button class="toggle-meaning-btn" onclick="toggleMeaning(this)">숨기기</button>
+                                                                <span style="display: none;">{{ word.vocabulary_meaning }}</span>
+                                                                <button class="toggle-meaning-btn" onclick="toggleMeaning(this)">보기</button>
                                                         </td>
                                                         <td>{{ word.language_id }}</td>
                                                         <td><a href="{% url 'vocabulary_update' word.vocabulary_id %}">
