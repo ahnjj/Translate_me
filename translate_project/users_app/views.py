@@ -47,29 +47,14 @@ def profile_edit(request):
 
 # 프로필 뷰
 def user_page(request, username):
-    """
-    프로필 기본정보
-    """
+
+    # 프로필 기본정보
     page_user = get_object_or_404(get_user_model(), username=username, is_active=True)
-    today = datetime.datetime.now()
+    today = datetime.datetime.now().date()
     # today = datetime.now(timezone('Asia/Seoul')).replace(tzinfo=None)
-    date_join = page_user.date_joined
-    str1 = date_join.strftime("%Y-%m-%d")
-    str2 = today.strftime("%Y-%m-%d")
-
-    d1 = datetime.datetime.strptime(str1, "%Y-%m-%d")
-    d2 = datetime.datetime.strptime(str2, "%Y-%m-%d")
-    diff = d2 - d1
-    d_day = str(diff).split('days')[0]
-
-    # print(date_join.strftime("%Y-%m-%d"))
-    # print(today.strftime("%Y-%m-%d"))
-    # print(date_join.strftime("%Y-%m-%d")-today.strftime("%Y-%m-%d"))
-    # print(date_join-today)
-
-    # dday = datetime.datediff(date_join, today)
-    # dday = date_join - today
-    # print(dday)
+    date_join = page_user.date_joined.date()
+    result = today - date_join
+    d_day = result.days
 
     return render(request, "users_app/user_page.html", {
         "page_user": page_user, "d_day":d_day,
