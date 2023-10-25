@@ -164,12 +164,17 @@ def query_search(query, dict_list, search_lang):
                         means_group = means_group.findAll('span', {'class':'txt_search'})
                         means = []
                         means_by_string = ""
+
                         # 검색단어가 한국어인지 아닌지 정하기
                         query_ref_lang = "not"
                         for l in query_ref:
                             if is_ko(l):
                                 query_ref_lang = "kor"
                                 break
+                        
+                        # 그에 따른 뜻의 언어가 어떤 언어인지 정하기
+                        if query_ref_lang == "not":
+                            mean_lang = "kor"
                         
                         # 검색결과 저장하기
                         for cont in means_group:
