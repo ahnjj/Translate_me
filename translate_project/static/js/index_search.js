@@ -101,6 +101,12 @@ $(document).ready(function(){
         const text_lang = $(this).next(this).next(this).text();
         sayMessage(pron_text, text_lang);
     });
+    // 읽기 멈춤 구현
+    $(document).on('click', '.click_to_voice .stopsay', function(){
+        window.speechSynthesis.cancel();  // 멈춤
+    });
+
+
     $("#index_search").on('submit', function(){
         event.preventDefault();
         let input_data = $(this).serialize();

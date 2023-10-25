@@ -182,7 +182,7 @@ function sayMessage(message){
     const voiceName = option.value;
     const voice = window.speechSynthesis.getVoices()
         .find(voice => voice.name === voiceName);
-    const utterance = new SpeechSynthesisUtterance(message);
+    const utterance = new SpeechSynthesisUtterance(message);   // 스피치 요청을 변수에 담는다
     utterance.voice = voice;
     utterance.lang = voice.lang;
     window.speechSynthesis.speak(utterance);  // 읽어주기
@@ -222,6 +222,7 @@ function download() {
 // 글자수 넘으면 바이미 커피로 넘어가도록
 function purchase() { 
             location.replace("https://www.buymeacoffee.com/translateme"); 
+
         } 
 
 // 웹소켓 연결
@@ -263,9 +264,6 @@ function purchase() {
     ws.onclose = function(e) { 
         console.log('장고 채널스 서버와 웹소켓 연결이 끊어졌습니다.'); 
         alert("장고 채널스 서버와 웹소켓 연결이 끊어졌습니다."); 
-        // 재연결 시도
-        // const ws = new WebSocket(`ws://${window.location.host}/ws/roleplay/${room_pk}/`);
-        // ws.onopen = function(e) { console.log("장고 채널스 서버와 웹소켓 재연결되었습니다."); };
     }; 
     ws.onerror = function(e) { console.error("장고 채널스 서버와의 웹소켓 연결 중에 오류가 발생했습니다.", e); };
     
