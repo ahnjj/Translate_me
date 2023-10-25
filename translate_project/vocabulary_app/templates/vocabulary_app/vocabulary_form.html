@@ -42,6 +42,9 @@
                                 {{ form.language_id }}
                             </div>
                         </div>
+                        {% if is_from_search %}
+                        <p id="is_from_search" hidden>y</p>
+                        {% endif %}
                     </div><br><br>
                 <button id="form_btn" type="submit" class="btn btn-primary">등록</button>
                 </form>
@@ -64,6 +67,10 @@
                     $("#form_div > div:first-child").append(string)
                 };
             };
+            let is_from_search = $("#is_from_search").text();
+            if (is_from_search == "y"){
+                $("#id_language_id").prop("disabled", true)
+            }
             $(document).on("change", "#form_div > div:first-child", function(){
                 $(this).find('input').attr("value", $(this).find("option:selected").text())
             });
