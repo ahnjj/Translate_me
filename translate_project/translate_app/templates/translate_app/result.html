@@ -8,12 +8,17 @@
     <hr class="text-white">
     <div class="row align-items-center">
         <div class="col">
-            <h5 class="text-white mx-4 mt-2 text-start">{{ word.query_ref }}</h5>
+            <h5 class="text-white mx-4 mt-2 text-start">
+                <div class="click_to_voice">
+                    <a href="#" onclick="nothing()" class="text-white-75" style="text-decoration: none;">{{ word.query_ref }}</a>
+                    <span hidden>{{ word.query_ref }}</span><p hidden>{{ word.query_ref_lang }}</p>
+                </div>
+            </h5>
             <ul class="text-white-75 mb-1 text-start">
                 {% for mean in word.means %}
                     <li class="click_to_voice">
                         <a href="#" onclick="nothing()" class="text-white-75" style="text-decoration: none;">{{ mean.mean }}</a>
-                        <span hidden>{{ mean.pron }}</span>
+                        <span hidden>{{ mean.pron }}</span><p hidden>{{ mean.mean_lang }}</p>
                     </li>
                 {% endfor %}
             </ul>
