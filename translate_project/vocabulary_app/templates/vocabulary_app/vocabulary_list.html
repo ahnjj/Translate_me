@@ -3,7 +3,8 @@
         <div class ='container-fluid'>
                 <div class="row pt-4">
                         <div class="col-md-7 mx-auto" id="voca_list_div">
-                                <h2 class="inline-heading" style="font-weight: bold">{{user.username}} 단어장</h2>
+                                <h3 class="inline-heading" style="font-weight: bold">{{user.username}} 단어장</h3>
+                                <!-- <a href="{% url 'result_list' %}"><button>성적 확인</button></a> -->
                                 <div class="button_div text-end">
                                         <a href="{% url 'vocabulary_test' %}" class="btn btn-primary">테스트 보기</a>
                                         <a href="{% url 'vocabulary_insert' %}" class="btn btn-primary">단어 등록</a>
@@ -56,8 +57,8 @@
                                                         {% endif %}
                                                         {% for page in pag %}
                                                         {% if page == '...' %}
-                                                        <li class="page-item disabled">
-                                                                <a class="page-link" href="#">...</a>
+                                                        <li class="page-item">
+                                                                <a class="page-link to-another-page" href="#">...</a>
                                                         </li>
                                                         {% elif page == words.number %}
                                                         <li class="page-item">
@@ -78,6 +79,7 @@
                                                         </li>
                                                         {% endif %}
                                                 </ul>
+                                                <p id="num-of-pages" hidden>{{ words.paginator.num_pages }}</p>
                                         </nav>
                                 </div>
                                 {% if error_message %}

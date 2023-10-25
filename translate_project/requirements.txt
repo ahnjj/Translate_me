@@ -45,6 +45,6 @@ twisted[http2,tls]
 
 # 장고 채널스 라이브러리
 # 버전 안맞아서 따로 설치
-# channels[daphne]~=3.0.1
+# channels[daphne]~=4.0.0
 channels==3.0.5
 daphne==3.0.2
