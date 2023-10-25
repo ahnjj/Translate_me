@@ -191,10 +191,16 @@ function sayMessage(message){
 // 대화내역 다운로드 함수
 function download() {
     const allTexts = [];
+    const meCheck = document.querySelectorAll("#chat-message-list li");
     const allMessages = document.querySelectorAll("span.message");
-    // 앞에 설명 부분은 파일에 들어가지 않도록
-    for (let i=4; i<allMessages.length; i++){
-        text = allMessages[i].innerText;
+    allTexts.push('[ 상황극으로 언어를 학습해봅시다! ]\n');
+    // 앞에 설명 부분은 빼고
+    for (let i=3; i<allMessages.length; i++){
+        if (meCheck[i].className == "chat-message"){
+            text = '도우미 : ' + allMessages[i].innerText;
+        } else {
+            text = '나 : '+ allMessages[i].innerText;
+        }
         allTexts.push(text);
     }
     downloadText = allTexts.join('\n');
@@ -408,11 +414,11 @@ function purchase() {
                     speech.addEventListener("result", (event) =>{
                         const speechResult = event.results[0][0].transcript;
                         console.log(speechResult);
-                        // 음성인식 결과를 채팅 UI에 메세지로 추가
+                        // 1. 음성인식 결과를 채팅 UI에 메세지로 추가하고 싶은 경우
                         // isMe = true (내 발화)
                         // addMessage(speechResult, true); // 화면에 추가
 
-                        // 음성인식 결과를 대화창에 넣고 싶을 경우
+                        // 2. 음성인식 결과를 대화창에 넣고 싶을 경우
                         document.querySelector("#message-form [name='message']").value = speechResult;
                         // 메세지 서버에 전달
                         ws.send(JSON.stringify({ type: "user-message", message: speechResult }));
@@ -423,13 +429,10 @@ function purchase() {
             // 에러 처리
             speech.onerror = (event) => {
                 stopRecording();  // 녹음 중지
-
                 if (event.error === "no-speech") {
                     alert("No speech was detected. Stopping...");
                 } else if (event.error === "audio-capture") {
-                    alert(
-                    "발견된 마이크가 없습니다."
-                    );
+                    alert( "발견된 마이크가 없습니다.");
                 } else if (event.error === "not-allowed") {
                     alert("마이크 사용을 허가해주십시오.");
                 } else if (event.error === "aborted") {
