@@ -344,6 +344,6 @@ def vocabulary_insert_from_search(request):
             qd = QueryDict('', mutable=True)
             qd.update({"vocabulary_name": vocabulary_name, "vocabulary_meaning": vocabulary_meaning, "vocabulary_level": 3, "language_id": language_id})
             form = Vocabulary_Form(qd)
-            return render(request, 'vocabulary_app/vocabulary_form.html', {'form': form})
+            return render(request, 'vocabulary_app/vocabulary_form.html', {'form': form, "is_from_search": "y"})
     else:
         return redirect("http://127.0.0.1:8000/accounts/login/")
