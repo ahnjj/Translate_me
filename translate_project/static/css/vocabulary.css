@@ -78,11 +78,11 @@
     margin-top : 20px;
     padding-right: 5%; /* 버튼의 왼쪽 여백을 지정 */
 }
-
+/* 
 #pagination{
     margin-top : 20px;
     padding-left: 45%;
-}
+} */
 
 .result.correct{
     color: blue;
