@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h3 class="mt-4">게시판 검색</h3>
+<div class="container-xl">
+    <h3 class="pt-4">게시판 검색</h3>
     <form id='bdSearchFrm' method="post" action="{% url 'board_search' %}" class="mt-3">
         {% csrf_token %}
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="input-group">
                     <select name="type" class="form-select" id="searchType">
                         <option value="">검색조건 선택</option>
@@ -14,18 +15,20 @@
                     </select>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-7">
                 <div class="input-group">
                     <input type="text" name="keyword" class="form-control" id="keyword" placeholder="검색어를 입력하세요">
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <button type="submit" class="btn btn-primary">검색</button>
             </div>
         </div>
     </form>
-
-    <div id="searchResultBox" class="mt-4">
-        <!-- 여기에 검색 결과 테이블을 추가하세요. JavaScript로 동적으로 추가됩니다. -->
+    <div class="row">
+        <div id="searchResultBox" class="col mt-4">
+            <!-- 여기에 검색 결과 테이블을 추가하세요. JavaScript로 동적으로 추가됩니다. -->
+        </div>
     </div>
+</div>
 {% endblock content %}
