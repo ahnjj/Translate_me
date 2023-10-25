@@ -51,7 +51,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'daphne',   # runserver 명령을 daphne명령으로 변경
     'channels', # 장고 웹소켓
-    'speedgame',   # 장고 채널스 라이브러리
+     
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -67,7 +67,7 @@ INSTALLED_APPS = [
     'users_app', # 유저관리 앱
     'vocabulary_app', # 단어장 앱
     'board_app', # 게시판 앱
-    'game_app',
+    'speedgame', # 스피드게임 앱
     'roleplay_game_app', # 상황극 앱
 ]
 
@@ -118,14 +118,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'translate_project.wsgi.application'
 ASGI_APPLICATION = "translate_project.asgi.application"   # 채널스 asgi로 구동하기
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
-        },
-    },
-}
+
+# 웹소켓 오류나서 잠시 주석처리
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": [("127.0.0.1", 6379)],
+#         },
+#     },
+# }
+
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
