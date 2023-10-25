@@ -27,39 +27,59 @@
                                                         <td>{{ word.vocabulary_name }}</td> 
                                                         <td class="hidden-meaning">
                                                                 <span style="display: none;">{{ word.vocabulary_meaning }}</span>
-                                                                <button class="toggle-meaning-btn" onclick="toggleMeaning(this)">보기</button>
+                                                                <button class="btn btn-primary toggle-meaning-btn" onclick="toggleMeaning(this)">보기</button>
                                                         </td>
                                                         <!-- <td class="hidden-meaning"><span style="display: none;">{{ word.vocabulary_meaning }}</span><button style="display: none;">btn</button></td>
                                                         <td><button class="toggle-meaning-btn" onclick="toggleMeaning(this)">보기</button></td> -->
                                                         <td>{{ word.language_id }}</td>
                                                         <td><a href="{% url 'vocabulary_update' word.vocabulary_id %}">
-                                                                <button class="btn">단어 수정</button></a></td>
+                                                                <button class="btn btn-primary">단어 수정</button></a></td>
                                                         <td><a href="{% url 'vocabulary_train' word.vocabulary_id %}"
                                                                 onclick="return confirm('이 단어의 학습을 완료합니까 ?')">
-                                                                <button class="btn">학습완료</button></a></td>
+                                                                <button class="btn btn-primary">학습완료</button></a></td>
                                                         <td><a href="{% url 'vocabulary_delete' word.vocabulary_id %}"
                                                                 onclick="return confirm('단어를 삭제하시겠습니까 ?')">
-                                                                <button class="btn">삭제</button></a></td>
+                                                                <button class="btn btn-primary">삭제</button></a></td>
                                                 </tr>
                                                 {% endfor %}
                                         </table>
                                 </div>
                                 <div class="pagination" id="pagination">
-                                        <span class="step-links">
-                                            {% if words.has_previous %}
-                                                <a href="?page=1">&laquo; 처음으로</a>
-                                                <a href="?page={{ words.previous_page_number }}">이전</a>
-                                            {% endif %}
-                                    
-                                            <span class="current-page">
-                                                Page {{ words.number }} of {{ words.paginator.num_pages }}
-                                            </span>
-                                    
-                                            {% if words.has_next %}
-                                                <a href="?page={{ words.next_page_number }}">다음</a>
-                                                <a href="?page={{ words.paginator.num_pages }}">마지막 &raquo;</a>
-                                            {% endif %}
-                                        </span>
+                                        <nav class="mx-auto mt-5" aria-label="...">
+                                                <ul class="pagination">
+                                                        {% if words.has_previous %}
+                                                        <li class="page-item">
+                                                                <a class="page-link" href="?page=1">처음으로</a>
+                                                        </li>
+                                                        <li class="page-item">
+                                                                <a class="page-link" href="?page={{ words.previous_page_number }}">이전</a>
+                                                        </li>
+                                                        {% endif %}
+                                                        {% for page in pag %}
+                                                        {% if page == '...' %}
+                                                        <li class="page-item disabled">
+                                                                <a class="page-link" href="#">...</a>
+                                                        </li>
+                                                        {% elif page == words.number %}
+                                                        <li class="page-item">
+                                                                <a class="page-link fw-bold text-decoration-underline" href="?page={{ page }}">{{ page }}</a>
+                                                        </li>
+                                                        {% else %}
+                                                        <li class="page-item">
+                                                                <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                                                        </li>
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                        {% if words.has_next %}
+                                                        <li class="page-item">
+                                                                <a class="page-link" href="?page={{ words.next_page_number }}">다음</a>
+                                                        </li>
+                                                        <li class="page-item">
+                                                                <a class="page-link" href="?page={{ words.paginator.num_pages }}">마지막</a>
+                                                        </li>
+                                                        {% endif %}
+                                                </ul>
+                                        </nav>
                                 </div>
                                 {% if error_message %}
                                         <div class="alert alert-danger">

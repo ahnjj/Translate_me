@@ -95,11 +95,11 @@ $(document).ready(function(){
             $("#result_all").prop("checked", false);
         };
     });
-    $(document).on('click', 'li.click_to_voice a', function(){
+    $(document).on('click', '.click_to_voice a', function(){
         // 읽기 기능 구현
-        const text = $(this).text();
         const pron_text = $(this).next(this).text();
-        sayMessage(pron_text, text);
+        const text_lang = $(this).next(this).next(this).text();
+        sayMessage(pron_text, text_lang);
     });
     $("#index_search").on('submit', function(){
         event.preventDefault();
@@ -131,16 +131,16 @@ function nothing(){
     return false;
 };
 
-function sayMessage(message, text){
+function sayMessage(message, lang){
     // 영어 보이스 : Google US English
     // 중국어 보이스 : Google 普通话（中国大陆）
     // 일본어 보이스 : Google 日本語
-    if (is_ko(text)){
+    if (lang === "kor"){
         return false
-    } else if (is_ja(text)){
-        voice_name = "Google 日本語"
-    } else if (is_en(message)){
+    } else if (lang === "eng"){
         voice_name = "Google US English"
+    } else if (lang === "jp"){
+        voice_name = "Google 日本語"
     } else {
         voice_name = "普通话（中国大陆）"
     }

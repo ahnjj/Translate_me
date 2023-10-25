@@ -26,11 +26,15 @@ def vocabulary_list(request):
 
     # 요청된 페이지 번호 
     page_number = request.GET.get('page')
+    if page_number is None:
+        page_number = 1
 
     # 요청된 페이지의 단어 목록
     words = paginator.get_page(page_number)
+    
+    pag = words.paginator.get_elided_page_range(page_number, on_each_side=3, on_ends=0)
 
-    return render(request, 'vocabulary_app/vocabulary_list.html', {'words': words})
+    return render(request, 'vocabulary_app/vocabulary_list.html', {'words': words, 'pag': pag})
 
 def result_list(request):
     user = request.user

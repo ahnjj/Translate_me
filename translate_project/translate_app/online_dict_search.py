@@ -154,6 +154,7 @@ def query_search(query, dict_list, search_lang):
             else:
                 if card['data-tiara-layer'] in dict_list:
                     ls = card['data-tiara-layer']
+                    lss = ls[5:]
                     query_refs = card.findAll('a', {'class':'txt_cleansch'}) + card.findAll('a', {'class':'txt_searchword'})
                     means_groups = card.findAll('ul', {'class':'list_search'})
                     words_list = []
@@ -166,30 +167,31 @@ def query_search(query, dict_list, search_lang):
                         means_by_string = ""
 
                         # 검색단어가 한국어인지 아닌지 정하기
-                        query_ref_lang = "not"
+                        query_ref_lang = lss
                         for l in query_ref:
                             if is_ko(l):
                                 query_ref_lang = "kor"
                                 break
                         
-                        # 그에 따른 뜻의 언어가 어떤 언어인지 정하기
-                        if query_ref_lang == "not":
-                            mean_lang = "kor"
-                        
                         # 검색결과 저장하기
                         for cont in means_group:
                             by_string = bs4.BeautifulSoup(pron(str(cont), ls), 'html.parser').text
-                            if ls[5:] == "eng":
+                            if lss == "eng":
                                 by_string = drop_a(by_string)
-                            if ls[5:] == "ch" or ls[5:] == "jp":
+                            if lss == "ch" or lss == "jp":
                                 by_string_p = drop_pron(by_string)
                             else:
                                 by_string_p = by_string
-                            means.append({'mean': by_string, 'pron': drop_ineq(by_string_p).strip()})
+                            mean_lang = lss
+                            for l in by_string_p:
+                                if is_ko(l):
+                                    mean_lang = "kor"
+                                    break
+                            means.append({'mean': by_string, 'mean_lang': mean_lang, 'pron': drop_ineq(by_string_p).strip()})
                             means_by_string += by_string + ", "
                         words_list.append({"query_ref": query_ref, "query_ref_lang": query_ref_lang, "means_by_string": means_by_string[:-2], "means": means})
                         if n == 10:
                             break
-                    query_result['result'].append({'lang': dict_name[ls], 'lang_e': ls[5:], 'words': words_list})
+                    query_result['result'].append({'lang': dict_name[ls], 'lang_e': lss, 'words': words_list})
         return query_result
         
