@@ -13,6 +13,22 @@ function toggleMeaning(button) {
 };
 
 $(document).ready(function(){
+    
+    $("#language-select").change(function () {
+        // 선택한 언어 값을 가져와서 현재 URL에 파라미터로 추가
+        var selectedLanguage = $(this).val();
+        var currentUrl = window.location.href;
+        var newUrl;
+
+        if (currentUrl.includes("?")) {
+            newUrl = currentUrl + "&language=" + selectedLanguage;
+        } else {
+            newUrl = currentUrl + "?language=" + selectedLanguage;
+        }
+
+        window.location.href = newUrl; // 새로운 URL로 이동
+    });
+
     $("a.to-another-page").on("click", function(){
         event.preventDefault()
         const total_pages = $("#num-of-pages").text();
