@@ -11,6 +11,44 @@ import random
 import json
 from urllib.parse import parse_qs
 
+def vocabulary_list(request):
+    # 전체 데이터 셀렉트
+    words = Vocabulary.objects.all()
+    user = request.user
+    # select from vocabulary where id=$user.id and train='false'
+    words = Vocabulary.objects.filter(id=user.id, train_yn=False)
+
+    # 페이지당 보여줄 데이터 개수
+    items_per_page = 20
+
+    # Paginator 객체를 생성
+    paginator = Paginator(words, items_per_page)
+
+    # 요청된 페이지 번호 
+    page_number = request.GET.get('page')
+
+    # 요청된 페이지의 단어 목록
+    words = paginator.get_page(page_number)
+
+    return render(request, 'vocabulary_app/vocabulary_list.html', {'words': words})
+
+def result_list(request):
+    user = request.user
+    results = User_test_result.objects.filter(id=user.id)
+
+    scores = [result.user_score for result in results]
+    if scores:
+        average_score = sum(scores) / len(scores)
+    else:
+        average_score = 0  # 결과가 없을 경우 평균을 0으로 설정
+
+    context = {
+        'result': results,
+        'average_score': average_score,  # 평균 점수를 템플릿에 전달
+    }
+
+    return render(request, 'vocabulary_app/result_list.html', context)
+
 def vocabulary_insert(request):
     # 요청이 포스트인지 확인하고
 
@@ -130,34 +168,6 @@ def upload_excel(request):
 
     return render(request, 'vocabulary_app/upload_excel.html')
 
-# Create your views here.
-def vocabulary_list(request):
-    # 전체 데이터 셀렉트
-    words = Vocabulary.objects.all()
-    user = request.user
-    # select from vocabulary where id=$user.id and train='false'
-    words = Vocabulary.objects.filter(id=user.id, train_yn=False)
-
-    # 페이지당 보여줄 데이터 개수
-    items_per_page = 20
-
-    # Paginator 객체를 생성
-    paginator = Paginator(words, items_per_page)
-
-    # 요청된 페이지 번호 
-    page_number = request.GET.get('page')
-
-    # 요청된 페이지의 단어 목록
-    words = paginator.get_page(page_number)
-
-    return render(request, 'vocabulary_app/vocabulary_list.html', {'words': words})
-
-def result_list(request):
-    user = request.user
-    result = User_test_result.objects.filter(id=user.id)
-
-    return render(request, 'vocabulary_app/result_list.html', {'result': result})
-
 
 def download_excel(request):
     # 데이터를 가져오는 부분을 수정하여 필요한 데이터를 추출
@@ -206,22 +216,22 @@ def vocabulary_test(request):
             # 각 답 match율 저장
             response_data = {}
             idx = 0
-            cnt_correct = 0;
+            cnt_correct = 0
 
             for idx, i in enumerate(answer_data):
                 answers = Vocabulary.objects.filter(vocabulary_id=i.get('id'))
                 answer = answers[0].vocabulary_meaning
                 if ',' in answer :
                     arr = answer.split(',')
-                    for str in arr:
-                        if str.strip() == i.get('answer'):
+                    for s in arr:
+                        if s.strip() == i.get('answer'):
                             cnt_correct+=1
                             response_data[f'result_{idx}'] = '정답'
                             for idx, ans in enumerate(answers):
                                 if idx == 0:
                                     ans.vocabulary_level-=1
                                     ans.save()
-                            break;
+                            break
                         else:
                             response_data[f'result_{idx}'] = '오답'
                 else :
@@ -234,7 +244,7 @@ def vocabulary_test(request):
                                     ans.save()
                     else :
                         response_data[f'result_{idx}'] = '오답'
-                
+
             # print('정답 맞춘 비욜',cnt_correct,'/',len(response_data))
 
             # 테스트결과 db 저장 
@@ -244,8 +254,11 @@ def vocabulary_test(request):
             User_test_result.objects.create(
                 id = userid,
                 user_score = cnt_correct/len(response_data) * 100,
+                user_test = str(cnt_correct)+'/'+str(len(response_data)),
                 test_date = datetime.now()
             )
+
+            response_data['result'] = str(cnt_correct)+'/'+str(len(response_data))     
 
             return JsonResponse(response_data)
 

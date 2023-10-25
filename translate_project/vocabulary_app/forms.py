@@ -24,7 +24,7 @@ class Vocabulary_Form(forms.ModelForm):
                 }),
             'vocabulary_level': forms.NumberInput(attrs={
                 'class': "form-control",
-                'placeholder': '레벨 입력'
+                'placeholder': '숙련도 입력'
                 }),
             'language_id': forms.Select(attrs={
                 'class': "form-select",
@@ -34,7 +34,7 @@ class Vocabulary_Form(forms.ModelForm):
         labels = {
             'vocabulary_name':'단어', 
             'vocabulary_meaning':'뜻',
-            'vocabulary_level':'단어 중요도',
+            'vocabulary_level':'단어 숙련도',
             'language_id':'단어 종류'
         }
         

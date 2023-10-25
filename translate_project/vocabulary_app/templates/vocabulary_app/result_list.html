@@ -9,15 +9,18 @@
                                         <table id="voca_list">
                                                 <tr>
                                                         <th>시험일시</th>
+                                                        <th>시험 결과</th>
                                                         <th>점수</th>
                                                 </tr>
                                                 {% for res in result %}
                                                 <tr>
                                                         <td>{{ res.test_date }}</td> 
+                                                        <td>{{res.user_test}}</td>
                                                         <td>{{res.user_score}}</td>
                                                 </tr>
                                                 {% endfor %}
                                         </table>
+                                        <p style="text-align: center;">평균 점수: {{ average_score|floatformat:2 }}</p>
                                 </div>
                         </div>
                     </div>
