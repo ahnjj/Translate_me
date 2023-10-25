@@ -1,11 +1,32 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<textarea id="speedgame-log" cols="100" rows="20"></textarea><br>
-    <input id="speedgame-message-input" type="text" size="100"><br>
-    <input id="speedgame-message-submit" type="button" value="Send">
-    {{ room_name|json_script:"room-name" }}
+<div class ='container'>
+    <div class="row pt-4">
+        <div class="col-md-6 mx-auto text-center bg-info">
+            <h4>--타이머 표시 공간--</h4>
+        </div>
+    </div>
+    <div class="row pt-3">
+        <div class="col-md-8 mx-auto">
+            <textarea id="speedgame-log" style="width: 100%; height: 400px;"></textarea>
+        </div>
+    </div>
+    <div class="row pt-3">
+        <div class="col-md-8 mx-auto text-center">
+            <button type="button" class="btn btn-primary" disabled>게임 시작</button>
+        </div>
+    </div>
+    <div class="row pt-3">
+        <div class="col-md-8 mx-auto">
+            <div class="input-group">
+                <input id="speedgame-message-input" type="text" class="form-control">
+                <button id="speedgame-message-submit" type="button" class="btn btn-primary">Send</button>
+            </div>
+            {{ room_name|json_script:"room-name" }}
+        </div>
+    </div>
+</div>
     <script>
 
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
