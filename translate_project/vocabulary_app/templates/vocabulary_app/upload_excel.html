@@ -24,6 +24,13 @@
                                         </div>
                                 </form>
                         </div>
+                        <div>
+                                {% if error_message %}
+                                        <div class="alert alert-danger">
+                                        {{ error_message }}
+                                        </div>
+                                {% endif %}
+                        </div>
                         <div class="col-sm-6 offset-sm-3 mt-3" id="voca_list_div">
                                 <a href="/vocabulary_list/"><button class="btn btn-primary" type="button">단어장으로 돌아가기</button></a>
                         </div>

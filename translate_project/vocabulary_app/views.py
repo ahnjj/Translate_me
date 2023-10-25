@@ -12,11 +12,15 @@ import json
 from urllib.parse import parse_qs
 
 def vocabulary_list(request):
-    # 전체 데이터 셀렉트
-    words = Vocabulary.objects.all()
     user = request.user
-    # select from vocabulary where id=$user.id and train='false'
-    words = Vocabulary.objects.filter(id=user.id, train_yn=False)
+
+    selected_lang = request.GET.get('language', 'all')
+
+    if selected_lang == 'all':
+        words = Vocabulary.objects.filter(id=user.id, train_yn=False)
+    else :
+        lang_id = Language_code.objects.get(language_name=selected_lang)
+        words = Vocabulary.objects.filter(id=user.id, train_yn=False, language_id=lang_id)
 
     # 페이지당 보여줄 데이터 개수
     items_per_page = 20
@@ -36,6 +40,7 @@ def vocabulary_list(request):
 
     return render(request, 'vocabulary_app/vocabulary_list.html', {'words': words, 'pag': pag})
 
+
 def result_list_week(request):
 
     user = request.user
@@ -44,13 +49,13 @@ def result_list_week(request):
 
     one_week_ago = current_date - timedelta(days=7)
 
-    results = User_test_result.objects.filter(id=user.id, test_date__gte=one_week_ago, test_date__lte=current_date)
+    results = User_test_result.objects.filter(id=user.id, test_date__gte=one_week_ago, test_date__lte=current_date).order_by('test_date')
 
     scores = [result.user_score for result in results]
     if scores:
         average_score = sum(scores) / len(scores)
     else:
-        average_score = 0  # 결과가 없을 경우 평균을 0으로 설정
+        average_score = 0 
 
     context = {
         'result': list(results),
@@ -61,7 +66,7 @@ def result_list_week(request):
 
 def result_list(request):
     user = request.user
-    results = User_test_result.objects.filter(id=user.id)
+    results = User_test_result.objects.filter(id=user.id).order_by('test_date')
 
     scores = [result.user_score for result in results]
     if scores:
@@ -121,8 +126,6 @@ def vocabulary_train(request, vocabulary_id):
     try:
         voca = get_object_or_404(Vocabulary, vocabulary_id=vocabulary_id)
 
-        print(voca.train_yn)
-
         if voca.train_yn == False:
             voca.train_yn = True
         else:
@@ -158,42 +161,47 @@ def vocabulary_update(request, vocabulary_id):
     return render(request, 'vocabulary_app/vocabulary_update.html', {'form':form})
 
 def upload_excel(request):
-    if request.method == 'POST':
-        file = request.FILES['excel_file']
-        if file.name.endswith('.xlsx'):
-            # 엑셀 파일을 데이터프레임으로 읽어옴
-            df = pd.read_excel(file, engine='openpyxl')
+    try:
+        if request.method == 'POST':
+            file = request.FILES['excel_file']
+            if file.name.endswith('.xlsx'):
+                # 엑셀 파일을 데이터프레임으로 읽어옴
+                df = pd.read_excel(file, engine='openpyxl')
 
-            for _, row in df.iterrows():
-                # 언어명으로 된거를 코드로 바꿔야함
-                lang_name = row['language_name'].lower()
-                # Language_code 참조하기 때문에 language_code object로 넣지 않으면 오류
-                lang_id = Language_code.objects.get(language_name=lang_name)
+                for _, row in df.iterrows():
+                    # 언어명으로 된거를 코드로 바꿔야함
+                    lang_name = row['language_name'].lower()
+                    # Language_code 참조하기 때문에 language_code object로 넣지 않으면 오류
+                    lang_id = Language_code.objects.get(language_name=lang_name)
 
-                current_date = date.today()
+                    current_date = date.today()
 
-                user = request.user
-                userid = Users_app_user.objects.get(id = user.id)
+                    user = request.user
+                    userid = Users_app_user.objects.get(id = user.id)
 
-                # 한줄에 하나씩 데이터 만들기
-                Vocabulary.objects.create(
-                    
-                    vocabulary_name=row['vocabulary_name'],
-                    vocabulary_meaning=row['vocabulary_meaning'],
-                    vocabulary_level=row['vocabulary_level'],
-                    language_id=lang_id,
-                    train_yn = False,
-                    reg_date = current_date.strftime("%Y-%m-%d"),
-                    id = userid
-                )
+                    # 한줄에 하나씩 데이터 만들기
+                    Vocabulary.objects.create(
+                        
+                        vocabulary_name=row['vocabulary_name'],
+                        vocabulary_meaning=row['vocabulary_meaning'],
+                        vocabulary_level=row['vocabulary_level'],
+                        language_id=lang_id,
+                        train_yn = False,
+                        reg_date = current_date.strftime("%Y-%m-%d"),
+                        id = userid
+                    )
 
-            return redirect('vocabulary_list')
-        else:
-            error_message = '올바른 엑셀 파일 형식이 아닙니다.'
-            return render(request, 'vocabulary_app/upload_excel.html', {'error_message': error_message})
+                return redirect('vocabulary_list')
+            else:
+                error_message = '올바른 엑셀 파일 형식이 아닙니다.'
+                return render(request, 'vocabulary_app/upload_excel.html', {'error_message': error_message})
 
 
-    return render(request, 'vocabulary_app/upload_excel.html')
+        return render(request, 'vocabulary_app/upload_excel.html')
+    except:
+        error_message = '올바른 엑셀 파일 형식이 아닙니다.'
+        return render(request, 'vocabulary_app/upload_excel.html', {'error_message': error_message})
+
 
 
 def download_excel(request):
@@ -206,7 +214,7 @@ def download_excel(request):
     data = {
         '단어': [word.vocabulary_name for word in words],
         '뜻': [word.vocabulary_meaning for word in words],
-        '언어': [word.language_id for word in words],
+        # '언어': [word.language_id for word in words],///
     }
     df = pd.DataFrame(data)
 
@@ -256,7 +264,7 @@ def vocabulary_test(request):
                             response_data[f'result_{idx}'] = '정답'
                             for idx, ans in enumerate(answers):
                                 if idx == 0:
-                                    ans.vocabulary_level-=1
+                                    ans.vocabulary_level+=1
                                     ans.save()
                             break
                         else:
@@ -267,7 +275,7 @@ def vocabulary_test(request):
                         response_data[f'result_{idx}'] = '정답'
                         for idx, ans in enumerate(answers):
                                 if idx == 0:
-                                    ans.vocabulary_level-=1
+                                    ans.vocabulary_level+=1
                                     ans.save()
                     else :
                         response_data[f'result_{idx}'] = '오답'
@@ -301,7 +309,7 @@ def vocabulary_test(request):
         user = request.user
 
         # select from vocabulary where id=$user.id and train='True'
-        words = Vocabulary.objects.filter(id=user.id, train_yn=True)
+        words = Vocabulary.objects.filter(id=user.id, train_yn=True, vocabulary_level__lt=5)
 
         try:
             if len(words) >= 10:
