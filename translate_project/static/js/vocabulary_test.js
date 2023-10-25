@@ -51,8 +51,6 @@ $(document).ready(function() {
                     }
                 }
 
-                console.log(response.result)
-
                 var resultContainer = $("#result-container");
                 resultContainer.html("결과: " + response.result);
             },

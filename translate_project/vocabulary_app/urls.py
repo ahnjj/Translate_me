@@ -14,4 +14,6 @@ urlpatterns = [
     path('vocabulary_test/', views.vocabulary_test, name='vocabulary_test'),
     path('vocabulary_insert_from_search/', views.vocabulary_insert_from_search, name='vocabulary_insert_from_search'),
     path('result_list/', views.result_list, name='result_list' ),
+    path('result_list_week/', views.result_list_week, name='result_list_week' ),
+    
 ]

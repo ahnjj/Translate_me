@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from .models import *
 from vocabulary_app.forms import Vocabulary_Form
 from django.http import HttpResponse, JsonResponse, QueryDict
-from datetime import date
+from datetime import date, timedelta
 from datetime import datetime
 import pandas as pd
 from django.core.paginator import Paginator
@@ -35,6 +35,29 @@ def vocabulary_list(request):
     pag = words.paginator.get_elided_page_range(page_number, on_each_side=3, on_ends=0)
 
     return render(request, 'vocabulary_app/vocabulary_list.html', {'words': words, 'pag': pag})
+
+def result_list_week(request):
+
+    user = request.user
+
+    current_date = datetime.now()
+
+    one_week_ago = current_date - timedelta(days=7)
+
+    results = User_test_result.objects.filter(id=user.id, test_date__gte=one_week_ago, test_date__lte=current_date)
+
+    scores = [result.user_score for result in results]
+    if scores:
+        average_score = sum(scores) / len(scores)
+    else:
+        average_score = 0  # 결과가 없을 경우 평균을 0으로 설정
+
+    context = {
+        'result': list(results),
+        'average_score': average_score,  # 평균 점수를 템플릿에 전달
+    }
+
+    return render(request, 'vocabulary_app/result_list_week.html', context)
 
 def result_list(request):
     user = request.user
