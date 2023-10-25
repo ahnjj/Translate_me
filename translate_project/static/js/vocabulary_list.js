@@ -25,8 +25,6 @@ $(document).ready(function(){
             var tableBody = $('#voca_list tbody');
             tableBody.empty();
 
-            console.log(data)
-
             $.each(wordList, function(index, word) {
                 var row = '<tr>' +
                           '<td>' + word.vocabulary_name + '</td>' +
