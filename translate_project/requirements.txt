@@ -1,30 +1,23 @@
 # coding: utf-8
 
-# cli 프로그램에서 오디오 재생을 위함
-pygame==2.5.0
-
 # 장고 웹프레임워크
 django==4.2.1
 
-# 파이썬에서 보다 손쉬운 환경변수 처리
+# 파이썬 내 손쉬운 환경변수 처리
 python-dotenv==1.0.0
 
-# 장고 내에서 보다 손쉬운 환경변수 처리 (python-dotenv에 더해, 장고 친화적인 기능 지원)
+# 장고 내 손쉬운 환경변수 처리
 django-environ==0.10.0
 
-# openai api 사용을 위한 라이브러리
+# openai api 사용
 openai==0.27.7
 
-# 장고 내에서 보다 손쉬운 bootstrap5 사용을 위한 라이브러리
+# 장고 내 손쉬운 bootstrap5 사용을 위한 라이브러리
 django-bootstrap5==23.1
 
 # HTTP 요청 및 HTML 파서 라이브러리
 requests
 beautifulsoup4
-
-# 장고 채널스 라이브러리
-# 버전 안맞아서 따로 설치
-# channels[daphne]~=3.0.1
 
 # 구글번역 크롤링을 통한 음성 생성 라이브러리
 gTTS==2.3.2
@@ -50,8 +43,8 @@ django-cors-headers
 # 
 twisted[http2,tls]
 
-# 
+# 장고 채널스 라이브러리
+# 버전 안맞아서 따로 설치
+# channels[daphne]~=3.0.1
 channels==3.0.5
-
-#
 daphne==3.0.2

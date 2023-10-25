@@ -10,13 +10,13 @@
                 <div class="row pt-5 pb-5">
                     <div class="col-sm-3" style="text-align: center;">
                         {% if user.avatar %}
-                            <img src="{{ page_user.avatar.url }}" class="rounded-circle"  style="width: 200px;" />
+                            <img src="{{ page_user.avatar.url }}" class="rounded-circle"  style="width: 270px;" />
                         {% else %}
-                            <img src="{% url "pydenticon_image" user.username %}"  class="rounded-circle"  style="width: 200px;"/>
+                            <img src="{% url "pydenticon_image" user.username %}"  class="rounded-circle"  style="width: 270px;"/>
                         {% endif %}
                     </div>
                     <div class="col-sm-9" style="text-align: center;"> 
-                        <br><br><br>
+                        <br><br><br><br><br>
                         <h2>
                             {{ page_user.username }}
                             <a href="{% url "profile_edit" %}" class="btn btn-secondary btn-sm">
@@ -24,17 +24,13 @@
                             </a>
                         </h2>
                         <br>
-                        {% comment %} <h5>{{ date_join }} 부터 학습중</h5> {% endcomment %}
                         <h5>
                           <img src="{% static 'image/icon-learning.gif' %}" alt="learning-icon" style="width:48px;height:48px;">
                           {{ d_day }} 일째 열공중
                         </h5>
-                        {% comment %} <h5>{{ today|date:'Y-m-d' }} 부터 학습중</h5> {% endcomment %}
-                        {% comment %} <h5>{{ today|date:'Y-m-d' - date_join|date:'Y-m-d' }} 부터 학습중</h5> {% endcomment %}
-                      
                     </div>
                 </div>
-                <table class="table table-hover" >
+                <table class="table table-hover" style="width:80%; height: 100px; margin: auto; text-align: center;" >
                     <thead class="table-info">
                       <tr>
                         <th scope="col" colspan="2">항목</th>
@@ -60,8 +56,8 @@
                         </td>
                       </tr>
                       <tr>
-                        <th scope="row" colspan="2">학습레벨(Learning Level)</th>
-                        <td> {{ page_user.user_level }}</td>
+                        <th scope="row" colspan="2">학습 진행도(Progress)</th>
+                        <td> </td>
                       </tr>
                       <tr>
                         <th scope="row" colspan="2"> Email</th>

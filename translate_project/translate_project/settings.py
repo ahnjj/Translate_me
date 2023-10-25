@@ -49,8 +49,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'channels',
-    'daphne',
+    'daphne',   # runserver 명령을 daphne명령으로 변경
+    'channels', # 장고 웹소켓
     'speedgame',   # 장고 채널스 라이브러리
     'django.contrib.admin',
     'django.contrib.auth',
@@ -68,8 +68,7 @@ INSTALLED_APPS = [
     'vocabulary_app', # 단어장 앱
     'board_app', # 게시판 앱
     'game_app',
-    'roleplay_game_app',
-    # 딕셔너리앱은 기본앱에서 처리해도 되고 필요시 앱 추가 필요
+    'roleplay_game_app', # 상황극 앱
 ]
 
 MIDDLEWARE = [

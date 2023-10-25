@@ -1,53 +1,19 @@
 {% extends 'base.html' %}
+{% load django_bootstrap5 %}
 
 {% block content %}
-    <div class ='container-xl'>
-        <div class="row pt-4">
-            <div class="col-md-11 col-lg-8 col-xl-7 col-xxl-6 mx-auto">
-                <h2>게시물 등록</h2>
-                <form method="post" style="padding: 10px; border: 1px solid #ddd; background-color: #f2f2f2;">
-                    {% csrf_token %}
-                    <div id="form_div" class="container">
-                        <div class="row align-items-start">
-                            <div class="col-4 col-sm-3 col-md-2 text-end my-auto fw-bold">
-                                {{ form.board_title.label }}
-                            </div>
-                            <div class="col-9 col-sm-8">
-                                {{ form.board_title }}
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row align-items-start">
-                            <div class="col-4 col-sm-3 col-md-2 text-end my-auto fw-bold">
-                                {{ form.board_main_txt.label }}
-                            </div>
-                            <div class="col-8 col-sm-9 col-md-10">
-                                {{ form.board_main_txt }}
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row align-items-start">
-                            <div class="col-4 col-sm-3 col-md-2 text-end my-auto fw-bold">
-                                {{ form.category.label }}
-                            </div>
-                            <div class="col-4 col-sm-3">
-                                {{ form.category }}
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row align-items-start">
-                            <div class="col-4 col-sm-3 col-md-2 text-end my-auto fw-bold">
-                                {{ form.language.label }}
-                            </div>
-                            <div class="col-6 col-sm-4">
-                                {{ form.language }}
-                            </div>
-                        </div>
-                    </div><br><br>
-                <button type="submit" class="btn btn-primary">등록</button>
-                </form>
-            </div>
+<div class ='container-xl pt-4 pb-4'>
+    <div class="row pt-4">
+        <div class="col-md-11 col-lg-8 col-xl-7 col-xxl-6 mx-auto">
+            <h2>게시물 등록</h2>
+            <form method="post" style="padding: 10px; border: 1px solid #ddd; background-color: #f2f2f2;">
+                {% csrf_token %}
+                <div class="card-body">{% bootstrap_form form layout="horizontal" %}</div>
+                <div class="card-footer text-end">
+                    <button type="submit" class="btn btn-primary">등록</button>
+                </div> 
+            </form>
         </div>
     </div>
-
+</div>
 {% endblock content %}

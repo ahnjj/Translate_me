@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class ='container-xl'>
+<div class ='container-xl pt-4 pb-4'>
     <div class="row pt-4">
         <div class="col-md-10 mx-auto">
             <h2>게시판 정보 조회</h2>
-            <table class="table">
+            <table class="table table-hover">
                 <thead class="thead-dark">
                     <tr>
-                        <td colspan="9" style="text-align: right;"> <a href="{% url 'board_search' %}"> <button type="button" class="btn btn-primary">게시물 검색</button></td>
+                        <td colspan="8" style="text-align: right;"> <a href="{% url 'board_search' %}"> <button type="button" class="btn btn-primary">게시물 검색</button></td>
                         <td colspan="9" style="text-align: right;"> <a href="{% url 'board_insert' %}"> <button type="button" class="btn btn-primary">게시물 등록</button></td>
                     </tr>
                     <tr> 
@@ -26,8 +26,8 @@
                 <tbody>
             {% for bd in boards %}
                     <tr class="align-middle">
-                        <td class="text-center" scope="row"><a href="{% url 'board_detail' bd.board_id %}"> {{bd.board_id}} </td>
-                        <td class="text-center" scope="row"> {{bd.board_title}} </td>
+                        <td class="text-center" scope="row"> {{bd.board_id}} </td>
+                        <td class="text-center" scope="row"><a href="{% url 'board_detail' bd.board_id %}"  style="text-decoration:none"> {{bd.board_title}} </td>
                         <td class="text-center" scope="row"> {{bd.category}} </td>
                         <td class="text-center" scope="row"> {{bd.language}} </td>
                         <td class="text-center" scope="row"> {{bd.user.username}} </td>
