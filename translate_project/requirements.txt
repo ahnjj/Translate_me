@@ -12,7 +12,7 @@ django-environ==0.10.0
 # openai api 사용
 openai==0.27.7
 
-# 장고 내 손쉬운 bootstrap5 사용을 위한 라이브러리
+# 장고 내 손쉬운 bootstrap5 사용
 django-bootstrap5==23.1
 
 # HTTP 요청 및 HTML 파서 라이브러리
@@ -25,6 +25,7 @@ gTTS==2.3.2
 
 # mysql
 mysqlclient
+
 # pillow- 이미지처리
 pillow
 
@@ -33,6 +34,7 @@ openpyxl
 
 # 프로필 기본 이미지
 django-pydenticon
+
 channels_redis~=2.4.2
 
 redis!=5.0.1
@@ -44,7 +46,7 @@ django-cors-headers
 twisted[http2,tls]
 
 # 장고 채널스 라이브러리
-# 버전 안맞아서 따로 설치
+# 버전 안맞으면 따로 설치
 # channels[daphne]~=4.0.0
 channels==3.0.5
 daphne==3.0.2

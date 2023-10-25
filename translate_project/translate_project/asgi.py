@@ -12,16 +12,15 @@ from channels.auth import AuthMiddlewareStack
 
 from channels.routing import ProtocolTypeRouter, URLRouter
 from django.core.asgi import get_asgi_application
-import speedgame.routing
+
+
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'translate_project.settings')
-django_asgi_app = get_asgi_application()
-
+django_asgi_app = get_asgi_application() # 장고 프로젝트 초기화
+import roleplay_game_app.routing # 임포트 여기다가 해야한다.
 
 # game : 장고 채널스이용 용 
 # application = get_asgi_application()
-import roleplay_game_app.routing
-
 
 application = ProtocolTypeRouter({
     "http": django_asgi_app,
@@ -31,6 +30,8 @@ application = ProtocolTypeRouter({
 })
 
 django_asgi_app2 = get_asgi_application()
+
+import speedgame.routing
 
 application2 = ProtocolTypeRouter(
     {
