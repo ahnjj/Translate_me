@@ -42,8 +42,11 @@ pyproject.toml
 poetry.lock
 
 # board_app migrations
-board_app/migrations/
-translate_project/board_app/migrations/
+# board_app/migrations/
+# translate_project/board_app/migrations/
 # users_app_ migrations
-users_app/migrations/
-translate_project/users_app/migrations/
+# users_app/migrations/
+# translate_project/users_app/migrations/
+
+# migrations
+migrations/

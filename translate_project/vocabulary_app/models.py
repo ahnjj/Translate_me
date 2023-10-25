@@ -44,6 +44,7 @@ class User_test_result(models.Model):
     id = models.ForeignKey('Users_app_user', models.DO_NOTHING, db_column='id')
     user_score = models.IntegerField(db_column='user_score')
     test_date = models.DateTimeField(db_column='test_date')
+    user_test = models.CharField(db_column='user_test', max_length=100)
 
     class Meta:
         managed = False

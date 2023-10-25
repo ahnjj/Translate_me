@@ -50,6 +50,11 @@ $(document).ready(function() {
                         $resultElement.addClass('incorrect');  // 오답 스타일 클래스 추가
                     }
                 }
+
+                console.log(response.result)
+
+                var resultContainer = $("#result-container");
+                resultContainer.html("결과: " + response.result);
             },
             error: function(xhr, status, error) {
                 console.error("오류: " + error);
