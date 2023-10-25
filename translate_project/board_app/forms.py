@@ -17,6 +17,25 @@ class BoardForm(forms.ModelForm):
             'category',
             'language'
         )
+
+        widgets = {
+            'board_title': forms.TextInput(attrs={
+                'class': "form-control",
+                'placeholder': '제목 입력'
+                }),
+            'board_main_txt': forms.Textarea(attrs={
+                'class': "form-control",
+                'style': "height: 150px",
+                'placeholder': '내용 입력'
+                }),
+            'category': forms.Select(attrs={
+                'class': "form-select"
+                }),
+            'language': forms.Select(attrs={
+                'class': "form-select"
+            }),
+        }
+        
         labels = {
             'board_title':'제목',
             'board_main_txt':'내용',
