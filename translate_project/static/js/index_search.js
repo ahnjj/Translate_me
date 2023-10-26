@@ -101,6 +101,7 @@ $(document).ready(function(){
         const pron_text = $(this).siblings("span").text();
         const text_lang = $(this).siblings("p").text();
         sayMessage(pron_text, text_lang);
+
     });
 
     // 읽기 멈춤 구현
