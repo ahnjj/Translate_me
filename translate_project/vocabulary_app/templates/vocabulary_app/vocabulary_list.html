@@ -25,7 +25,6 @@
                                                 <tr>
                                                         <th>단어</th>
                                                         <th>뜻</th>
-                                                        <!-- <th>제어</th> -->
                                                         <th>언어</th>
                                                         <th>단어 수정</th>
                                                         <th>학습완료</th>
@@ -38,8 +37,6 @@
                                                                 <span style="display: none;">{{ word.vocabulary_meaning }}</span>
                                                                 <button class="btn btn-primary toggle-meaning-btn" onclick="toggleMeaning(this)">보기</button>
                                                         </td>
-                                                        <!-- <td class="hidden-meaning"><span style="display: none;">{{ word.vocabulary_meaning }}</span><button style="display: none;">btn</button></td>
-                                                        <td><button class="toggle-meaning-btn" onclick="toggleMeaning(this)">보기</button></td> -->
                                                         <td>{{ word.language_id }}</td>
                                                         <td><a href="{% url 'vocabulary_update' word.vocabulary_id %}">
                                                                 <button class="btn btn-primary">단어 수정</button></a></td>
