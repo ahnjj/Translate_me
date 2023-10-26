@@ -38,14 +38,14 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
+                      {% comment %} <tr>
                         <th scope="row" colspan="2">이름(First name)</th>
                         <td>{{ page_user.first_name }}</td>
                       </tr>
                       <tr>
                         <th scope="row" colspan="2">성(Last name)</th>
                         <td>{{ page_user.last_name }}</td>
-                      </tr>
+                      </tr> {% endcomment %}
                       <tr>
                         <th scope="row" colspan="2">학습언어 (language)</th>
                         <td colspan="2">
@@ -56,16 +56,29 @@
                         </td>
                       </tr>
                       <tr>
-                        <th scope="row" colspan="2">학습 진행도(Progress)</th>
-                        <td> </td>
+                        <th scope="row" colspan="2">학습 평균 점수</th>
+                        <td>{{ average_score }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" colspan="2">총 학습 단어</th>
+                        <td>{{ total_vocab }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" colspan="2">현재 레벨</th>
+                        <td> {{ user_level }} </td>
                       </tr>
                       <tr>
                         <th scope="row" colspan="2"> Email</th>
                         <td> {{ page_user.email }}</td>
                       </tr>
                       <tr>
-                        <th scope="row" colspan="2">개인 웹사이트(wesite)</th>
-                        <td> <a href="{{ page_user.website_url }}" class="card-link">개인 웹사이트</a></td>
+                        <th scope="row" colspan="2" >개인 웹사이트(wesite)</th>
+                        <td> <a href="{{ page_user.website_url }}" class="card-link" style="color: black; text-decoration : none;">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-link-45deg" viewBox="0 0 16 16">
+                            <path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.002 1.002 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z"/>
+                            <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243L6.586 4.672z"/>
+                          </svg>
+                        </a></td>
                       </tr>
                     
 
