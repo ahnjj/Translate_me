@@ -207,14 +207,30 @@ def upload_excel(request):
 def download_excel(request):
     # 데이터를 가져오는 부분을 수정하여 필요한 데이터를 추출
     # 예를 들어, 모든 단어 데이터를 가져오는 경우:
+    # print('request : ',request.META.get('HTTP_REFERER'))
+    # selected_lang = request.GET.get('language', 'all')
+
+    # if selected_lang == 'all':
+    #     words = Vocabulary.objects.filter(id=user.id, train_yn=False)
+    # else :
+    #     lang_id = Language_code.objects.get(language_name=selected_lang)
+    #     words = Vocabulary.objects.filter(id=user.id, train_yn=False, language_id=lang_id)
     user = request.user
-    words = Vocabulary.objects.filter(id=user.id, train_yn=False)
+
+    if '=' in request.META.get('HTTP_REFERER'):
+        lang = request.META.get('HTTP_REFERER').split('=')[1]
+        print('lang : ',lang)
+        lang_id = Language_code.objects.get(language_name=lang)
+        words = Vocabulary.objects.filter(id=user.id, train_yn=False, language_id=lang_id)
+    else:
+        words = Vocabulary.objects.filter(id=user.id, train_yn=False)
+
     i = 0
     # 데이터를 DataFrame으로 변환
     data = {
         '단어': [word.vocabulary_name for word in words],
         '뜻': [word.vocabulary_meaning for word in words],
-        # '언어': [word.language_id for word in words],///
+        '언어': [word.language_id for word in words],
     }
     df = pd.DataFrame(data)
 
