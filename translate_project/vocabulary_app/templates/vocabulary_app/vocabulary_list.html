@@ -2,18 +2,30 @@
 {% block content %}
         <div class ='container-fluid'>
                 <div class="row pt-4">
-                        <div class="col-md-7 mx-auto" id="voca_list_div">
+                        <div class="col-lg-7 mx-auto" id="voca_list_div">
                                 <h3 class="inline-heading" style="font-weight: bold">{{user.username}} 단어장</h3>
-                                        <form id="language-select-form" method="get" action="#">
-                                                <label for="language-select">언어 선택:</label>
-                                                <select id="language-select" name="language">
+                        </div>
+                </div>
+                <div class="row pt-4">
+                        <div class="col-3 col-lg-2 offset-lg-2 text-end my-auto" id="voca_list_div">
+                                <label for="language-select">언어 선택 :</label>
+                        </div>
+                        <div class="col-8 col-lg-3 col-xl-2" id="voca_list_div">
+                                <form id="language-select-form" method="get" action="#">
+                                        <div class="input-group">
+                                                <select class="form-select" id="language-select" name="language">
                                                         <option value="all">모든 언어</option>
                                                         <option value="english">영어</option>
                                                         <option value="japanese">일본어</option>
                                                         <option value="chinese">중국어</option>
                                                 </select>
                                                 <button type="submit" class="btn btn-primary">적용</button>
-                                        </form>
+                                        </div>
+                                </form>
+                        </div>
+                </div>
+                <div class="row pt-2">
+                        <div class="col-lg-7 mx-auto" id="voca_list_div">
                                 <div class="button_div text-end">
                                         <a href="{% url 'result_list' %}"  class="btn btn-primary">성적 보기</a>
                                         <a href="{% url 'vocabulary_test' %}" class="btn btn-primary">테스트 보기</a>
@@ -21,6 +33,10 @@
                                         <a href="{% url 'upload_excel' %}" class="btn btn-primary">파일로 등록</a>
                                         <a href="{% url 'download_excel' %}" class="btn btn-primary">엑셀로 내려받기</a>                            
                                 </div>
+                        </div>
+                </div>
+                <div class="row pt-2">
+                        <div class="col-lg-7 mx-auto" id="voca_list_div">
                                 <div id = "data-container">
                                         <table id="voca_list">
                                                 <tr>
@@ -95,6 +111,6 @@
                                         </div>
                                 {% endif %}
                         </div>
-                    </div>
+                </div>
         </div>
 {% endblock content %}
