@@ -90,6 +90,7 @@ create table user_test_result(
 	test_id bigint auto_increment not null primary key,
     id bigint,
     user_score int,
+    user_test varchar(100),
     test_date datetime,
     CONSTRAINT test_user_info
     foreign key (id)
