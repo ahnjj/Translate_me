@@ -95,15 +95,17 @@ $(document).ready(function(){
             $("#result_all").prop("checked", false);
         };
     });
-    $(document).on('click', '.click_to_voice a', function(){
-        // 읽기 기능 구현
-        const pron_text = $(this).next(this).text();
-        const text_lang = $(this).next(this).next(this).text();
+
+    // 읽기 기능 구현
+    $(document).on("click", ".click_to_voice a.startsay", function(){
+        const pron_text = $(this).siblings("span").text();
+        const text_lang = $(this).siblings("p").text();
         sayMessage(pron_text, text_lang);
     });
+
     // 읽기 멈춤 구현
-    $(document).on('click', '.click_to_voice .stopsay', function(){
-        window.speechSynthesis.cancel();  // 멈춤
+    $(document).on('click', '.click_to_voice a.stopsay', function(){
+        window.speechSynthesis.cancel();
     });
 
 
