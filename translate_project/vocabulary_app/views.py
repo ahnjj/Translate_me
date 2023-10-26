@@ -38,6 +38,7 @@ def vocabulary_list(request):
     
     pag = words.paginator.get_elided_page_range(page_number, on_each_side=2, on_ends=2)
 
+
     return render(request, 'vocabulary_app/vocabulary_list.html', {'words': words, 'pag': pag})
 
 
