@@ -17,7 +17,7 @@ def vocabulary_list(request):
     selected_lang = request.GET.get('language', 'all')
 
     if selected_lang == 'all':
-        words = Vocabulary.objects.filter(id=user.id, train_yn=False)
+        words = Vocabulary.objects.filter(id=user.id, train_yn=False).order_by('language_id')
     else :
         lang_id = Language_code.objects.get(language_name=selected_lang)
         words = Vocabulary.objects.filter(id=user.id, train_yn=False, language_id=lang_id)
