@@ -1,226 +1,102 @@
-# SEMI PROJECT (2023.10.13 ~ )
+# 번역해조
 
-## 주제 : 언어 학습 사이트 개발 
+![Untitled](photo/semi1.png)
 
-### 1일차 
+![Untitled](photo/semi2.png)
+## 역할
 
-#### 프로젝트 기본 세팅
+- 유저 구현
+- 상황극 구현
+- DB설계
 
-    > DB 접속 정보 (./db_settings.py)
-      > mysql사용
-      > 계정 자기것으로 수정 필요
-      > database명 translate_db
+## 개발 도구
 
-    > template 아래 base.html, nvbar.html 생성
-      > nvbar에 회의때 나온 메뉴목록 써놓기만 한 상태 
-      > 유저 메뉴는 로그인안하면 안보이는 상태(static/js/common.js)
+- django3
+- python
+- mysql
+- front : html, css, javascript, jquery
 
-    > static 폴더 생성
-      > css, js 생성
-      > jquery는 사용해본 버전인 3.7.1 (필요시 변경 가능)
+## 작동 방법
+- openAPI key 발급받아서 .env에 작성
+- 개인 mysql workbench account정보 db_settings.py에 작성
+- 마이그레이션 후 로컬에서 작동
 
-    > index페이지 bootstrap 적용
+## ERD
 
-    > venv 설치목록 (window 기준)
-      10/16
-      > pip install django
-      > pip install mysqlclient
-      > pip install django_bootstrap5
-      > pip install pillow
+![Untitled](photo/semi3.png)
+# 상세 기능
 
-      10/18
-      > pip install bs4
+---
 
-      10/19
-      > pip install openpyxl
-      > pip install django-environ
-      > pip install daphne
-      > pip install requests
-      > pip install uvicorn
-      > pip install channels
+## 1. 유저
 
-      requirements.txt에 있는 목록 전체설치
-      > pip install -r requirements.txt
+![Untitled](photo/semi4.png)
+![Untitled](photo/semi5.png)
+## 2. 사전(메인페이지)
 
-#### 기능별 앱
-    > translate_app : index 
+![Untitled](photo/semi6.png)
+![Untitled](photo/semi7.png)
+## 3. 단어장
 
-    > board_app : 게시판
+![Untitled](photo/semi8.png)
+![Untitled](photo/semi9.png)
+## 4.상황극
 
-    > vocavulary_app : 단어장 
+![Untitled](photo/semi10.png)
+![Untitled](photo/semi11.png)
 
-    > users_app : 유저 관리
+![Untitled](photo/semi12.png)
 
-    > 검색 기능은 필요시 app 생성, 아니면 translate_app에 구현
+## 5. 사용자간 실시간 채팅
 
-#### 브랜치명 (ghkim_board) - 팀원 김근형 (2023-10-16 17:43)
-    > board_app
-    
-    >> templates\board_app
-    >>> 생성 : board_detail.html, board_form.html, board_list.html, board_search_form.html, board_update.html
-    >>>> 추가 의견 : 커뮤니티 관련 페이지를 고려하여 변경 또는 통합해야 할 수 있습니다.
+![Untitled](photo/semi13.png)
 
-    >> forms.py : 생성
+## 6. 게시판
 
-    >> models.py
-    >>> reg_date, lst_chg_date = Date에서 DateTime으로 수정
+![Untitled](photo/semi14.png)
 
-    >> urls.py
-    >>> 생성 : list, detail, insert, update, delete, search_form, search 
+---
 
-    >> views.py
-    >>> 생성 : list, detail, insert, update, delete, search_form, search
-    >>>> 1. 로그인을 해야 게시물 작성 가능하도록 내용 추가
-         2. 작성자만 작성된 게시물에 대한 수정 및 삭제 권한 부여 내용 추가
+# 어려웠던 점 및 개선해야할 점
 
-    >> static \ js
-    >>> board_search.js 생성
+**[ 페이지 이동시 JavaScript 동적 이벤트 적용]**
+하나의 페이지에서 다음 페이지로 연결 시 post되어있는 정보를 가지고 다음 페이지를 유동적으로 변화시키며 표시하면서도 동시에 해당 페이지 안에서 일어나는 동적 이벤트를 관리하는 코드를 구성하는 것이 여간 쉬운 일이 아니었다.
 
+**[ 웹소켓 연결 끊김 문제]**
+웹소켓을 연결하자마자 바로 끊기는 상황이 웹소켓 이용 앱 2개에서 모두 발생했다. 패키지 버전 충돌의 문제인지, 서버 문제인지 등 여러가지 해결방안을 찾으려했으나, 일부 컴퓨터에서는 작동하나 그렇지 않은 경우도 있어서 추가 조치가 필요하다.
+**[실시간 채팅방]** 
+자료들을 서로 연동하는데에 어려움을 겪었다. (DB와 웹소켓 사이)
 
-    > 수정이 필요한 내용 : 
-    >> templates
-    >>> nvbar.html
+**[전체적으로 UI개선이 필요]**
+언어학습이라는 특성상 모바일에서도 쾌적한 경험이 가능해야하지만 모바일창에서의 가독성을 크게 신경쓰지 못했다
+페이지를 이동하서나 클릭시의 동적 애니메이션 이벤트가 없어서 사용자 경험측면에서는 좀 밋밋하다
+**[사전]** 
 
-#### 브랜치명 (jsh) - 팀원 장승헌 (2023-10-17 16:30)
-    > 깃 로그명 : translate_app modify 001
-    > translate_app 폴더 기준으로 표시
+검색할 언어 설정에 따라 음성 인식기능을 구현하고 싶었으나 역량부족으로 제대로된 구현에 실패하였다
+**[상황극]**
+단어장과 연동하여 유용한 표현을 단어장에 저장하는 기능을 추가로 구현한다.
+비용이 발생하기 때문에 결제 기능 구현이 추가로 필요하다.
 
-    >> 생성
-    >>> templates/translate_app/result.html : 기존 index.html의 section에 해당하는 부분을 따로 html로 빼내어 검색결과를 표시하는 기능을 추가
+**[실시간 채팅방]**
+다양한 기능 구현에 대한 개선 필요 
+현재 실시간 채팅 기능까지는 구현했으나, 추가적으로 사용자간 게임을 구현하여 사용자들의 학습 효과 및 의욕을 높이는 것이 목표이다.
+**[유저]**
+현재 단순 테이블로 유저 정보를 나열하고 있는데, 이를 개선해서 좀더 사용자들에게 매력적으로 보이도록 UI를 개선하고, 특히 학습 진척도(및 레벨) 부분을 강조해야한다.
+streak기능 구현:  학습 출석인증을 하지 않으면 연속 열공 일자가 리셋되게 설정하는 것이 추가 구현 목표
+<br>
+<br>
 
-    >>> naver_dict_search.py : 네이버에서 검색하여 크롤링한 결과를 반환해주는 기능들 추가 / 미완성!
+# 느낀점
 
-    >>> ../static/js/index_search.js : 검색한 단어를 ajax로 요청하여 결과를 받는 기능 구현
+프로젝트의 주제인 외국어/사전의 특성상 데이터를 얻는 것이 어려워 데이터 수집 및 모델링에만 큰 공을 들였다. 
+저작권상 API를 제공하지 않거나, 다국어(영어 중국어 일본어) 기능을 제공하는 우리 서비스에는 적합하지 않은 경우가 대부분이었다. 결국 최대한 얻을 수있는 데이터 내에서 가장 효율적으로 사용자에게 제공하는 방법을 고민하게 되었다.
 
+처음 적용해보는 기술들 TTS(text to speech) STT(speech to text), websocket 및 배운 것에서 나아가 추가적인 기능들을 덧붙이는 것이 어려웠다.  특히 웹소켓 문제는 에러의 원인 조차 잡기가 어려울 때가 많았다.
+그 가운데 여러가지 기능들을 시도하고 살을 붙여나가면서 팀원 모두가 많이 배울 수 있었던 프로젝트였다.
 
-    >> 수정
-    >>> templates/translate_app/index.html : 위의 result.html에 해당하는 부분만큼이 생략되었고 검색란에 form태그를 추가하여 검색 기능 활성화
+# 프로젝트 진행 과정
 
-    >>> urls.py : 검색기능 path 추가
-
-    >>> views.py : 검색기능 함수(index_search) 추가
-
-#### 브랜치명 (ghkim_board) - 팀원 김근형 (2023-10-17 20:33)
-    > board_app
-    >> templates \ board_app
-    >>> board_detail.html
-        - 코드 작성
-        - 부트스트랩을 통해 테이블, 버튼 디자인
-    >>> board_form.html
-        - 코드 작성
-    >>> board_list.html
-        - 코드 작성
-        - 부트스트랩을 통해 테이블, 버튼 디자인
-    >> forms.py
-        - 유저 정보를 전달하도록 내용(init, save) 추가
-    >> models.py
-        - 유저가 전달안되는 문제 해결을 위해 변경 (user columns)
-    >> views.py
-        - 로그인 유저와 게시물 작성 유저 일치 여부에 따라 수정, 삭제 버튼이 나타나거나 나타나지 않도록 설정
-        -- board_insert에 대하여 로그인 후에 게시물 등록하도록 수정
-        -- board_update, board_delete 에 대하여 로그인하고 게시물 작성 유저와 현재 로그인 유저가 같아야지만,
-           수정, 삭제 버튼이 나타나도록 내용 수정
-
-    > MySQL
-    >> CREATE TABLE board (
-        board_id INT AUTO_INCREMENT PRIMARY KEY,
-        board_title VARCHAR(100),
-        board_main_txt LONGTEXT,
-        category_id VARCHAR(10),
-        language_id VARCHAR(10),
-        user_id BIGINT,
-        reg_date DATETIME,
-        lst_chg_date DATETIME,
-        CONSTRAINT board_language
-        FOREIGN KEY (language_id) REFERENCES language_code (language_id),
-        CONSTRAINT board_users_app
-        FOREIGN KEY (user_id) REFERENCES users_app_user (id), 
-        CONSTRAINT board_category
-        FOREIGN KEY (category_id) REFERENCES category (category_id)
-      );
-    >>> 위의 board 테이블 수정 (사유: 로그인 정보가 user_info가 아닌 users_app_user와 연결됨) 
-        - 수정 내용 : user_id columns을 위해 외래키를 user_info가 아닌 users_app_user테이블로 받아왔음
-
-    >> CREATE TABLE board_comment(
-        comment_id int auto_increment,
-        board_id int,
-        user_id BIGINT,
-        comment_text varchar(200),
-        reg_date datetime,
-        lst_chg_date datetime,
-        primary key(comment_id, board_id, user_id),
-        CONSTRAINT board_comment_users_app
-        FOREIGN KEY (user_id)
-        REFERENCES users_app_user (id),
-        constraint board_comment_board
-        foreign key (board_id)
-        references board (board_id)
-      );
-    >>> 위의 board_comment 테이블 수정 (사유: 로그인 정보가 user_info가 아닌 users_app_user와 연결됨) 
-        - 수정 내용 : user_id columns을 위해 외래키를 user_info가 아닌 users_app_user테이블로 받아왔음
-        !!! 주의 : 내일 2023년 10월 18일 comment 작업시 제대로 작동하는지 확인 필요 !!!
-
-    > 2023년 10월 18일 예정 작업
-    >> 1_게시물 comment을 포함하여 게시판의 모든 작업 완료
-    >> 2_게임 관련하여 여러가지 정보 찾아보고 빠른 완료가 가능한 작업부터 신속하게 진행
-
-
-#### 브랜치명 (ghkim_board) - 팀원 김근형 (2023-10-18 13:18)
-    ! 하단의 작업은 nvbar가 페이지 출력시 바로 보이지 않는 것을 해결하기 위해 수정하였습니다.
-    > templates 
-    >> nvbar.html
-    > static
-    >> css
-    >>> styles.css
-
-#### 브랜치명 (ldh) - (2023-10-18 18:00)
-    > 단어장 기본 기능 추가
-        > db의 단어장 테이블에서 user의 id로 데이터 가져와 뿌려주기
-        > 사용자가 단어장에 추가 가능
-        > 단어장페이지에서 단어 학습완료, 삭제 가능
-
-#### 브랜치명 (ghkim_board) - 팀원 김근형 (2023-10-19 22:19)
-    ! 금일은 게시물 검색, 댓글 목록과 작성 기능을 추가하기 위해 작업하였습니다.
-    > static \ js
-    >>> board_search.js
-    >>>> 검색시 출력이 잘 안되는 사항 수정 
-    >>>>> 카테고리, 언어가 숫자로 출력되는 것 수정 필요
-
-    > board_app
-    >> templates \ board_app
-    >>> board_detail.html
-    >>>> 댓글 목록 및 작성 가능하도록 코드 추가
-
-    >> forms.py
-    >>> BoardCommentForm 작성
-    
-    >> models.py
-    >>> BoardComment 변경
-    
-    >> urls.py
-    >>> board_comment url 추가
-
-    >> views.py
-    >>> board_detail에 댓글 작성할 수 있도록 추가
-    
-#### 브랜치명 (jsh) - 팀원 장승헌 (2023-10-20 10:10)
-    > 깃 로그명 : translate_app modify 006
-
-    >> index 페이지에서의 사전 검색기능 1차 완성
-
-    >> 수정
-    >>> static/js/index_search.js
-    >>> translate_app/templates/translate_app/index.html
-    >>> translate_app/templates/translate_app/result.html
-    >>> translate_app/online_dict_search.py
-    >>> translate_app/views.py
-    >>> templates/base.html : bootstrap 관련 스크립트를 bundle파일로 변경
-
-### 10/23 - vocabulary test update
-    > 단어시험 기능 업데이트
-    > 학습완료한 단어중 랜덤으로 10개 추출(10개가 안될경우 있는거 다 추출)
-    > 뜻 입력하면 db의 값과 비교해 일치율 90% 이상이면 정답아니면 X
-
-# 수정해야할점 
-    > 단어장 페이지에서 언어선택시 select 새로고침
-    > ajax로 페이징하게 바꾸기
+2023.10.13 ~ 2023.10.17 프로젝트 설계 및 모델링
+2023.10.17 ~ 2023.10.23 프로젝트 개발
+2023.10.24 ~ 2023.10.25 디버깅 및 테스트 & 발표준비
+2023.10.26   최종 발표
